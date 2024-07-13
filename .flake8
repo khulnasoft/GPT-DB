@@ -7,16 +7,22 @@ exclude =
 max-line-length = 88
 inline-quotes = "
 ignore =
+  W604
   C408
   C417
   E121
   E123
   E126
+  E202
   E203
   E226
   E231
   E24
+  E271
+  E272
+  E702
   E704
+  E713
   W503
   W504
   W605
