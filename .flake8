@@ -18,8 +18,8 @@ ignore =
   E226
   E231
   E24
-  E271
-  E272
+  # E271  # Removed to enforce space around keywords
+  # E272  # Removed to enforce space around keywords
   E702
   E704
   # E713  # Removed to encourage 'not in' usage for better readability
