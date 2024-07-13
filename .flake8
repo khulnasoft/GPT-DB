@@ -22,7 +22,7 @@ ignore =
   E272
   E702
   E704
-  E713
+  # E713  # Removed to encourage 'not in' usage for better readability
   W503
   W504
   W605
