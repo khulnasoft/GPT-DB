@@ -20,7 +20,7 @@ ignore =
   E24
   # E271  # Removed to enforce space around keywords
   # E272  # Removed to enforce space around keywords
-  E702
+  # E702  # Removed to encourage single statement per line for clarity
   E704
   # E713  # Removed to encourage 'not in' usage for better readability
   W503
