@@ -13,7 +13,7 @@ ignore =
   E121
   E123
   E126
-  E202
+  # E202  # Removed to enforce whitespace around commas for better readability
   E203
   E226
   E231
