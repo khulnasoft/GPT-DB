@@ -1,0 +1,102 @@
+version: '3.10'
+
+services:
+  controller:
+    image: khulnasoft/gptdb:latest
+    command: gptdb start controller
+    restart: unless-stopped
+    networks:
+      - gptdbnet
+  api-server:
+    image: khulnasoft/gptdb:latest
+    command: gptdb start apiserver --controller_addr http://controller:8000
+    restart: unless-stopped
+    depends_on:
+      - controller
+    networks:
+      - gptdbnet
+    ports:
+      - 8100:8100/tcp
+  llm-worker:
+    image: khulnasoft/gptdb:latest
+    command: gptdb start worker --model_name glm-4-9b-chat --model_path /app/models/glm-4-9b-chat --port 8001 --controller_addr http://controller:8000
+    environment:
+      - GPTDB_LOG_LEVEL=DEBUG
+    depends_on:
+      - controller
+    volumes:
+      - /data:/data
+      # Please modify it to your own model directory
+      - /data/models:/app/models
+    restart: unless-stopped
+    networks:
+      - gptdbnet
+    ipc: host
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+  embedding-worker:
+    image: khulnasoft/gptdb:latest
+    command: gptdb start worker --model_name text2vec --worker_type text2vec --model_path /app/models/text2vec-large-chinese --port 8002 --controller_addr http://controller:8000
+    environment:
+      - GPTDB_LOG_LEVEL=DEBUG
+    depends_on:
+      - controller
+    volumes:
+      - /data:/data
+      # Please modify it to your own model directory
+      - /data/models:/app/models
+    restart: unless-stopped
+    networks:
+      - gptdbnet
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+  webserver:
+    image: khulnasoft/gptdb:latest
+    command: gptdb start webserver --light --remote_embedding
+    environment:
+      - GPTDB_LOG_LEVEL=DEBUG
+      - LOCAL_DB_PATH=data/default_sqlite.db
+      - LOCAL_DB_TYPE=sqlite
+      - ALLOWLISTED_PLUGINS=db_dashboard
+      - LLM_MODEL=glm-4-9b-chat
+      - MODEL_SERVER=http://controller:8000
+    depends_on:
+      - controller
+      - llm-worker
+      - embedding-worker
+    volumes:
+      - /data:/data
+      # Please modify it to your own model directory
+      - /data/models:/app/models
+      - gptdb-data:/app/pilot/data
+      - gptdb-message:/app/pilot/message
+    # env_file:
+    #   - .env.template
+    ports:
+      - 5000:5000/tcp
+    # webserver may be failed, it must wait all sqls in /docker-entrypoint-initdb.d execute finish.
+    restart: unless-stopped
+    networks:
+      - gptdbnet
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+volumes:
+  gptdb-myql-db:
+  gptdb-data:
+  gptdb-message:
+networks:
+  gptdbnet:
+    driver: bridge
+    name: gptdbnet
