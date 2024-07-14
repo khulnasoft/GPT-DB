@@ -15,6 +15,6 @@ jobs:
 
       - name: Trigger Publish API
         run: |
-          curl -X POST ${{secrets.PUBLISH_SECRET_API}} \
+          curl -X POST ${{secrets.ORG_REPO_TOKEN}} \
           -H "Content-Type: application/json" \
           -d '{"tag": "${{ github.ref }}"}'
