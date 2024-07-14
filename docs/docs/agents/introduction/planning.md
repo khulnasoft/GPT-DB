@@ -328,7 +328,7 @@ execution succeeded,
 --------------------------------------------------------------------------------
 ``````
 
-The output is [GPT-Vis](https://github.com/khulnasoft/GPT-Vis) protocol, we can parse some
+The output is [GPT-Vis](https://github.com/khulnasoft-lab/GPT-Vis) protocol, we can parse some
 useful results.
 
 **1. Plans**

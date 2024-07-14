@@ -189,7 +189,7 @@ execution succeeded,
 ``````
 
 Let's parse the result from above output, we just focus on the last part
-(output with [GPT-Vis](https://github.com/khulnasoft/GPT-Vis) protocol):
+(output with [GPT-Vis](https://github.com/khulnasoft-lab/GPT-Vis) protocol):
 ```json
 [
     {

@@ -17,7 +17,7 @@ from ..db.plugin_hub_db import PluginHubDao, PluginHubEntity
 
 logger = logging.getLogger(__name__)
 Default_User = "default"
-DEFAULT_PLUGIN_REPO = "https://github.com/khulnasoft/GPT-DB-Plugins.git"
+DEFAULT_PLUGIN_REPO = "https://github.com/khulnasoft-lab/GPT-DB-Plugins.git"
 TEMP_PLUGIN_PATH = ""
 
 

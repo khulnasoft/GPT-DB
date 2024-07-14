@@ -16,7 +16,7 @@ Text2SQL pipline mainly includes the following processes:
 We recommend using the conda virtual environment to build a Text2SQL fine-tuning environment
 
 ```python
-git clone https://github.com/khulnasoft/GPT-DB-Hub.git
+git clone https://github.com/khulnasoft-lab/GPT-DB-Hub.git
 cd GPT-DB-Hub
 conda create -n gptdb_hub python=3.10 
 conda activate gptdb_hub

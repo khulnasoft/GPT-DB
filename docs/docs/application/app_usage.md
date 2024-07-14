@@ -1,11 +1,11 @@
 # Data App Usage
 
-Starting with version 0.5.0, the GPT-DB project has natively integrated the management and distribution of data-centric applications. The application management repository is also part of the open-source [gptdbs](https://github.com/khulnasoft/gptdbs) project. The [gptdbs](https://github.com/khulnasoft/gptdbs) project manages and shares resources categorized into the following:
+Starting with version 0.5.0, the GPT-DB project has natively integrated the management and distribution of data-centric applications. The application management repository is also part of the open-source [gptdbs](https://github.com/khulnasoft-lab/gptdbs) project. The [gptdbs](https://github.com/khulnasoft-lab/gptdbs) project manages and shares resources categorized into the following:
 
-- [apps](https://github.com/khulnasoft/gptdbs/tree/main/apps): These are native intelligent data applications developed using the GPT-DB framework.
-- [workflow](https://github.com/khulnasoft/gptdbs/tree/main/workflow): Workflows constructed using the AWEL (Agentic Workflow Expression Language).
-- [agents](https://github.com/khulnasoft/gptdbs/tree/main/agents): Intelligent agents that can perform various tasks.
-- [operators](https://github.com/khulnasoft/gptdbs/tree/main/operators): Basic operational operators (or symbols) that can be used within workflows.
+- [apps](https://github.com/khulnasoft-lab/gptdbs/tree/main/apps): These are native intelligent data applications developed using the GPT-DB framework.
+- [workflow](https://github.com/khulnasoft-lab/gptdbs/tree/main/workflow): Workflows constructed using the AWEL (Agentic Workflow Expression Language).
+- [agents](https://github.com/khulnasoft-lab/gptdbs/tree/main/agents): Intelligent agents that can perform various tasks.
+- [operators](https://github.com/khulnasoft-lab/gptdbs/tree/main/operators): Basic operational operators (or symbols) that can be used within workflows.
 
 :::info NOTE
 

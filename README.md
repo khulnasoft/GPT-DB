@@ -87,9 +87,9 @@ The core capabilities include the following parts:
 - **Data Sources**: Integrating various data sources to seamlessly connect production business data to the core capabilities of GPT-DB.
 
 ### SubModule
-- [GPT-DB-Hub](https://github.com/khulnasoft/GPT-DB-Hub) Text-to-SQL workflow with high performance by applying Supervised Fine-Tuning (SFT) on Large Language Models (LLMs).
+- [GPT-DB-Hub](https://github.com/khulnasoft-lab/GPT-DB-Hub) Text-to-SQL workflow with high performance by applying Supervised Fine-Tuning (SFT) on Large Language Models (LLMs).
 
-- [gptdbs](https://github.com/khulnasoft/gptdbs)  gptdbs is the official repository which contains some data apps、AWEL operators、AWEL workflow templates and agents which build upon GPT-DB.
+- [gptdbs](https://github.com/khulnasoft-lab/gptdbs)  gptdbs is the official repository which contains some data apps、AWEL operators、AWEL workflow templates and agents which build upon GPT-DB.
 
 #### Text2SQL Finetune
 - support llms
@@ -108,10 +108,10 @@ The core capabilities include the following parts:
 -  SFT Accuracy
 As of October 10, 2023, through the fine-tuning of an open-source model with 13 billion parameters using this project, we have achieved execution accuracy on the Spider dataset that surpasses even GPT-4!
 
-[More Information about Text2SQL finetune](https://github.com/khulnasoft/GPT-DB-Hub)
+[More Information about Text2SQL finetune](https://github.com/khulnasoft-lab/GPT-DB-Hub)
 
-- [GPT-DB-Plugins](https://github.com/khulnasoft/GPT-DB-Plugins) GPT-DB Plugins that can run Auto-GPT plugin directly
-- [GPT-Vis](https://github.com/khulnasoft/GPT-Vis) Visualization protocol
+- [GPT-DB-Plugins](https://github.com/khulnasoft-lab/GPT-DB-Plugins) GPT-DB Plugins that can run Auto-GPT plugin directly
+- [GPT-Vis](https://github.com/khulnasoft-lab/GPT-Vis) Visualization protocol
 
 ## Install 
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
@@ -151,7 +151,7 @@ At present, we have introduced several key features to showcase our current capa
 
 - **Automated Fine-tuning text2SQL**
 
-  We've also developed an automated fine-tuning lightweight framework centred on large language models (LLMs), Text2SQL datasets, LoRA/QLoRA/Pturning, and other fine-tuning methods. This framework simplifies Text-to-SQL fine-tuning, making it as straightforward as an assembly line process. [GPT-DB-Hub](https://github.com/khulnasoft/GPT-DB-Hub)
+  We've also developed an automated fine-tuning lightweight framework centred on large language models (LLMs), Text2SQL datasets, LoRA/QLoRA/Pturning, and other fine-tuning methods. This framework simplifies Text-to-SQL fine-tuning, making it as straightforward as an assembly line process. [GPT-DB-Hub](https://github.com/khulnasoft-lab/GPT-DB-Hub)
 
 - **SMMF(Service-oriented Multi-model Management Framework)**
 
@@ -234,4 +234,4 @@ If you find `GPT-DB` useful for your research or development, please cite the fo
 We are working on building a community, if you have any ideas for building the community, feel free to contact us.
 [![](https://dcbadge.vercel.app/api/server/7uQnPuveTY?compact=true&style=flat)](https://discord.gg/7uQnPuveTY)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)

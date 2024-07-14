@@ -342,7 +342,7 @@ register_conv_template(
 
 # codellama template
 # reference: https://github.com/facebookresearch/llama/blob/cfc3fc8c1968d390eb830e65c63865e980873a06/llama/generation.py#L212
-# reference2 : https://github.com/khulnasoft/GPT-DB-Hub/blob/main/README.zh.md
+# reference2 : https://github.com/khulnasoft-lab/GPT-DB-Hub/blob/main/README.zh.md
 register_conv_template(
     Conversation(
         name="codellama",

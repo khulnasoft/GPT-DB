@@ -797,8 +797,8 @@ setuptools.setup(
     name="gptdb",
     packages=packages,
     version=DB_GPT_VERSION,
-    author="csunny",
-    author_email="cfqcsunny@gmail.com",
+    author="khulnasoft",
+    author_email="info@khulnasoft.com",
     description="GPT-DB is an experimental open-source project that uses localized GPT "
     "large models to interact with your data and environment."
     " With this solution, you can be assured that there is no risk of data leakage, "
