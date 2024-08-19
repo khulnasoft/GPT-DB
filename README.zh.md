@@ -277,4 +277,4 @@ The MIT License (MIT)
   <img src="./assets/wechat.jpg" width="300px" />
 </p> -->
 
-[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
