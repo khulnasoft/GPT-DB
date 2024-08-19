@@ -4,7 +4,7 @@ from ..base import Vis
 
 
 class VisGptdbsFlow(Vis):
-    """DBGPts Flow Vis Protocol."""
+    """GPTBbs Flow Vis Protocol."""
 
     @classmethod
     def vis_tag(cls) -> str:

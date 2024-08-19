@@ -300,6 +300,9 @@ const sidebars = {
             {
               type: 'doc',
               id: 'application/started_tutorial/chat_dashboard',
+            },{
+              type: 'doc',
+              id: 'application/started_tutorial/chat_financial_report',
             },
             {
               type: "category",
@@ -621,6 +624,16 @@ const sidebars = {
             }
           ],
         },
+        {
+          type: "category",
+          label: "gptdbs",
+          items: [
+            {
+              type: "doc",
+              id: 'gptdbs/introduction',
+            }
+          ]
+        }
       ],
 
     },

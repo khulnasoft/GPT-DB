@@ -201,7 +201,7 @@ except ImportError as e:
     logging.warning(f"Integrating gptdb gptdbs command line tool failed: {e}")
 
 try:
-    from gptdb.client._cli import run_flow
+    from gptdb.client._cli import flow as run_flow
 
     add_command_alias(run_flow, name="flow", parent_group=run)
 except ImportError as e:

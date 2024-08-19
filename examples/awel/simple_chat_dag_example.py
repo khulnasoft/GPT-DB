@@ -14,6 +14,7 @@
             "user_input": "hello"
         }'
 """
+
 from gptdb._private.pydantic import BaseModel, Field
 from gptdb.core import ModelMessage, ModelRequest
 from gptdb.core.awel import DAG, HttpTrigger, MapOperator
@@ -35,7 +36,7 @@ class RequestHandleOperator(MapOperator[TriggerReqBody, ModelRequest]):
         return ModelRequest.build_request(input_value.model, messages)
 
 
-with DAG("gptdb_awel_simple_dag_example") as dag:
+with DAG("gptdb_awel_simple_dag_example", tags={"label": "example"}) as dag:
     # Receive http request and trigger dag to run.
     trigger = HttpTrigger(
         "/examples/simple_chat", methods="POST", request_body=TriggerReqBody

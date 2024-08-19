@@ -2,6 +2,8 @@
 
 from typing import Any, Dict
 
+from gptdb.rag.knowledge.factory import KnowledgeFactory
+
 _MODULE_CACHE: Dict[str, Any] = {}
 
 

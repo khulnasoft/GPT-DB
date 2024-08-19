@@ -7,10 +7,10 @@
 <div align="center">
   <p>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/db-gpt?style=social" />
+        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/gpt-db?style=social" />
     </a>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/db-gpt?style=social" />
+        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/gpt-db?style=social" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -33,7 +33,7 @@
   </p>
 
 
-[**简体中文**](README.zh.md) | [**日本語**](README.ja.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**Documents**](https://docs.gptdb.site) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**Community**](https://github.com/khulnasoft/community) | [**Paper**](https://arxiv.org/pdf/2312.17449.pdf)
+[**简体中文**](README.zh.md) | [**日本語**](README.ja.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**Documents**](https://gptdb.khulnasoft.com) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**Community**](https://github.com/khulnasoft/community) | [**Paper**](https://arxiv.org/pdf/2312.17449.pdf)
 
 </div>
 
@@ -48,7 +48,7 @@ The purpose is to build infrastructure in the field of large models, through the
 
 ### AI-Native Data App 
 ---
-- 🔥🔥🔥 [Released V0.5.0 | Develop native data applications through workflows and agents](https://docs.gptdb.site/docs/changelog/Released_V0.5.0)
+- 🔥🔥🔥 [Released V0.5.0 | Develop native data applications through workflows and agents](https://gptdb.khulnasoft.com/docs/changelog/Released_V0.5.0)
 ---
 
 ![Data-awels](https://github.com/khulnasoft/GPT-DB/assets/17919400/37d116fc-d9dd-4efa-b4df-9ab02b22541c)
@@ -110,7 +110,7 @@ As of October 10, 2023, through the fine-tuning of an open-source model with 13 
 
 [More Information about Text2SQL finetune](https://github.com/khulnasoft-lab/GPT-DB-Hub)
 
-- [GPT-DB-Plugins](https://github.com/khulnasoft-lab/GPT-DB-Plugins) GPT-DB Plugins that can run Auto-GPT plugin directly
+- [GPT-DB-Plugins](https://github.com/khulnasoft/GPT-DB-Plugins) GPT-DB Plugins that can run Auto-GPT plugin directly
 - [GPT-Vis](https://github.com/khulnasoft-lab/GPT-Vis) Visualization protocol
 
 ## Install 
@@ -119,19 +119,19 @@ As of October 10, 2023, through the fine-tuning of an open-source model with 13 
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 
-[**Usage Tutorial**](http://docs.gptdb.site/docs/overview)
-- [**Install**](http://docs.gptdb.site/docs/installation)
-  - [Docker](https://docs.gptdb.site/docs/installation/docker)
-  - [Source Code](https://docs.gptdb.site/docs/installation/sourcecode)
-- [**Quickstart**](http://docs.gptdb.site/docs/quickstart)
-- [**Application**](http://docs.gptdb.site/docs/operation_manual)
-  - [App Usage](https://docs.gptdb.site/docs/application/app_usage)
-  - [AWEL Flow Usage](https://docs.gptdb.site/docs/application/awel_flow_usage)
-- [**Debugging**](http://docs.gptdb.site/docs/operation_manual/advanced_tutorial/debugging)
-- [**Advanced Usage**](https://docs.gptdb.site/docs/application/advanced_tutorial/cli)
-  - [SMMF](https://docs.gptdb.site/docs/application/advanced_tutorial/smmf)
-  - [Finetune](https://docs.gptdb.site/docs/application/fine_tuning_manual/gptdb_hub)
-  - [AWEL](https://docs.gptdb.site/docs/latest/awel/tutorial)
+[**Usage Tutorial**](http://gptdb.khulnasoft.com/docs/overview)
+- [**Install**](http://gptdb.khulnasoft.com/docs/installation)
+  - [Docker](https://gptdb.khulnasoft.com/docs/installation/docker)
+  - [Source Code](https://gptdb.khulnasoft.com/docs/installation/sourcecode)
+- [**Quickstart**](http://gptdb.khulnasoft.com/docs/quickstart)
+- [**Application**](http://gptdb.khulnasoft.com/docs/operation_manual)
+  - [App Usage](https://gptdb.khulnasoft.com/docs/application/app_usage)
+  - [AWEL Flow Usage](https://gptdb.khulnasoft.com/docs/application/awel_flow_usage)
+- [**Debugging**](http://gptdb.khulnasoft.com/docs/operation_manual/advanced_tutorial/debugging)
+- [**Advanced Usage**](https://gptdb.khulnasoft.com/docs/application/advanced_tutorial/cli)
+  - [SMMF](https://gptdb.khulnasoft.com/docs/application/advanced_tutorial/smmf)
+  - [Finetune](https://gptdb.khulnasoft.com/docs/application/fine_tuning_manual/gptdb_hub)
+  - [AWEL](https://gptdb.khulnasoft.com/docs/latest/awel/tutorial)
 
 
 ## Features
@@ -158,6 +158,9 @@ At present, we have introduced several key features to showcase our current capa
   We offer extensive model support, including dozens of large language models (LLMs) from both open-source and API agents, such as LLaMA/LLaMA2, Baichuan, ChatGLM, Wenxin, Tongyi, Zhipu, and many more. 
 
   - News
+    - 🔥🔥🔥  [Meta-Llama-3.1-405B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-405B-Instruct)
+    - 🔥🔥🔥  [Meta-Llama-3.1-70B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-70B-Instruct)
+    - 🔥🔥🔥  [Meta-Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct)
     - 🔥🔥🔥  [gemma-2-27b-it](https://huggingface.co/google/gemma-2-27b-it)
     - 🔥🔥🔥  [gemma-2-9b-it](https://huggingface.co/google/gemma-2-9b-it)
     - 🔥🔥🔥  [DeepSeek-Coder-V2-Instruct](https://huggingface.co/deepseek-ai/DeepSeek-Coder-V2-Instruct)
@@ -185,14 +188,14 @@ At present, we have introduced several key features to showcase our current capa
     - 🔥🔥🔥  [Mixtral-8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
     - 🔥🔥🔥  [Qwen-72B-Chat](https://huggingface.co/Qwen/Qwen-72B-Chat)
     - 🔥🔥🔥  [Yi-34B-Chat](https://huggingface.co/01-ai/Yi-34B-Chat)
-  - [More Supported LLMs](http://docs.gptdb.site/docs/modules/smmf)
+  - [More Supported LLMs](http://gptdb.khulnasoft.com/docs/modules/smmf)
 
 - **Privacy and Security**
   
   We ensure the privacy and security of data through the implementation of various technologies, including privatized large models and proxy desensitization.
 
 - Support Datasources
-  - [Datasources](http://docs.gptdb.site/docs/modules/connections)
+  - [Datasources](http://gptdb.khulnasoft.com/docs/modules/connections)
 
 
 
@@ -234,4 +237,4 @@ If you find `GPT-DB` useful for your research or development, please cite the fo
 We are working on building a community, if you have any ideas for building the community, feel free to contact us.
 [![](https://dcbadge.vercel.app/api/server/7uQnPuveTY?compact=true&style=flat)](https://discord.gg/7uQnPuveTY)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)

@@ -20,7 +20,7 @@ from gptdb.util.chat_util import run_async_tasks
     pre-requirements:
         1. install openai python sdk
         ```
-            pip install "db-gpt[openai]"
+            pip install "gpt-db[openai]"
         ```
         2. set openai key and base
         ```

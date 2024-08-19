@@ -35,7 +35,7 @@ from ..db.gpts_app import GptsApp, GptsAppDao, GptsAppQuery
 from ..db.gpts_conversations_db import GptsConversationsDao, GptsConversationsEntity
 from ..db.gpts_manage_db import GptsInstanceEntity
 from ..team.base import TeamMode
-from .db_gpts_memory import MetaDbGptsMessageMemory, MetaDbGptsPlansMemory
+from .gpt_dbs_memory import MetaGptDbsMessageMemory, MetaGptDbsPlansMemory
 
 CFG = Config()
 
@@ -60,7 +60,7 @@ def _build_conversation(
         sys_code=sys_code,
         model_name=model_name,
         summary=summary,
-        param_type="DbGpts",
+        param_type="GptDbs",
         param_value=select_param,
         conv_storage=conv_serve.conv_storage,
         message_storage=conv_serve.message_storage,
@@ -78,8 +78,8 @@ class MultiAgents(BaseComponent, ABC):
 
         self.gpts_app = GptsAppDao()
         self.memory = GptsMemory(
-            plans_memory=MetaDbGptsPlansMemory(),
-            message_memory=MetaDbGptsMessageMemory(),
+            plans_memory=MetaGptDbsPlansMemory(),
+            message_memory=MetaGptDbsMessageMemory(),
         )
         self.agent_memory_map = {}
         super().__init__()

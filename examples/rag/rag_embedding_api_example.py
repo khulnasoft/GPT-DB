@@ -13,7 +13,7 @@ Example:
         python examples/rag/rag_embedding_api_example.py
 
     Test with GPT-DB `API Server
-    <https://docs.gptdb.site/docs/installation/advanced_usage/OpenAI_SDK_call#start-apiserver>`_.
+    <https://gptdb.khulnasoft.com/docs/installation/advanced_usage/OpenAI_SDK_call#start-apiserver>`_.
 
     .. code-block:: shell
         export API_SERVER_BASE_URL="http://localhost:8100/api/v1"

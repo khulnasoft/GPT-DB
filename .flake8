@@ -4,25 +4,19 @@ exclude =
   build/
   */tests/*
   *_private
-max-line-length = 92
+max-line-length = 88
 inline-quotes = "
 ignore =
-  W604
   C408
   C417
   E121
   E123
   E126
-  # E202  # Removed to enforce whitespace around commas for better readability
   E203
   E226
   E231
   E24
-  # E271  # Removed to enforce space around keywords
-  # E272  # Removed to enforce space around keywords
-  # E702  # Removed to encourage single statement per line for clarity
   E704
-  # E713  # Removed to encourage 'not in' usage for better readability
   W503
   W504
   W605

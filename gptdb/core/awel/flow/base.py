@@ -135,6 +135,7 @@ _OPERATOR_CATEGORY_DETAIL = {
     "common": _CategoryDetail("Common", "The common operator"),
     "agent": _CategoryDetail("Agent", "The agent operator"),
     "rag": _CategoryDetail("RAG", "The RAG operator"),
+    "experimental": _CategoryDetail("EXPERIMENTAL", "EXPERIMENTAL operator"),
 }
 
 
@@ -149,6 +150,7 @@ class OperatorCategory(str, Enum):
     COMMON = "common"
     AGENT = "agent"
     RAG = "rag"
+    EXPERIMENTAL = "experimental"
 
     def label(self) -> str:
         """Get the label of the category."""
@@ -626,7 +628,7 @@ class BaseMetadata(BaseResource):
     documentation_url: Optional[str] = Field(
         default=None,
         description="The documentation url of the operator or resource",
-        examples=["https://docs.gptdb.site/docs/awel"],
+        examples=["https://gptdb.khulnasoft.com/docs/awel"],
     )
 
     id: str = Field(

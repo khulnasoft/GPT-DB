@@ -604,7 +604,7 @@ class OpenAPIEmbeddings(BaseModel, Embeddings):
         Using GPT-DB APIServer's embedding API:
         To use the GPT-DB APIServer's embedding API, you should deploy GPT-DB according
         to the `Cluster Deploy
-        <https://docs.gptdb.site/docs/installation/model_service/cluster>`_.
+        <https://gptdb.khulnasoft.com/docs/installation/model_service/cluster>`_.
 
         A simple example:
         1. Deploy Model Cluster with following command:
