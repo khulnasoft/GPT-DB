@@ -16,7 +16,7 @@ from ..base import Resource, ResourceParameters, ResourceType
 
 ToolFunc = Union[Callable[..., Any], Callable[..., Awaitable[Any]]]
 
-DB_GPT_TOOL_IDENTIFIER = "gptdb_tool"
+GPT_DB_TOOL_IDENTIFIER = "gptdb_tool"
 
 
 @dataclasses.dataclass
@@ -240,7 +240,7 @@ def tool(
             else:
                 wrapper = sync_wrapper
             wrapper._tool = ft  # type: ignore
-            setattr(wrapper, DB_GPT_TOOL_IDENTIFIER, True)
+            setattr(wrapper, GPT_DB_TOOL_IDENTIFIER, True)
             return wrapper
 
         return decorator

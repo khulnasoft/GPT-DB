@@ -4,7 +4,7 @@
 
 There are two ways to prepare a Docker image. 1. Pull from the official image 2. Build locally. You can **choose any one** during actual use.
 
-1.Pulled from the official image repository, [Eosphoros AI Docker Hub](https://hub.docker.com/u/khulnasoft)
+1.Pulled from the official image repository, [KhulnaSoft Docker Hub](https://hub.docker.com/u/khulnasoft)
 ```bash
 docker pull khulnasoft/gptdb:latest
 ```
@@ -74,8 +74,8 @@ docker run --ipc host --gpus all -d -p 3306:3306 \
 -e LLM_MODEL=glm-4-9b-chat \
 -e LANGUAGE=zh \
 -v /data/models:/app/models \
---name db-gpt-allinone \
-db-gpt-allinone
+--name gpt-db-allinone \
+gpt-db-allinone
 ```
 Open the browser and visit [http://localhost:5670](http://localhost:5670)
 
@@ -84,7 +84,7 @@ Open the browser and visit [http://localhost:5670](http://localhost:5670)
 
 After the container is started, you can view the logs through the following command
 ```bash
-docker logs db-gpt-allinone -f
+docker logs gpt-db-allinone -f
 ```
 
 ### Run through the OpenAI proxy model
@@ -101,8 +101,8 @@ docker run --gpus all -d -p 3306:3306 \
 -e PROXY_SERVER_URL=$PROXY_SERVER_URL \
 -e LANGUAGE=zh \
 -v /data/models/text2vec-large-chinese:/app/models/text2vec-large-chinese \
---name db-gpt-allinone \
-db-gpt-allinone
+--name gpt-db-allinone \
+gpt-db-allinone
 ```
 - `-e LLM_MODEL=proxyllm`, set the model to serve the third-party model service API, which can be openai or fastchat interface.
 - `-v /data/models/text2vec-large-chinese:/app/models/text2vec-large-chinese`, sets the knowledge base embedding model to `text2vec`

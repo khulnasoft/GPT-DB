@@ -1,5 +1,4 @@
 from gptdb.app.scene.base_chat import BaseChat
-from gptdb.core import PromptTemplate
 from gptdb.util.singleton import Singleton
 from gptdb.util.tracer import root_tracer
 
@@ -17,10 +16,6 @@ class ChatFactory(metaclass=Singleton):
         from gptdb.app.scene.chat_db.auto_execute.prompt import prompt
         from gptdb.app.scene.chat_db.professional_qa.chat import ChatWithDbQA
         from gptdb.app.scene.chat_db.professional_qa.prompt import prompt
-        from gptdb.app.scene.chat_knowledge.extract_entity.chat import ExtractEntity
-        from gptdb.app.scene.chat_knowledge.extract_entity.prompt import prompt
-        from gptdb.app.scene.chat_knowledge.extract_triplet.chat import ExtractTriplet
-        from gptdb.app.scene.chat_knowledge.extract_triplet.prompt import prompt
         from gptdb.app.scene.chat_knowledge.refine_summary.chat import (
             ExtractRefineSummary,
         )

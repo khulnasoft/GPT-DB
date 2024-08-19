@@ -41,7 +41,7 @@ OB_DATABASE=test
 ## Optional: If {OB_ENABLE_INDEX} is set, OceanBase will automatically create a vector index table.
 # OB_ENABLE_INDEX=True
 ```
-If you want to support more vector db, you can integrate yourself.[how to integrate](https://db-gpt.readthedocs.io/en/latest/modules/vector.html)
+If you want to support more vector db, you can integrate yourself.[how to integrate](https://gpt-db.readthedocs.io/en/latest/modules/vector.html)
 ```commandline
 #*******************************************************************#
 #**                  VECTOR STORE SETTINGS                       **#

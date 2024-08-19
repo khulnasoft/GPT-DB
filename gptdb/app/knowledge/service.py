@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from datetime import datetime
 
 from gptdb._private.config import Config
@@ -22,6 +23,7 @@ from gptdb.app.knowledge.request.response import (
     SpaceQueryResponse,
 )
 from gptdb.component import ComponentType
+from gptdb.configs import DOMAIN_TYPE_FINANCIAL_REPORT
 from gptdb.configs.model_config import EMBEDDING_MODEL_CONFIG
 from gptdb.core import LLMClient
 from gptdb.model import DefaultLLMClient
@@ -79,6 +81,10 @@ class KnowledgeService:
         )
         if request.vector_type == "VectorStore":
             request.vector_type = CFG.VECTOR_STORE_TYPE
+        if request.vector_type == "KnowledgeGraph":
+            knowledge_space_name_pattern = r"^[a-zA-Z0-9\u4e00-\u9fa5]+$"
+            if not re.match(knowledge_space_name_pattern, request.name):
+                raise Exception(f"space name:{request.name} invalid")
         spaces = knowledge_space_dao.get_knowledge_space(query)
         if len(spaces) > 0:
             raise Exception(f"space name:{request.name} have already named")
@@ -128,6 +134,7 @@ class KnowledgeService:
             res.id = space.id
             res.name = space.name
             res.vector_type = space.vector_type
+            res.domain_type = space.domain_type
             res.desc = space.desc
             res.owner = space.owner
             res.gmt_created = space.gmt_created
@@ -294,6 +301,10 @@ class KnowledgeService:
             llm_client=self.llm_client,
             model_name=None,
         )
+        if space.domain_type == DOMAIN_TYPE_FINANCIAL_REPORT:
+            conn_manager = CFG.local_db_manager
+            conn_manager.delete_db(f"{space.name}_fin_report")
+
         vector_store_connector = VectorStoreConnector(
             vector_store_type=space.vector_type, vector_store_config=config
         )

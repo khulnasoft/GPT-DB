@@ -1,0 +1,546 @@
+# Russian translations for PACKAGE package
+# Английские переводы для пакета PACKAGE.
+# Copyright (C) 2024 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-24 22:53+0800\n"
+"PO-Revision-Date: 2024-03-23 11:22+0800\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ../gptdb/rag/operators/embedding.py:25
+msgid "Embedding Retriever Operator"
+msgstr "Оператор извлечения вложений"
+
+#: ../gptdb/rag/operators/embedding.py:27
+msgid "Retrieve candidates from vector store."
+msgstr "Извлечение кандидатов из векторного хранилища."
+
+#: ../gptdb/rag/operators/embedding.py:31
+#: ../gptdb/rag/operators/embedding.py:130
+msgid "Vector Store Connector"
+msgstr "Коннектор векторного хранилища"
+
+#: ../gptdb/rag/operators/embedding.py:34
+#: ../gptdb/rag/operators/embedding.py:133
+msgid "The vector store connector."
+msgstr "Коннектор векторного хранилища."
+
+#: ../gptdb/rag/operators/embedding.py:37
+msgid "Top K"
+msgstr "Топ K"
+
+#: ../gptdb/rag/operators/embedding.py:40
+msgid "The number of candidates."
+msgstr "Количество кандидатов."
+
+#: ../gptdb/rag/operators/embedding.py:43
+msgid "Score Threshold"
+msgstr "Порог оценки"
+
+#: ../gptdb/rag/operators/embedding.py:47
+msgid ""
+"The score threshold, if score of candidate is less than it, it will be "
+"filtered."
+msgstr ""
+"Порог оценки, если оценка кандидата меньше, чем он, он будет отфильтрован."
+
+#: ../gptdb/rag/operators/embedding.py:54 ../gptdb/rag/retriever/rewrite.py:24
+msgid "Query Rewrite"
+msgstr "Переписывание запроса"
+
+#: ../gptdb/rag/operators/embedding.py:57
+msgid "The query rewrite resource."
+msgstr "Ресурс переписывания запроса."
+
+#: ../gptdb/rag/operators/embedding.py:62
+msgid "Rerank"
+msgstr "Переранжирование"
+
+#: ../gptdb/rag/operators/embedding.py:65
+msgid "The rerank."
+msgstr "Переранжирование."
+
+#: ../gptdb/rag/operators/embedding.py:72
+msgid "Query"
+msgstr "Запрос"
+
+#: ../gptdb/rag/operators/embedding.py:75
+msgid "The query to retrieve."
+msgstr "Запрос для извлечения."
+
+#: ../gptdb/rag/operators/embedding.py:80
+msgid "Candidates"
+msgstr "Кандидаты"
+
+#: ../gptdb/rag/operators/embedding.py:83
+msgid "The retrieved candidates."
+msgstr "Извлеченные кандидаты."
+
+#: ../gptdb/rag/operators/embedding.py:124
+msgid "Embedding Assembler Operator"
+msgstr "Оператор сборки вложений"
+
+#: ../gptdb/rag/operators/embedding.py:126
+msgid "Load knowledge and assemble embedding chunks to vector store."
+msgstr "Загрузка знаний и сборка фрагментов вложений в векторное хранилище."
+
+#: ../gptdb/rag/operators/embedding.py:136 ../gptdb/rag/chunk_manager.py:24
+msgid "Chunk Parameters"
+msgstr "Параметры фрагмента"
+
+#: ../gptdb/rag/operators/embedding.py:139
+msgid "The chunk parameters."
+msgstr "Параметры фрагмента."
+
+#: ../gptdb/rag/operators/embedding.py:146 ../gptdb/rag/operators/summary.py:23
+#: ../gptdb/rag/operators/knowledge.py:39
+msgid "Knowledge"
+msgstr "Знание"
+
+#: ../gptdb/rag/operators/embedding.py:149
+msgid "The knowledge to be loaded."
+msgstr "Знание для загрузки."
+
+#: ../gptdb/rag/operators/embedding.py:154
+#: ../gptdb/rag/operators/knowledge.py:121
+msgid "Chunks"
+msgstr "Фрагменты"
+
+#: ../gptdb/rag/operators/embedding.py:158
+msgid "The assembled chunks, it has been persisted to vector store."
+msgstr "Собранные фрагменты, они были сохранены в векторном хранилище."
+
+#: ../gptdb/rag/operators/summary.py:17
+msgid "Summary Operator"
+msgstr "Оператор сводки"
+
+#: ../gptdb/rag/operators/summary.py:20
+msgid "The summary assembler operator."
+msgstr "Оператор сборки сводки."
+
+#: ../gptdb/rag/operators/summary.py:23
+msgid "Knowledge datasource"
+msgstr "Источник знаний"
+
+#: ../gptdb/rag/operators/summary.py:28
+msgid "Document summary"
+msgstr "Сводка документа"
+
+#: ../gptdb/rag/operators/summary.py:36 ../gptdb/rag/operators/rewrite.py:36
+#: ../gptdb/rag/retriever/rewrite.py:36
+msgid "LLM Client"
+msgstr "Клиент LLM"
+
+#: ../gptdb/rag/operators/summary.py:41 ../gptdb/rag/operators/rewrite.py:39
+msgid "The LLM Client."
+msgstr "Клиент LLM."
+
+#: ../gptdb/rag/operators/summary.py:44 ../gptdb/rag/operators/rewrite.py:42
+msgid "Model name"
+msgstr "Название модели"
+
+#: ../gptdb/rag/operators/summary.py:49
+msgid "LLM model name"
+msgstr "Название модели LLM"
+
+#: ../gptdb/rag/operators/summary.py:52 ../gptdb/rag/operators/summary.py:57
+#: ../gptdb/rag/operators/summary.py:65
+msgid "prompt language"
+msgstr "Язык запроса"
+
+#: ../gptdb/rag/operators/summary.py:60
+msgid "Max iteration with LLM"
+msgstr "Максимальное количество итераций с LLM"
+
+#: ../gptdb/rag/operators/summary.py:68
+msgid "Concurrency limit with LLM"
+msgstr "Предел параллелизма с LLM"
+
+#: ../gptdb/rag/operators/summary.py:73
+msgid "The concurrency limit with llm"
+msgstr "Предел параллелизма с LLM"
+
+#: ../gptdb/rag/operators/rewrite.py:16
+msgid "Query Rewrite Operator"
+msgstr "Оператор переписывания запроса"
+
+#: ../gptdb/rag/operators/rewrite.py:19
+msgid "Query rewrite operator."
+msgstr "Оператор переписывания запроса."
+
+#: ../gptdb/rag/operators/rewrite.py:22
+msgid "Query context"
+msgstr "Контекст запроса"
+
+#: ../gptdb/rag/operators/rewrite.py:22
+msgid "query context"
+msgstr "контекст запроса"
+
+#: ../gptdb/rag/operators/rewrite.py:27 ../gptdb/rag/operators/rewrite.py:31
+msgid "Rewritten queries"
+msgstr "Переписанные запросы"
+
+#: ../gptdb/rag/operators/rewrite.py:47
+msgid "LLM model name."
+msgstr "Имя модели LLM."
+
+#: ../gptdb/rag/operators/rewrite.py:50
+msgid "Prompt language"
+msgstr "Язык подсказки"
+
+#: ../gptdb/rag/operators/rewrite.py:55
+msgid "Prompt language."
+msgstr "Язык подсказки."
+
+#: ../gptdb/rag/operators/rewrite.py:58
+msgid "Number of results"
+msgstr "Количество результатов"
+
+#: ../gptdb/rag/operators/rewrite.py:63
+msgid "rewrite query number."
+msgstr "номер переписанного запроса."
+
+#: ../gptdb/rag/operators/knowledge.py:23
+msgid "Knowledge Operator"
+msgstr "Оператор знаний"
+
+#: ../gptdb/rag/operators/knowledge.py:27
+msgid "The knowledge operator, which can create knowledge from datasource."
+msgstr "Оператор знаний, который может создавать знания из источника данных."
+
+#: ../gptdb/rag/operators/knowledge.py:31
+msgid "knowledge datasource"
+msgstr "источник знаний"
+
+#: ../gptdb/rag/operators/knowledge.py:34
+msgid "knowledge datasource, which can be a document, url, or text."
+msgstr "источник знаний, который может быть документом, URL-адресом или текстом."
+
+#: ../gptdb/rag/operators/knowledge.py:42
+msgid "Knowledge object."
+msgstr "Объект знаний."
+
+#: ../gptdb/rag/operators/knowledge.py:47
+msgid "Default datasource"
+msgstr "Источник данных по умолчанию"
+
+#: ../gptdb/rag/operators/knowledge.py:52
+msgid "Default datasource."
+msgstr "Источник данных по умолчанию."
+
+#: ../gptdb/rag/operators/knowledge.py:55
+msgid "Knowledge type"
+msgstr "Тип знаний"
+
+#: ../gptdb/rag/operators/knowledge.py:71
+msgid "Knowledge type."
+msgstr "Тип знаний."
+
+#: ../gptdb/rag/operators/knowledge.py:105
+msgid "Chunks To String Operator"
+msgstr "Оператор преобразования чанков в строку"
+
+#: ../gptdb/rag/operators/knowledge.py:107
+msgid "Convert chunks to string."
+msgstr "Преобразовать чанки в строку."
+
+#: ../gptdb/rag/operators/knowledge.py:111 ../gptdb/rag/chunk_manager.py:71
+#: ../gptdb/rag/text_splitter/text_splitter.py:211
+#: ../gptdb/rag/text_splitter/text_splitter.py:422
+#: ../gptdb/rag/text_splitter/text_splitter.py:804
+msgid "Separator"
+msgstr "Разделитель"
+
+#: ../gptdb/rag/operators/knowledge.py:114
+msgid "The separator between chunks."
+msgstr "Разделитель между чанками."
+
+#: ../gptdb/rag/operators/knowledge.py:124
+msgid "The input chunks."
+msgstr "Входные чанки."
+
+#: ../gptdb/rag/operators/knowledge.py:130
+msgid "String"
+msgstr "Строка"
+
+#: ../gptdb/rag/operators/knowledge.py:133
+msgid "The output string."
+msgstr "Выходная строка."
+
+#: ../gptdb/rag/embedding/embedding_factory.py:230
+msgid "Default Embeddings"
+msgstr "Эмбеддинги по умолчанию"
+
+#: ../gptdb/rag/embedding/embedding_factory.py:234
+msgid "Default embeddings(using default embedding model of current system)"
+msgstr "Эмбеддинги по умолчанию (используя модель эмбеддинга по умолчанию текущей системы)"
+
+#: ../gptdb/rag/embedding/embeddings.py:28
+msgid "HuggingFace Embeddings"
+msgstr "Эмбеддинги HuggingFace"
+
+#: ../gptdb/rag/embedding/embeddings.py:31
+msgid "HuggingFace sentence_transformers embedding models."
+msgstr "Модели эмбеддингов HuggingFace sentence_transformers."
+
+#: ../gptdb/rag/embedding/embeddings.py:34
+#: ../gptdb/rag/embedding/embeddings.py:141
+#: ../gptdb/rag/embedding/embeddings.py:348
+#: ../gptdb/rag/embedding/embeddings.py:461
+#: ../gptdb/rag/embedding/embeddings.py:553
+#: ../gptdb/rag/retriever/rewrite.py:30
+msgid "Model Name"
+msgstr "Имя модели"
+
+#: ../gptdb/rag/embedding/embeddings.py:39
+#: ../gptdb/rag/embedding/embeddings.py:146
+msgid "Model name to use."
+msgstr "Имя модели для использования."
+
+#: ../gptdb/rag/embedding/embeddings.py:135
+msgid "HuggingFace Instructor Embeddings"
+msgstr "Эмбеддинги HuggingFace Instructor"
+
+#: ../gptdb/rag/embedding/embeddings.py:138
+msgid "HuggingFace Instructor embeddings."
+msgstr "Эмбеддинги HuggingFace Instructor."
+
+#: ../gptdb/rag/embedding/embeddings.py:149
+msgid "Embed Instruction"
+msgstr "Инструкция для эмбеддинга"
+
+#: ../gptdb/rag/embedding/embeddings.py:154
+msgid "Instruction to use for embedding documents."
+msgstr "Инструкция для использования при эмбеддинге документов."
+
+#: ../gptdb/rag/embedding/embeddings.py:157
+msgid "Query Instruction"
+msgstr "Инструкция для запроса"
+
+#: ../gptdb/rag/embedding/embeddings.py:162
+msgid "Instruction to use for embedding query."
+msgstr "Инструкция для использования при эмбеддинге запроса."
+
+#: ../gptdb/rag/embedding/embeddings.py:336
+msgid "HuggingFace Inference API Embeddings"
+msgstr "Векторные представления HuggingFace Inference API"
+
+#: ../gptdb/rag/embedding/embeddings.py:339
+msgid "HuggingFace Inference API embeddings."
+msgstr "Векторные представления HuggingFace Inference API."
+
+#: ../gptdb/rag/embedding/embeddings.py:342
+#: ../gptdb/rag/embedding/embeddings.py:455
+#: ../gptdb/rag/embedding/embeddings.py:545
+msgid "API Key"
+msgstr "Ключ API"
+
+#: ../gptdb/rag/embedding/embeddings.py:345
+msgid "Your API key for the HuggingFace Inference API."
+msgstr "Ваш ключ API для HuggingFace Inference API."
+
+#: ../gptdb/rag/embedding/embeddings.py:353
+#: ../gptdb/rag/embedding/embeddings.py:466
+#: ../gptdb/rag/embedding/embeddings.py:558
+msgid "The name of the model to use for text embeddings."
+msgstr "Название модели для использования в текстовых векторных представлениях."
+
+#: ../gptdb/rag/embedding/embeddings.py:449
+msgid "Jina AI Embeddings"
+msgstr "Векторные представления Jina AI"
+
+#: ../gptdb/rag/embedding/embeddings.py:452
+msgid "Jina AI embeddings."
+msgstr "Векторные представления Jina AI."
+
+#: ../gptdb/rag/embedding/embeddings.py:458
+msgid "Your API key for the Jina AI API."
+msgstr "Ваш ключ API для Jina AI API."
+
+#: ../gptdb/rag/embedding/embeddings.py:531
+msgid "OpenAPI Embeddings"
+msgstr "Векторные представления OpenAPI"
+
+#: ../gptdb/rag/embedding/embeddings.py:534
+msgid "OpenAPI embeddings."
+msgstr "Векторные представления OpenAPI."
+
+#: ../gptdb/rag/embedding/embeddings.py:537
+msgid "API URL"
+msgstr "URL API"
+
+#: ../gptdb/rag/embedding/embeddings.py:542
+msgid "The URL of the embeddings API."
+msgstr "URL для векторных представлений API."
+
+#: ../gptdb/rag/embedding/embeddings.py:550
+msgid "Your API key for the Open API."
+msgstr "Ваш ключ API для Open API."
+
+#: ../gptdb/rag/embedding/embeddings.py:561
+msgid "Timeout"
+msgstr "Время ожидания"
+
+#: ../gptdb/rag/embedding/embeddings.py:566
+msgid "The timeout for the request in seconds."
+msgstr "Время ожидания запроса в секундах."
+
+#: ../gptdb/rag/chunk_manager.py:29
+msgid "Chunk Strategy"
+msgstr "Стратегия фрагментации"
+
+#: ../gptdb/rag/chunk_manager.py:32
+msgid "chunk strategy"
+msgstr "стратегия фрагментации"
+
+#: ../gptdb/rag/chunk_manager.py:37
+msgid "Text Splitter"
+msgstr "Разделитель текста"
+
+#: ../gptdb/rag/chunk_manager.py:41
+msgid "Text splitter, if not set, will use the default text splitter."
+msgstr "Разделитель текста, если не установлен, будет использовать стандартный разделитель текста."
+
+#: ../gptdb/rag/chunk_manager.py:47
+msgid "Splitter Type"
+msgstr "Тип разделителя"
+
+#: ../gptdb/rag/chunk_manager.py:50
+msgid "Splitter type"
+msgstr "Тип разделителя"
+
+#: ../gptdb/rag/chunk_manager.py:55
+#: ../gptdb/rag/text_splitter/text_splitter.py:406
+msgid "Chunk Size"
+msgstr "Размер фрагмента"
+
+#: ../gptdb/rag/chunk_manager.py:58
+msgid "Chunk size"
+msgstr "Размер фрагмента"
+
+#: ../gptdb/rag/chunk_manager.py:63
+msgid "Chunk Overlap"
+msgstr "Перекрытие фрагментов"
+
+#: ../gptdb/rag/chunk_manager.py:74
+msgid "Chunk separator"
+msgstr "Разделитель фрагментов"
+
+#: ../gptdb/rag/chunk_manager.py:79
+msgid "Enable Merge"
+msgstr "Включить объединение"
+
+#: ../gptdb/rag/chunk_manager.py:82
+msgid "Enable chunk merge by chunk_size."
+msgstr "Включить объединение фрагментов по размеру фрагмента."
+
+#: ../gptdb/rag/retriever/rerank.py:56
+msgid "Default Ranker"
+msgstr "Стандартный ранжировщик"
+
+#: ../gptdb/rag/retriever/rerank.py:59
+msgid "Default ranker(Rank by score)."
+msgstr "Стандартный ранжировщик (ранжировать по оценке)."
+
+#: ../gptdb/rag/retriever/rerank.py:62
+msgid "Top k"
+msgstr "Лучшие k"
+
+#: ../gptdb/rag/retriever/rerank.py:65
+msgid "The number of top k documents."
+msgstr "Количество лучших k документов."
+
+#: ../gptdb/rag/retriever/rewrite.py:27
+msgid "Query rewrite."
+msgstr "Переписывание запроса."
+
+#: ../gptdb/rag/retriever/rewrite.py:33
+msgid "The LLM model name."
+msgstr "Название модели LLM."
+
+#: ../gptdb/rag/retriever/rewrite.py:39
+msgid "The llm client."
+msgstr "Клиент LLM."
+
+#: ../gptdb/rag/retriever/rewrite.py:42
+msgid "Language"
+msgstr "Язык"
+
+#: ../gptdb/rag/retriever/rewrite.py:45
+msgid "The language of the query rewrite prompt."
+msgstr "Язык запроса на переписывание."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:206
+msgid "Character Text Splitter"
+msgstr "Разделитель текста по символам"
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:214
+#: ../gptdb/rag/text_splitter/text_splitter.py:425
+#: ../gptdb/rag/text_splitter/text_splitter.py:807
+#: ../gptdb/rag/text_splitter/text_splitter.py:850
+msgid "Separator to split the text."
+msgstr "Разделитель для разделения текста."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:251
+msgid "Recursive Character Text Splitter"
+msgstr "Рекурсивный разделитель текста по символам."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:265
+msgid "Split text by characters recursively."
+msgstr "Разделить текст рекурсивно по символам."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:330
+msgid "Spacy Text Splitter"
+msgstr "Spacy разделитель текста."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:338
+msgid "Spacy pipeline to use for tokenization."
+msgstr "Spacy конвейер для токенизации."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:343
+msgid "Split text by sentences using Spacy."
+msgstr "Разделить текст на предложения с использованием Spacy."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:393
+msgid "Markdown Header Text Splitter"
+msgstr "Разделитель текста заголовков Markdown."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:401
+msgid "Return each line with associated headers."
+msgstr "Вернуть каждую строку с соответствующими заголовками."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:409
+msgid "Size of each chunk."
+msgstr "Размер каждого фрагмента."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:430
+msgid "Split markdown text by headers."
+msgstr "Разделить текст Markdown по заголовкам."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:799
+msgid "Separator Text Splitter"
+msgstr "Разделитель текста."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:812
+msgid "Split text by separator."
+msgstr "Разделить текст по разделителю."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:842
+msgid "Page Text Splitter"
+msgstr "Разделитель текста страницы."
+
+#: ../gptdb/rag/text_splitter/text_splitter.py:855
+msgid "Split text by page."
+msgstr "Разделить текст по странице."

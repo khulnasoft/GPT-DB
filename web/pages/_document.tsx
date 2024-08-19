@@ -40,7 +40,7 @@ class MyDocument extends Document {
         <Head>
           <link rel="icon" href="/favicon.ico" />
           <meta name="description" content="Revolutionizing Database Interactions with Private LLM Technology" />
-          <meta property="og:site_name" content="gptdb.site" />
+          <meta property="og:site_name" content="khulnasoft.com" />
           <meta property="og:description" content="khulnasoft" />
           <meta property="og:title" content="GPT-DB" />
         </Head>
