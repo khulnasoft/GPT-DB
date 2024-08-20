@@ -752,7 +752,6 @@ class OpenAPIEmbeddings(BaseModel, Embeddings):
         return embeddings[0]
 
 
-
 class OllamaEmbeddings(BaseModel):
     """Ollama proxy embeddings.
 
@@ -805,10 +804,14 @@ class OllamaEmbeddings(BaseModel):
                 "Please install ollama by command `pip install ollama`"
             ) from e
         try:
-            response = Client(self.api_url).embeddings(model=self.model_name, prompt=text)
+            response = Client(self.api_url).embeddings(
+                model=self.model_name, prompt=text
+            )
             return list(response["embedding"])  # Ensure the return type is a list
         except ollama.ResponseError as e:
-            raise ValueError(f"**Ollama Response Error, Please Check Error Info.**: {e}")
+            raise ValueError(
+                f"**Ollama Response Error, Please Check Error Info.**: {e}"
+            )
 
     async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
         """Asynchronous Embed search docs.
@@ -842,7 +845,9 @@ class OllamaEmbeddings(BaseModel):
             )
             return list(response["embedding"])  # Ensure the return type is a list
         except ollama.ResponseError as e:
-            raise ValueError(f"**Ollama Response Error, Please Check Error Info.**: {e}")
+            raise ValueError(
+                f"**Ollama Response Error, Please Check Error Info.**: {e}"
+            )
 
 
 class TongYiEmbeddings(BaseModel, Embeddings):
