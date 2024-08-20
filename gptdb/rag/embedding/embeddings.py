@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 
 import aiohttp
 import requests
+from pydantic import BaseModel, ConfigDict, Field
 
 from gptdb._private.pydantic import EXTRA_FORBID, BaseModel, ConfigDict, Field
 from gptdb.core import Embeddings
@@ -751,7 +752,7 @@ class OpenAPIEmbeddings(BaseModel, Embeddings):
         return embeddings[0]
 
 
-class OllamaEmbeddings(BaseModel, Embeddings):
+class OllamaEmbeddings(BaseModel):
     """Ollama proxy embeddings.
 
     This class is used to get embeddings for a list of texts using the Ollama API.
@@ -777,7 +778,7 @@ class OllamaEmbeddings(BaseModel, Embeddings):
         """Get the embeddings for a list of texts.
 
         Args:
-            texts (Documents): A list of texts to get embeddings for.
+            texts: A list of texts to get embeddings for.
 
         Returns:
             Embedded texts as List[List[float]], where each inner List[float]
@@ -786,7 +787,7 @@ class OllamaEmbeddings(BaseModel, Embeddings):
         return [self.embed_query(text) for text in texts]
 
     def embed_query(self, text: str) -> List[float]:
-        """Compute query embeddings using a OpenAPI embedding model.
+        """Compute query embeddings using an OpenAPI embedding model.
 
         Args:
             text: The text to embed.
@@ -800,14 +801,17 @@ class OllamaEmbeddings(BaseModel, Embeddings):
         except ImportError as e:
             raise ValueError(
                 "Could not import python package: ollama "
-                "Please install ollama by command `pip install ollama"
+                "Please install ollama by command `pip install ollama`"
             ) from e
         try:
-            return (
-                Client(self.api_url).embeddings(model=self.model_name, prompt=text)
-            )["embedding"]
+            response = Client(self.api_url).embeddings(
+                model=self.model_name, prompt=text
+            )
+            return list(response["embedding"])  # Ensure the return type is a list
         except ollama.ResponseError as e:
-            raise ValueError(f"**Ollama Response Error, Please CheckErrorInfo.**: {e}")
+            raise ValueError(
+                f"**Ollama Response Error, Please Check Error Info.**: {e}"
+            )
 
     async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
         """Asynchronous Embed search docs.
@@ -836,12 +840,14 @@ class OllamaEmbeddings(BaseModel, Embeddings):
                 "Please install it with `pip install ollama`"
             )
         try:
-            embedding = await AsyncClient(host=self.api_url).embeddings(
+            response = await AsyncClient(host=self.api_url).embeddings(
                 model=self.model_name, prompt=text
             )
-            return embedding["embedding"]
+            return list(response["embedding"])  # Ensure the return type is a list
         except ollama.ResponseError as e:
-            raise ValueError(f"**Ollama Response Error, Please CheckErrorInfo.**: {e}")
+            raise ValueError(
+                f"**Ollama Response Error, Please Check Error Info.**: {e}"
+            )
 
 
 class TongYiEmbeddings(BaseModel, Embeddings):
