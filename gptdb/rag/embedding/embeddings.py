@@ -4,6 +4,7 @@ from typing import Any, Dict, List, Optional
 
 import aiohttp
 import requests
+from pydantic import BaseModel, ConfigDict, Field
 
 from gptdb._private.pydantic import EXTRA_FORBID, BaseModel, ConfigDict, Field
 from gptdb.core import Embeddings
@@ -751,8 +752,6 @@ class OpenAPIEmbeddings(BaseModel, Embeddings):
         return embeddings[0]
 
 
-from typing import List
-from pydantic import BaseModel, Field, ConfigDict
 
 class OllamaEmbeddings(BaseModel):
     """Ollama proxy embeddings.
