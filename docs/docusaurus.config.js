@@ -43,7 +43,7 @@ const config = {
   favicon: 'img/khulnasoft.jpeg',
 
   // Set the production url of your site here
-  url: 'http://docs.gptdb.site',
+  url: 'http://docs.gptdb.khulnasoft.com',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',

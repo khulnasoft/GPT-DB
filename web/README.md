@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  <a href="https://gptdb.site"><img width="96" src="https://github.com/khulnasoft-lab/GPT-DB-Web/assets/10321453/062ee3ea-fac2-4437-a392-f4bc5451d116" alt="GPT-DB"></a>
+  <a href="https://gptdb.khulnasoft.com"><img width="96" src="https://github.com/khulnasoft-lab/GPT-DB-Web/assets/10321453/062ee3ea-fac2-4437-a392-f4bc5451d116" alt="GPT-DB"></a>
   <br>
   GPT-DB-Web
 </h1>
@@ -29,7 +29,7 @@ _<p align="center">GPT-DB Chat UI, LLM to Vision.</p>_
 ***GPT-DB-Web*** is an **Open source chat UI** for [**GPT-DB**](https://github.com/khulnasoft/GPT-DB).
 Also, it is a **LLM to Vision** solution. 
 
-[GPT-DB-Web](https://gptdb.site) is an Open source Tailwind and Next.js based chat UI for AI and GPT projects. It beautify a lot of markdown labels, such as `table`, `thead`, `th`, `td`, `code`, `h1`, `h2`, `ul`, `li`, `a`, `img`. Also it define some custom labels to adapted to AI-specific scenarios. Such as `plugin running`, `knowledge name`, `Chart view`, and so on.
+[GPT-DB-Web](https://gptdb.khulnasoft.com) is an Open source Tailwind and Next.js based chat UI for AI and GPT projects. It beautify a lot of markdown labels, such as `table`, `thead`, `th`, `td`, `code`, `h1`, `h2`, `ul`, `li`, `a`, `img`. Also it define some custom labels to adapted to AI-specific scenarios. Such as `plugin running`, `knowledge name`, `Chart view`, and so on.
 
 ## 💪🏻 Getting Started
 
@@ -73,7 +73,7 @@ cp -rf out/* ../gptdb/app/static
 
 ## 📚 Documentation
 
-For full documentation, visit [document](https://docs.gptdb.site/).
+For full documentation, visit [document](https://docs.gptdb.khulnasoft.com/).
 
 
 ## Usage
