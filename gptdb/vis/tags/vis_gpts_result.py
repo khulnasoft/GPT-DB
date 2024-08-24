@@ -1,12 +1,11 @@
-"""Visualize the result of the GPTBbs flow."""
-
+"""VisGptdbsFlowResult."""
 from ..base import Vis
 
 
 class VisGptdbsFlowResult(Vis):
-    """Protocol for visualizing the result of the GPTBbs flow."""
+    """VisGptdbsFlowResult."""
 
     @classmethod
     def vis_tag(cls) -> str:
-        """Return the tag name of the vis protocol module."""
+        """VisGptdbsFlowResult."""
         return "gptdbs-result"

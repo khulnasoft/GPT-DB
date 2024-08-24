@@ -3,12 +3,13 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Generic, List, Optional, Type, TypeVar, cast
 
-from gptdb.core.awel.flow import Parameter, ResourceCategory, register_resource
 from gptdb.core.interface.serialization import Serializable, Serializer
 from gptdb.util.annotations import PublicAPI
 from gptdb.util.i18n_utils import _
 from gptdb.util.pagination_utils import PaginationResult
 from gptdb.util.serialization.json_serialization import JsonSerializer
+
+from ..awel.flow import Parameter, ResourceCategory, register_resource
 
 
 @PublicAPI(stability="beta")

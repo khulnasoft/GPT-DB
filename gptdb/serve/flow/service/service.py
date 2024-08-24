@@ -6,9 +6,9 @@ import schedule
 from fastapi import HTTPException
 
 from gptdb._private.pydantic import model_to_json
+from gptdb.agent import AgentDummyTrigger
 from gptdb.component import SystemApp
 from gptdb.core.awel import DAG, BaseOperator, CommonLLMHttpRequestBody
-from gptdb.core.awel.dag.dag_manager import DAGManager
 from gptdb.core.awel.flow.flow_factory import (
     FlowCategory,
     FlowFactory,
@@ -33,7 +33,7 @@ from gptdb.storage.metadata._base_dao import QUERY_SPEC
 from gptdb.util.gptdbs.loader import GPTDBsLoader
 from gptdb.util.pagination_utils import PaginationResult
 
-from ..api.schemas import ServeRequest, ServerResponse
+from ..api.schemas import FlowDebugRequest, ServeRequest, ServerResponse
 from ..config import SERVE_CONFIG_KEY_PREFIX, SERVE_SERVICE_COMPONENT_NAME, ServeConfig
 from ..models.models import ServeDao, ServeEntity
 
@@ -146,7 +146,9 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
                 raise ValueError(
                     f"Create DAG {request.name} error, define_type: {request.define_type}, error: {str(e)}"
                 ) from e
-        res = self.dao.create(request)
+        self.dao.create(request)
+        # Query from database
+        res = self.get({"uid": request.uid})
 
         state = request.state
         try:
@@ -258,7 +260,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         Returns:
             ServerResponse: The response
         """
-        new_state = request.state
+        new_state = State.DEPLOYED
         try:
             # Try to build the dag from the request
             if request.define_type == "json":
@@ -548,18 +550,86 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
             or not isinstance(leaf_nodes[0], BaseOperator)
         ):
             return FlowCategory.COMMON
+
+        leaf_node = cast(BaseOperator, leaf_nodes[0])
+        if not leaf_node.metadata or not leaf_node.metadata.outputs:
+            return FlowCategory.COMMON
+
         common_http_trigger = False
+        agent_trigger = False
         for trigger in triggers:
             if isinstance(trigger, CommonLLMHttpTrigger):
                 common_http_trigger = True
                 break
-        leaf_node = cast(BaseOperator, leaf_nodes[0])
-        if not leaf_node.metadata or not leaf_node.metadata.outputs:
-            return FlowCategory.COMMON
+
+            if isinstance(trigger, AgentDummyTrigger):
+                agent_trigger = True
+                break
+
         output = leaf_node.metadata.outputs[0]
         try:
             real_class = _get_type_cls(output.type_cls)
-            if common_http_trigger and is_chat_flow_type(real_class, is_class=True):
+            if agent_trigger:
+                return FlowCategory.CHAT_AGENT
+            elif common_http_trigger and is_chat_flow_type(real_class, is_class=True):
                 return FlowCategory.CHAT_FLOW
         except Exception:
             return FlowCategory.COMMON
+
+    async def debug_flow(
+        self, request: FlowDebugRequest, default_incremental: Optional[bool] = None
+    ) -> AsyncIterator[ModelOutput]:
+        """Debug the flow.
+
+        Args:
+            request (FlowDebugRequest): The request
+            default_incremental (Optional[bool]): The default incremental configuration
+
+        Returns:
+            AsyncIterator[ModelOutput]: The output
+        """
+        from gptdb.core.awel.dag.dag_manager import DAGMetadata, _parse_metadata
+
+        dag = self._flow_factory.build(request.flow)
+        leaf_nodes = dag.leaf_nodes
+        if len(leaf_nodes) != 1:
+            raise ValueError("Chat Flow just support one leaf node in dag")
+        task = cast(BaseOperator, leaf_nodes[0])
+        dag_metadata = _parse_metadata(dag)
+        # TODO: Run task with variables
+        variables = request.variables
+        dag_request = request.request
+
+        if isinstance(request.request, CommonLLMHttpRequestBody):
+            incremental = request.request.incremental
+        elif isinstance(request.request, dict):
+            incremental = request.request.get("incremental", False)
+        else:
+            raise ValueError("Invalid request type")
+
+        if default_incremental is not None:
+            incremental = default_incremental
+
+        try:
+            async for output in safe_chat_stream_with_dag_task(
+                task, dag_request, incremental
+            ):
+                yield output
+        except HTTPException as e:
+            yield ModelOutput(error_code=1, text=e.detail, incremental=incremental)
+        except Exception as e:
+            yield ModelOutput(error_code=1, text=str(e), incremental=incremental)
+
+    async def _wrapper_chat_stream_flow_str(
+        self, stream_iter: AsyncIterator[ModelOutput]
+    ) -> AsyncIterator[str]:
+
+        async for output in stream_iter:
+            text = output.text
+            if text:
+                text = text.replace("\n", "\\n")
+            if output.error_code != 0:
+                yield f"data:[SERVER_ERROR]{text}\n\n"
+                break
+            else:
+                yield f"data:{text}\n\n"

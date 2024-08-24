@@ -4,7 +4,6 @@ from typing import Any, Dict, List, Optional
 
 import aiohttp
 import requests
-from pydantic import BaseModel, ConfigDict, Field
 
 from gptdb._private.pydantic import EXTRA_FORBID, BaseModel, ConfigDict, Field
 from gptdb.core import Embeddings
@@ -605,7 +604,7 @@ class OpenAPIEmbeddings(BaseModel, Embeddings):
         Using GPT-DB APIServer's embedding API:
         To use the GPT-DB APIServer's embedding API, you should deploy GPT-DB according
         to the `Cluster Deploy
-        <https://gptdb.khulnasoft.com/docs/installation/model_service/cluster>`_.
+        <https://docs.gptdb.khulnasoft.com/docs/installation/model_service/cluster>`_.
 
         A simple example:
         1. Deploy Model Cluster with following command:
@@ -752,7 +751,7 @@ class OpenAPIEmbeddings(BaseModel, Embeddings):
         return embeddings[0]
 
 
-class OllamaEmbeddings(BaseModel):
+class OllamaEmbeddings(BaseModel, Embeddings):
     """Ollama proxy embeddings.
 
     This class is used to get embeddings for a list of texts using the Ollama API.
@@ -778,7 +777,7 @@ class OllamaEmbeddings(BaseModel):
         """Get the embeddings for a list of texts.
 
         Args:
-            texts: A list of texts to get embeddings for.
+            texts (Documents): A list of texts to get embeddings for.
 
         Returns:
             Embedded texts as List[List[float]], where each inner List[float]
@@ -787,7 +786,7 @@ class OllamaEmbeddings(BaseModel):
         return [self.embed_query(text) for text in texts]
 
     def embed_query(self, text: str) -> List[float]:
-        """Compute query embeddings using an OpenAPI embedding model.
+        """Compute query embeddings using a OpenAPI embedding model.
 
         Args:
             text: The text to embed.
@@ -801,17 +800,14 @@ class OllamaEmbeddings(BaseModel):
         except ImportError as e:
             raise ValueError(
                 "Could not import python package: ollama "
-                "Please install ollama by command `pip install ollama`"
+                "Please install ollama by command `pip install ollama"
             ) from e
         try:
-            response = Client(self.api_url).embeddings(
-                model=self.model_name, prompt=text
-            )
-            return list(response["embedding"])  # Ensure the return type is a list
+            return (
+                Client(self.api_url).embeddings(model=self.model_name, prompt=text)
+            )["embedding"]
         except ollama.ResponseError as e:
-            raise ValueError(
-                f"**Ollama Response Error, Please Check Error Info.**: {e}"
-            )
+            raise ValueError(f"**Ollama Response Error, Please CheckErrorInfo.**: {e}")
 
     async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
         """Asynchronous Embed search docs.
@@ -840,14 +836,12 @@ class OllamaEmbeddings(BaseModel):
                 "Please install it with `pip install ollama`"
             )
         try:
-            response = await AsyncClient(host=self.api_url).embeddings(
+            embedding = await AsyncClient(host=self.api_url).embeddings(
                 model=self.model_name, prompt=text
             )
-            return list(response["embedding"])  # Ensure the return type is a list
+            return embedding["embedding"]
         except ollama.ResponseError as e:
-            raise ValueError(
-                f"**Ollama Response Error, Please Check Error Info.**: {e}"
-            )
+            raise ValueError(f"**Ollama Response Error, Please CheckErrorInfo.**: {e}")
 
 
 class TongYiEmbeddings(BaseModel, Embeddings):

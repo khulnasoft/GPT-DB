@@ -11,13 +11,12 @@ from fastapi import UploadFile
 from gptdb.agent.core.schema import PluginStorageType
 from gptdb.agent.resource.tool.autogpt.plugins_util import scan_plugins, update_from_git
 from gptdb.configs.model_config import PLUGINS_DIR
-
-from ..db.my_plugin_db import MyPluginDao, MyPluginEntity
-from ..db.plugin_hub_db import PluginHubDao, PluginHubEntity
+from gptdb.serve.agent.hub.db.my_plugin_db import MyPluginDao, MyPluginEntity
+from gptdb.serve.agent.hub.db.plugin_hub_db import PluginHubDao, PluginHubEntity
 
 logger = logging.getLogger(__name__)
 Default_User = "default"
-DEFAULT_PLUGIN_REPO = "https://github.com/khulnasoft/GPT-DB-Plugins.git"
+DEFAULT_PLUGIN_REPO = "https://github.com/khulnasoft-lab/GPT-DB-Plugins.git"
 TEMP_PLUGIN_PATH = ""
 
 

@@ -410,7 +410,7 @@ def core_requires():
     pip install gptdb or pip install "gptdb[core]"
     """
     setup_spec.extras["core"] = [
-        "aiohttp==3.8.4",
+        "aiohttp",
         "chardet==5.1.0",
         "importlib-resources==5.12.0",
         "python-dotenv==1.0.0",
@@ -498,6 +498,8 @@ def core_requires():
         "GitPython",
         # For AWEL dag visualization, graphviz is a small package, also we can move it to default.
         "graphviz",
+        # For security
+        "cryptography",
     ]
 
 

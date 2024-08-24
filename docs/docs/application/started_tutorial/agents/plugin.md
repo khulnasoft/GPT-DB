@@ -11,7 +11,7 @@ The use of the default plugin mainly includes the following steps. For more adva
 - 5.Start chat
 
 ### View plugin list
-First, you can click the `Update GitHub plugin` button, and the plugin list in the [GitHub plugin repository](https://github.com/khulnasoft/GPT-DB-Plugins) will automatically be displayed here.
+First, you can click the `Update GitHub plugin` button, and the plugin list in the [GitHub plugin repository](https://github.com/khulnasoft-lab/GPT-DB-Plugins) will automatically be displayed here.
 
 
 <p align="left">
@@ -43,7 +43,7 @@ Select the plugin dialog to enable plugin use.
 
 ### Configure cookies
 
-Before starting to use the default search plugin, you need to configure cookies. For detailed configuration tutorials, see the [plugin description](https://github.com/khulnasoft/GPT-DB-Plugins/tree/main/src/gptdb_plugins/search_engine).
+Before starting to use the default search plugin, you need to configure cookies. For detailed configuration tutorials, see the [plugin description](https://github.com/khulnasoft-lab/GPT-DB-Plugins/tree/main/src/gptdb_plugins/search_engine).
 
 Specify the corresponding cookie configuration items in the `.env` file to complete the configuration.
 
