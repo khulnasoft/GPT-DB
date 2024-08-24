@@ -43,7 +43,7 @@ const config = {
   favicon: 'img/khulnasoft.jpeg',
 
   // Set the production url of your site here
-  url: 'http://gptdb.khulnasoft.com',
+  url: 'http://docs.gptdb.site',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -291,7 +291,7 @@ const config = {
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/khulnasoft',
+                href: 'https://twitter.com/GptDb80100',
               },
             ],
           },

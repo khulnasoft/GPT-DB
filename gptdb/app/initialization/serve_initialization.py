@@ -2,11 +2,13 @@ from gptdb._private.config import Config
 from gptdb.component import SystemApp
 
 
-def register_serve_apps(system_app: SystemApp, cfg: Config):
+def register_serve_apps(system_app: SystemApp, cfg: Config, webserver_port: int):
     """Register serve apps"""
     system_app.config.set("gptdb.app.global.language", cfg.LANGUAGE)
     if cfg.API_KEYS:
         system_app.config.set("gptdb.app.global.api_keys", cfg.API_KEYS)
+    if cfg.ENCRYPT_KEY:
+        system_app.config.set("gptdb.app.global.encrypt_key", cfg.ENCRYPT_KEY)
 
     # ################################ Prompt Serve Register Begin ######################################
     from gptdb.serve.prompt.serve import (
@@ -45,6 +47,8 @@ def register_serve_apps(system_app: SystemApp, cfg: Config):
     # Register serve app
     system_app.register(FlowServe)
 
+    # ################################ AWEL Flow Serve Register End ########################################
+
     # ################################ Rag Serve Register Begin ######################################
 
     from gptdb.serve.rag.serve import (
@@ -55,6 +59,8 @@ def register_serve_apps(system_app: SystemApp, cfg: Config):
     # Register serve app
     system_app.register(RagServe)
 
+    # ################################ Rag Serve Register End ########################################
+
     # ################################ Datasource Serve Register Begin ######################################
 
     from gptdb.serve.datasource.serve import (
@@ -64,4 +70,44 @@ def register_serve_apps(system_app: SystemApp, cfg: Config):
 
     # Register serve app
     system_app.register(DatasourceServe)
-    # ################################ AWEL Flow Serve Register End ########################################
+
+    # ################################ Datasource Serve Register End ########################################
+
+    # ################################ Chat Feedback Serve Register End ########################################
+    from gptdb.serve.feedback.serve import (
+        SERVE_CONFIG_KEY_PREFIX as Feedback_SERVE_CONFIG_KEY_PREFIX,
+    )
+    from gptdb.serve.feedback.serve import Serve as FeedbackServe
+
+    # Register serve feedback
+    system_app.register(FeedbackServe)
+    # ################################ Chat Feedback Register End ########################################
+
+    # ################################ File Serve Register Begin ######################################
+
+    from gptdb.configs.model_config import FILE_SERVER_LOCAL_STORAGE_PATH
+    from gptdb.serve.file.serve import (
+        SERVE_CONFIG_KEY_PREFIX as FILE_SERVE_CONFIG_KEY_PREFIX,
+    )
+    from gptdb.serve.file.serve import Serve as FileServe
+
+    local_storage_path = (
+        cfg.FILE_SERVER_LOCAL_STORAGE_PATH or FILE_SERVER_LOCAL_STORAGE_PATH
+    )
+    if cfg.WEBSERVER_MULTI_INSTANCE:
+        local_storage_path = f"{local_storage_path}_{webserver_port}"
+    # Set config
+    system_app.config.set(
+        f"{FILE_SERVE_CONFIG_KEY_PREFIX}local_storage_path", local_storage_path
+    )
+    system_app.config.set(
+        f"{FILE_SERVE_CONFIG_KEY_PREFIX}file_server_port", webserver_port
+    )
+    if cfg.FILE_SERVER_HOST:
+        system_app.config.set(
+            f"{FILE_SERVE_CONFIG_KEY_PREFIX}file_server_host", cfg.FILE_SERVER_HOST
+        )
+    # Register serve app
+    system_app.register(FileServe)
+
+    # ################################ File Serve Register End ########################################

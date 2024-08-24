@@ -60,11 +60,11 @@ class ChatHistory:
             raise ValueError(f"Invalid store type: {store_type}")
         if store_type == "duckdb":
             link1 = (
-                "https://gptdb.khulnasoft.com/docs/latest/faq/install#q6-how-to-migrate-meta"
+                "https://docs.gptdb.site/docs/latest/faq/install#q6-how-to-migrate-meta"
                 "-table-chat_history-and-connect_config-from-duckdb-to-sqlite"
             )
             link2 = (
-                "https://gptdb.khulnasoft.com/docs/latest/faq/install/#q7-how-to-migrate-"
+                "https://docs.gptdb.site/docs/latest/faq/install/#q7-how-to-migrate-"
                 "meta-table-chat_history-and-connect_config-from-duckdb-to-mysql"
             )
             logger.error(

@@ -4,7 +4,7 @@ exclude =
   build/
   */tests/*
   *_private
-max-line-length = 88
+max-line-length = 92
 inline-quotes = "
 ignore =
   C408
@@ -17,7 +17,6 @@ ignore =
   E231
   E24
   E704
-  F811
   W503
   W504
   W605

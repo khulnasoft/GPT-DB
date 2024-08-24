@@ -89,6 +89,8 @@ class ComponentType(str, Enum):
     CONNECTOR_MANAGER = "gptdb_connector_manager"
     AGENT_MANAGER = "gptdb_agent_manager"
     RESOURCE_MANAGER = "gptdb_resource_manager"
+    VARIABLES_PROVIDER = "gptdb_variables_provider"
+    FILE_STORAGE_CLIENT = "gptdb_file_storage_client"
 
 
 _EMPTY_DEFAULT_COMPONENT = "_EMPTY_DEFAULT_COMPONENT"

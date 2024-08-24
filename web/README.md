@@ -1,6 +1,6 @@
 
 <h1 align="center">
-  <a href="https://khulnasoft.com"><img width="96" src="https://github.com/khulnasoft-lab/GPT-DB-Web/assets/10321453/062ee3ea-fac2-4437-a392-f4bc5451d116" alt="GPT-DB"></a>
+  <a href="https://gptdb.site"><img width="96" src="https://github.com/khulnasoft-lab/GPT-DB-Web/assets/10321453/062ee3ea-fac2-4437-a392-f4bc5451d116" alt="GPT-DB"></a>
   <br>
   GPT-DB-Web
 </h1>
@@ -29,13 +29,14 @@ _<p align="center">GPT-DB Chat UI, LLM to Vision.</p>_
 ***GPT-DB-Web*** is an **Open source chat UI** for [**GPT-DB**](https://github.com/khulnasoft/GPT-DB).
 Also, it is a **LLM to Vision** solution. 
 
-[GPT-DB-Web](https://khulnasoft.com) is an Open source Tailwind and Next.js based chat UI for AI and GPT projects. It beautify a lot of markdown labels, such as `table`, `thead`, `th`, `td`, `code`, `h1`, `h2`, `ul`, `li`, `a`, `img`. Also it define some custom labels to adapted to AI-specific scenarios. Such as `plugin running`, `knowledge name`, `Chart view`, and so on.
+[GPT-DB-Web](https://gptdb.site) is an Open source Tailwind and Next.js based chat UI for AI and GPT projects. It beautify a lot of markdown labels, such as `table`, `thead`, `th`, `td`, `code`, `h1`, `h2`, `ul`, `li`, `a`, `img`. Also it define some custom labels to adapted to AI-specific scenarios. Such as `plugin running`, `knowledge name`, `Chart view`, and so on.
 
 ## 💪🏻 Getting Started
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) >= 16
+- [npm](https://npmjs.com/) >= 8
 - [yarn](https://yarnpkg.com/) >= 1.22
 - Supported OSes: Linux, macOS and Windows
 
@@ -43,6 +44,7 @@ Also, it is a **LLM to Vision** solution.
 
 ```sh
 # Install dependencies
+npm install
 yarn install
 ```
 
@@ -54,12 +56,14 @@ edit the `API_BASE_URL` to the real address
 
 ```sh
 # development model
+npm run dev
 yarn dev
 ```
 
 ## 🚀 Use In GPT-DB
 
 ```sh
+npm run compile
 yarn compile
 
 # copy compile file to GPT-DB static file dictory
@@ -69,7 +73,7 @@ cp -rf out/* ../gptdb/app/static
 
 ## 📚 Documentation
 
-For full documentation, visit [document](https://gptdb.khulnasoft.com/).
+For full documentation, visit [document](https://docs.gptdb.site/).
 
 
 ## Usage
@@ -91,3 +95,8 @@ Enjoy using GPT-DB-Web to build stunning UIs for your AI and GPT projects.
 For any queries or issues, feel free to open an [issue](https://github.com/khulnasoft-lab/GPT-DB-Web/issues) on the repository.
 
 Happy coding! 😊
+
+
+## antgptdbweb installation
+
+### deploy in local environment:

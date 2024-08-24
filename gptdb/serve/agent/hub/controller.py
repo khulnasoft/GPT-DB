@@ -9,7 +9,6 @@ from gptdb.agent.resource.tool.pack import AutoGPTPluginToolPack
 from gptdb.app.openapi.api_view_model import Result
 from gptdb.component import BaseComponent, ComponentType, SystemApp
 from gptdb.configs.model_config import PLUGINS_DIR
-from gptdb.serve.agent.db.plugin_hub_db import PluginHubEntity
 from gptdb.serve.agent.hub.plugin_hub import plugin_hub
 from gptdb.serve.agent.model import (
     PagenationFilter,
@@ -18,8 +17,9 @@ from gptdb.serve.agent.model import (
     PluginHubParam,
 )
 
-from ..db import MyPluginEntity
-from ..model import MyPluginVO, PluginHubVO
+from .db.my_plugin_db import MyPluginEntity
+from .db.plugin_hub_db import PluginHubEntity
+from .model.model import MyPluginVO, PluginHubVO
 
 router = APIRouter()
 logger = logging.getLogger(__name__)

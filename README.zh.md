@@ -8,10 +8,10 @@
 <div align="center">
   <p>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/gpt-db?style=social" />
+        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/GPT-DB?style=social" />
     </a>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/gpt-db?style=social" />
+        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/GPT-DB?style=social" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -93,7 +93,7 @@
 
 ### 子模块
 - [GPT-DB-Hub](https://github.com/khulnasoft-lab/GPT-DB-Hub) 通过微调来持续提升Text2SQL效果 
-- [GPT-DB-Plugins](https://github.com/khulnasoft/GPT-DB-Plugins) GPT-DB 插件仓库, 兼容Auto-GPT
+- [GPT-DB-Plugins](https://github.com/khulnasoft-lab/GPT-DB-Plugins) GPT-DB 插件仓库, 兼容Auto-GPT
 - [GPT-Vis](https://github.com/khulnasoft-lab/GPT-DB-Web) 可视化协议 
 
 - [gptdbs](https://github.com/khulnasoft-lab/gptdbs)  gptdbs 是官方提供的数据应用仓库, 包含数据智能应用, 智能体编排流程模版, 通用算子等构建在GPT-DB之上的资源。 
@@ -277,4 +277,4 @@ The MIT License (MIT)
   <img src="./assets/wechat.jpg" width="300px" />
 </p> -->
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)
