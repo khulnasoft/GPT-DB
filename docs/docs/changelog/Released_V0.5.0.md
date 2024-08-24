@@ -255,7 +255,7 @@ pip install -e ".[default]"
 ## Acknowledgments
 We would like to express our deepest gratitude to all the contributors who made this release possible!
 
-@Aralhi, @Aries-ckt, @JoanFM, @csunny, @fangyinc, @Hzh_97, @junewgl, @lcxadml, @likenamehaojie, @xiuzhu9527 and @yhjun1026
+@Aralhi, @Aries-ckt, @JoanFM, @khulnasoft, @fangyinc, @Hzh_97, @junewgl, @lcxadml, @likenamehaojie, @xiuzhu9527 and @yhjun1026
 
 ## Appendix 
 - GPT-DB framework: https://github.com/khulnasoft 

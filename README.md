@@ -237,4 +237,4 @@ If you find `GPT-DB` useful for your research or development, please cite the fo
 We are working on building a community, if you have any ideas for building the community, feel free to contact us.
 [![](https://dcbadge.vercel.app/api/server/7uQnPuveTY?compact=true&style=flat)](https://discord.gg/7uQnPuveTY)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
