@@ -2,6 +2,7 @@ name: Build Web Application
 
 # Triggered when the web directory or this file is changed
 on:
+  workflow_dispatch:
   pull_request:
     branches:
       - main
