@@ -8,7 +8,7 @@ pytest-cov
 pytest-integration
 pytest-mock
 pytest-recording
-pytesseract==0.3.10
+pytesseract==0.3.13
 aioresponses
 # for git hooks
 pre-commit
