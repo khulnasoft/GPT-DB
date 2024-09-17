@@ -13,6 +13,7 @@ from gptdb.serve.core import BaseService
 from gptdb.storage.metadata import BaseDao
 from gptdb.storage.metadata._base_dao import REQ, RES
 from gptdb.util.pagination_utils import PaginationResult
+from gptdb.vis.client import vis_name_change
 
 from ...feedback.api.endpoints import get_service
 from ..api.schemas import MessageVo, ServeRequest, ServerResponse
@@ -219,7 +220,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
             result.append(
                 MessageVo(
                     role=msg.type,
-                    context=msg.content,
+                    context=vis_name_change(msg.content),
                     order=msg.round_index,
                     model_name=self.config.default_model,
                     feedback=feedback,

@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
 message/
 gptdb/util/extensions/
 .env*
@@ -158,6 +157,7 @@ thirdparty
 #web
 # dependencies
 /web/node_modules
+/web/yarn.lock
 
 .idea
 # next.js
@@ -185,6 +185,3 @@ thirdparty
 /examples/**/*.gv.pdf
 /i18n/locales/**/**/*_ai_translated.po
 /i18n/locales/**/**/*~
-
-/web_new/node_modules
-/web_new/.next

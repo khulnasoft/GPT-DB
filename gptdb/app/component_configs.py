@@ -36,7 +36,7 @@ def initialize_components(
     system_app.register(
         DefaultExecutorFactory, max_workers=param.default_thread_pool_size
     )
-    system_app.register(DefaultScheduler)
+    system_app.register(DefaultScheduler, scheduler_enable=CFG.SCHEDULER_ENABLED)
     system_app.register_instance(controller)
     system_app.register(ConnectorManager)
 
@@ -60,6 +60,7 @@ def initialize_components(
     _initialize_openapi(system_app)
     # Register serve apps
     register_serve_apps(system_app, CFG, param.port)
+    _initialize_operators()
 
 
 def _initialize_model_cache(system_app: SystemApp, port: int):
@@ -128,3 +129,14 @@ def _initialize_openapi(system_app: SystemApp):
     from gptdb.app.openapi.api_v1.editor.service import EditorService
 
     system_app.register(EditorService)
+
+
+def _initialize_operators():
+    from gptdb.app.operators.converter import StringToInteger
+    from gptdb.app.operators.datasource import (
+        HODatasourceExecutorOperator,
+        HODatasourceRetrieverOperator,
+    )
+    from gptdb.app.operators.llm import HOLLMOperator, HOStreamingLLMOperator
+    from gptdb.app.operators.rag import HOKnowledgeOperator
+    from gptdb.serve.agent.resource.datasource import DatasourceResource

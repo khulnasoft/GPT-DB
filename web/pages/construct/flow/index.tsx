@@ -1,37 +1,31 @@
+import { ChatContext } from '@/app/chat-context';
+import { addFlow, apiInterceptors, deleteFlowById, getFlows, newDialogue } from '@/client/api';
+import MyEmpty from '@/components/common/MyEmpty';
 import BlurredCard, { ChatButton, InnerDropdown } from '@/new-components/common/blurredCard';
 import ConstructLayout from '@/new-components/layout/Construct';
-import { ChatContext } from '@/app/chat-context';
-import { apiInterceptors, deleteFlowById, getFlows, newDialogue, updateFlowAdmins, addFlow } from '@/client/api';
-import MyEmpty from '@/components/common/MyEmpty';
 import { IFlow, IFlowUpdateParam } from '@/types/flow';
 import { PlusOutlined } from '@ant-design/icons';
 import { useRequest } from 'ahooks';
-import { Button, Modal, Popconfirm, Select, Spin, Tag, message, Form, Input, Checkbox } from 'antd';
+import { Button, Checkbox, Form, Input, Modal, Pagination, Popconfirm, Spin, Tag, message } from 'antd';
 import { t } from 'i18next';
-import { concat, debounce } from 'lodash';
 import moment from 'moment';
 import { useRouter } from 'next/router';
 import qs from 'querystring';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 function Flow() {
   const router = useRouter();
   const { model } = useContext(ChatContext);
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi] = message.useMessage();
+  const [form] = Form.useForm<Pick<IFlow, 'label' | 'name'>>();
 
   const [flowList, setFlowList] = useState<Array<IFlow>>([]);
-  const [adminOpen, setAdminOpen] = useState<boolean>(false);
-  const [curFlow, setCurFLow] = useState<IFlow>();
-  const [admins, setAdmins] = useState<string[]>([]);
   const copyFlowTemp = useRef<IFlow>();
   const [showModal, setShowModal] = useState(false);
   const [deploy, setDeploy] = useState(false);
   const [editable, setEditable] = useState(false);
 
-  const [form] = Form.useForm<Pick<IFlow, 'label' | 'name'>>();
-
-  // 分页信息
   const totalRef = useRef<{
     current_page: number;
     total_count: number;
@@ -40,12 +34,8 @@ function Flow() {
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // 获取列表
-  const {
-    run: getFlowListRun,
-    loading,
-    refresh: refreshFlowList,
-  } = useRequest(
+  // get flow list
+  const { run: getFlowListRun, loading } = useRequest(
     async (params: any) =>
       await apiInterceptors(
         getFlows({
@@ -56,9 +46,10 @@ function Flow() {
       ),
     {
       cacheKey: 'query-flow-list',
-      onSuccess: (data) => {
+      onSuccess: data => {
         const [, res] = data;
-        setFlowList((prev) => concat([...prev], res?.items || []));
+        // setFlowList((prev) => concat([...prev], res?.items || []));
+        setFlowList(res?.items || []);
         totalRef.current = {
           current_page: res?.page || 1,
           total_count: res?.total_count || 0,
@@ -72,44 +63,44 @@ function Flow() {
   const { i18n } = useTranslation();
 
   // 触底加载更多
-  const loadMoreData = useCallback(() => {
-    const current = totalRef.current;
-    if (!current) {
-      return;
-    }
-    if (current.current_page < current.total_page) {
-      getFlowListRun({
-        page: current.current_page + 1,
-      });
-      current.current_page = current.current_page + 1;
-    }
-  }, [getFlowListRun]);
+  // const loadMoreData = useCallback(() => {
+  //   const current = totalRef.current;
+  //   if (!current) {
+  //     return;
+  //   }
+  //   if (current.current_page < current.total_page) {
+  //     getFlowListRun({
+  //       page: current.current_page + 1,
+  //     });
+  //     current.current_page = current.current_page + 1;
+  //   }
+  // }, [getFlowListRun]);
 
-  // 滚动时间
-  const handleScroll = debounce((e: Event) => {
-    const target = e.target as HTMLDivElement;
-    if (target.scrollHeight - target.scrollTop <= target.clientHeight + 200) {
-      loadMoreData();
-    }
-  }, 200);
+  // // 滚动事件
+  // const handleScroll = debounce((e: Event) => {
+  //   const target = e.target as HTMLDivElement;
+  //   if (target.scrollHeight - target.scrollTop <= target.clientHeight + 200) {
+  //     loadMoreData();
+  //   }
+  // }, 200);
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    const currentScrollRef = scrollRef.current;
-    if (currentScrollRef) {
-      currentScrollRef?.addEventListener('scroll', handleScroll);
-      if (currentScrollRef.scrollHeight === currentScrollRef.clientHeight) {
-        loadMoreData();
-      }
-    }
-    return () => {
-      if (currentScrollRef) {
-        currentScrollRef?.removeEventListener('scroll', handleScroll);
-      }
-    };
-  }, [loading, handleScroll, loadMoreData]);
+  // useEffect(() => {
+  //   if (loading) {
+  //     return;
+  //   }
+  //   const currentScrollRef = scrollRef.current;
+  //   if (currentScrollRef) {
+  //     currentScrollRef?.addEventListener('scroll', handleScroll);
+  //     if (currentScrollRef.scrollHeight === currentScrollRef.clientHeight) {
+  //       loadMoreData();
+  //     }
+  //   }
+  //   return () => {
+  //     if (currentScrollRef) {
+  //       currentScrollRef?.removeEventListener('scroll', handleScroll);
+  //     }
+  //   };
+  // }, [loading, handleScroll, loadMoreData]);
 
   const handleChat = async (flow: IFlow) => {
     const [, res] = await apiInterceptors(newDialogue({ chat_mode: 'chat_agent' }));
@@ -127,39 +118,14 @@ function Flow() {
   async function deleteFlow(flow: IFlow) {
     const [, , res] = await apiInterceptors(deleteFlowById(flow.uid));
     if (res?.success) {
-      setFlowList((flows) => flows.filter((_flow) => _flow.uid !== flow.uid));
+      setFlowList(flows => flows.filter(_flow => _flow.uid !== flow.uid));
     }
   }
-
-  useEffect(() => {
-    if (curFlow?.admins?.length) {
-      setAdmins(curFlow?.admins);
-    } else {
-      setAdmins([]);
-    }
-  }, [curFlow]);
-
-  // 更新管理员
-  const { run: updateAdmins, loading: adminLoading } = useRequest(
-    async (value: string[]) => await apiInterceptors(updateFlowAdmins({ uid: curFlow?.uid || '', admins: value })),
-    {
-      manual: true,
-      onSuccess: (data) => {
-        const [error] = data;
-        if (!error) {
-          message.success('更新成功');
-        } else {
-          message.error('更新失败');
-        }
-      },
-    },
-  );
 
   const handleCopy = (flow: IFlow) => {
     copyFlowTemp.current = flow;
     form.setFieldValue('label', `${flow.label} Copy`);
     form.setFieldValue('name', `${flow.name}_copy`);
-    setDeploy(true);
     setEditable(true);
     setShowModal(true);
   };
@@ -181,18 +147,12 @@ function Flow() {
     }
   };
 
-  const handleChange = async (value: string[]) => {
-    setAdmins(value);
-    await updateAdmins(value);
-    await refreshFlowList();
-  };
-
   return (
     <ConstructLayout>
       <Spin spinning={loading}>
-        <div className="relative h-screen w-full p-4 md:p-6 overflow-y-auto" ref={scrollRef}>
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex items-center gap-4">
+        <div className='relative h-screen w-full p-4 md:p-6 overflow-y-auto' ref={scrollRef}>
+          <div className='flex justify-between items-center mb-6'>
+            <div className='flex items-center gap-4'>
               {/* <Input
               variant="filled"
               prefix={<SearchOutlined />}
@@ -204,9 +164,9 @@ function Flow() {
             /> */}
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className='flex items-center gap-4'>
               <Button
-                className="border-none text-white bg-button-gradient"
+                className='border-none text-white bg-button-gradient'
                 icon={<PlusOutlined />}
                 onClick={() => {
                   router.push('/construct/flow/canvas');
@@ -216,13 +176,13 @@ function Flow() {
               </Button>
             </div>
           </div>
-          <div className="flex flex-wrap mx-[-8px] pb-12 justify-start items-stretch">
-            {flowList.map((flow) => (
+          <div className='flex flex-wrap mx-[-8px] pb-12 justify-start items-stretch'>
+            {flowList.map(flow => (
               <BlurredCard
                 description={flow.description}
                 name={flow.name}
                 key={flow.uid}
-                logo="/pictures/flow.png"
+                logo='/pictures/flow.png'
                 onClick={() => {
                   router.push('/construct/flow/canvas?id=' + flow.uid);
                 }}
@@ -230,19 +190,6 @@ function Flow() {
                   <InnerDropdown
                     menu={{
                       items: [
-                        // {
-                        //   key: 'edit',
-                        //   label: (
-                        //     <span
-                        //       onClick={() => {
-                        //         setAdminOpen(true);
-                        //         setCurFLow(flow);
-                        //       }}
-                        //     >
-                        //       权限管理
-                        //     </span>
-                        //   ),
-                        // },
                         {
                           key: 'copy',
                           label: (
@@ -251,15 +198,15 @@ function Flow() {
                                 handleCopy(flow);
                               }}
                             >
-                              {t('copy')}
+                              {t('Copy_Btn')}
                             </span>
                           ),
                         },
                         {
                           key: 'del',
                           label: (
-                            <Popconfirm title="Are you sure to delete this flow?" onConfirm={() => deleteFlow(flow)}>
-                              <span className="text-red-400">删除</span>
+                            <Popconfirm title='Are you sure to delete this flow?' onConfirm={() => deleteFlow(flow)}>
+                              <span className='text-red-400'>{t('Delete_Btn')}</span>
                             </Popconfirm>
                           ),
                         },
@@ -272,11 +219,13 @@ function Flow() {
                   <div>
                     <Tag color={flow.source === 'GPTDB-WEB' ? 'green' : 'blue'}>{flow.source}</Tag>
                     <Tag color={flow.editable ? 'green' : 'gray'}>{flow.editable ? 'Editable' : 'Can not Edit'}</Tag>
-                    <Tag color={flow.state === 'load_failed' ? 'red' : flow.state === 'running' ? 'green' : 'blue'}>{flow.state}</Tag>
+                    <Tag color={flow.state === 'load_failed' ? 'red' : flow.state === 'running' ? 'green' : 'blue'}>
+                      {flow.state}
+                    </Tag>
                   </div>
                 }
                 LeftBottom={
-                  <div key={i18n.language + 'flow'} className="flex gap-2">
+                  <div key={i18n.language + 'flow'} className='flex gap-2'>
                     <span>{flow?.nick_name}</span>
                     <span>•</span>
                     {flow?.gmt_modified && <span>{moment(flow?.gmt_modified).fromNow() + ' ' + t('update')}</span>}
@@ -292,61 +241,59 @@ function Flow() {
                 }
               />
             ))}
-            {flowList.length === 0 && <MyEmpty description="No flow found" />}
+            {flowList.length === 0 && <MyEmpty description='No flow found' />}
+            <div className='w-full flex justify-end shrink-0 pb-12'>
+              <Pagination
+                total={totalRef.current?.total_count || 0}
+                pageSize={12}
+                current={totalRef.current?.current_page}
+                onChange={async (page, page_size) => {
+                  await getFlowListRun({ page, page_size });
+                }}
+              />
+            </div>
           </div>
         </div>
       </Spin>
-      <Modal title="权限管理" open={adminOpen} onCancel={() => setAdminOpen(false)} footer={null}>
-        <div className="py-4">
-          <div className="mb-1">管理员（工号，去前缀0）：</div>
-          <Select
-            mode="tags"
-            value={admins}
-            style={{ width: '100%' }}
-            onChange={handleChange}
-            tokenSeparators={[',']}
-            options={admins?.map((item: string) => ({ label: item, value: item }))}
-            loading={adminLoading}
-          />
-        </div>
-      </Modal>
+
       <Modal
         open={showModal}
-        title="Copy AWEL Flow"
+        destroyOnClose
+        title='Copy AWEL Flow'
         onCancel={() => {
           setShowModal(false);
         }}
         footer={false}
       >
-        <Form form={form} onFinish={onFinish} className="mt-6">
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+        <Form form={form} onFinish={onFinish} className='mt-6'>
+          <Form.Item name='name' label='Name' rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="label" label="Label" rules={[{ required: true }]}>
+          <Form.Item name='label' label='Label' rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="editable">
+          <Form.Item label='editable'>
             <Checkbox
               value={editable}
               checked={editable}
-              onChange={(e) => {
+              onChange={e => {
                 const val = e.target.checked;
                 setEditable(val);
               }}
             />
           </Form.Item>
-          <Form.Item label="deploy">
+          <Form.Item label='deploy'>
             <Checkbox
               value={deploy}
               checked={deploy}
-              onChange={(e) => {
+              onChange={e => {
                 const val = e.target.checked;
                 setDeploy(val);
               }}
             />
           </Form.Item>
-          <div className="flex justify-end">
-            <Button type="primary" htmlType="submit">
+          <div className='flex justify-end'>
+            <Button type='primary' htmlType='submit'>
               {t('Submit')}
             </Button>
           </div>

@@ -20,16 +20,21 @@ LOAD_EXAMPLES="true"
 BUILD_NETWORK=""
 GPT_DB_INSTALL_MODEL="default"
 
+DOCKERFILE="Dockerfile"
+IMAGE_NAME_SUFFIX=""
+
 usage () {
     echo "USAGE: $0 [--base-image nvidia/cuda:12.1.0-runtime-ubuntu22.04] [--image-name gpt-db]"
     echo "  [-b|--base-image base image name] Base image name"
     echo "  [-n|--image-name image name] Current image name, default: gpt-db"
+    echo "  [--image-name-suffix image name suffix] Image name suffix"
     echo "  [-i|--pip-index-url pip index url] Pip index url, default: https://pypi.org/simple"
     echo "  [--language en or zh] You language, default: en"
     echo "  [--build-local-code true or false] Whether to use the local project code to package the image, default: true"
     echo "  [--load-examples true or false] Whether to load examples to default database default: true"
     echo "  [--network network name] The network of docker build"
     echo "  [--install-mode mode name] Installation mode name, default: default, If you completely use openai's service, you can set the mode name to 'openai'"
+    echo "  [-f|--dockerfile dockerfile] Dockerfile name, default: Dockerfile"
     echo "  [-h|--help] Usage message"
 }
 
@@ -43,6 +48,11 @@ while [[ $# -gt 0 ]]; do
         ;;
         -n|--image-name)
         IMAGE_NAME_ARGS="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        --image-name-suffix)
+        IMAGE_NAME_SUFFIX="$2"
         shift # past argument
         shift # past value
         ;;
@@ -80,6 +90,11 @@ while [[ $# -gt 0 ]]; do
         shift # past argument
         shift # past value
         ;;
+        -f|--dockerfile)
+        DOCKERFILE="$2"
+        shift # past argument
+        shift # past value
+        ;;
         -h|--help)
         help="true"
         shift
@@ -111,6 +126,10 @@ else
     BASE_IMAGE=$IMAGE_NAME_ARGS
 fi
 
+if [ -n "$IMAGE_NAME_SUFFIX" ]; then
+    IMAGE_NAME="$IMAGE_NAME-$IMAGE_NAME_SUFFIX"
+fi
+
 echo "Begin build docker image, base image: ${BASE_IMAGE}, target image name: ${IMAGE_NAME}"
 
 docker build $BUILD_NETWORK \
@@ -120,5 +139,5 @@ docker build $BUILD_NETWORK \
     --build-arg BUILD_LOCAL_CODE=$BUILD_LOCAL_CODE \
     --build-arg LOAD_EXAMPLES=$LOAD_EXAMPLES \
     --build-arg GPT_DB_INSTALL_MODEL=$GPT_DB_INSTALL_MODEL \
-    -f Dockerfile \
+    -f $DOCKERFILE \
     -t $IMAGE_NAME $WORK_DIR/../../

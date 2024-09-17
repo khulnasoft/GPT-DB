@@ -548,6 +548,17 @@ async def chat_completions(
                     headers=headers,
                     media_type="text/plain",
                 )
+    except Exception as e:
+        logger.exception(f"Chat Exception!{dialogue}", e)
+
+        async def error_text(err_msg):
+            yield f"data:{err_msg}\n\n"
+
+        return StreamingResponse(
+            error_text(str(e)),
+            headers=headers,
+            media_type="text/plain",
+        )
     finally:
         # write to recent usage app.
         if dialogue.user_name is not None and dialogue.app_code is not None:
@@ -694,12 +705,17 @@ def message2Vo(message: dict, order, model_name) -> MessageVo:
 def _parse_domain_type(dialogue: ConversationVo) -> Optional[str]:
     if dialogue.chat_mode == ChatScene.ChatKnowledge.value():
         # Supported in the knowledge chat
-        space_name = dialogue.select_param
-        spaces = knowledge_service.get_knowledge_space(
-            KnowledgeSpaceRequest(name=space_name)
-        )
+        if dialogue.app_code == "" or dialogue.app_code == "chat_knowledge":
+            spaces = knowledge_service.get_knowledge_space(
+                KnowledgeSpaceRequest(name=dialogue.select_param)
+            )
+        else:
+            spaces = knowledge_service.get_knowledge_space(
+                KnowledgeSpaceRequest(id=dialogue.select_param)
+            )
         if len(spaces) == 0:
-            raise ValueError(f"Knowledge space {space_name} not found")
+            raise ValueError(f"Knowledge space {dialogue.select_param} not found")
+        dialogue.select_param = spaces[0].name
         if spaces[0].domain_type:
             return spaces[0].domain_type
     else:
