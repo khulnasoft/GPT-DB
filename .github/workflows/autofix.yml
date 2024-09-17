@@ -1,0 +1,57 @@
+name: Autofix
+
+on:
+  pull_request:
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-python-autofix-${{ env.pythonLocation }}-${{ hashFiles('requirements/requirements-autofix.txt', 'requirements/lint-requirements.txt') }}-v01
+
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: pip install -r requirements/requirements-autofix.txt
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v44
+
+      - uses: actions/cache@v4
+        id: pre-commit-hooks-cache
+        with:
+          path: ~/.cache/pre-commit
+          key: ${{ runner.os }}-pre-commit-hooks-${{ hashFiles('.pre-commit-config.yml') }}-v01
+
+      - name: Run pre-commit hooks on changed files
+        run: pre-commit run --files ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Commit changes
+        if: failure()
+        run: |
+          git config --local user.email "github-actions@github.com"
+          git config --local user.name "github-actions"
+          git add --update
+          git commit -m "🎨 Autofix from pre-commit hooks"
+          git push
