@@ -26,29 +26,26 @@ testenv: $(VENV)/.testenv
 
 $(VENV)/.testenv: $(VENV)/bin/activate
 	# $(VENV_BIN)/pip install -e ".[framework]"
-	# the openai optional dependency is include framework and rag dependencies
 	$(VENV_BIN)/pip install -e ".[openai]"
 	touch $(VENV)/.testenv
 
 
 .PHONY: fmt
 fmt: setup ## Format Python code
-	# TODO: Use isort to sort Python imports.
-	# https://github.com/PyCQA/isort
-	# $(VENV_BIN)/isort .
 	$(VENV_BIN)/isort gptdb/
 	$(VENV_BIN)/isort --extend-skip="examples/notebook" examples
-	# https://github.com/psf/black
 	$(VENV_BIN)/black --extend-exclude="examples/notebook" .
-	# TODO: Use blackdoc to format Python doctests.
-	# https://blackdoc.readthedocs.io/en/latest/
-	# $(VENV_BIN)/blackdoc .
 	$(VENV_BIN)/blackdoc gptdb
 	$(VENV_BIN)/blackdoc examples
-	# TODO: Use flake8 to enforce Python style guide.
-	# https://flake8.pycqa.org/en/latest/
-	$(VENV_BIN)/flake8 gptdb/core/ gptdb/rag/ gptdb/storage/ gptdb/datasource/ gptdb/client/ gptdb/agent/ gptdb/vis/ gptdb/experimental/
-	# TODO: More package checks with flake8.
+
+.PHONY: fix
+fix: setup ## Automatically fix linting and formatting errors
+	$(VENV_BIN)/isort gptdb/ --apply
+	$(VENV_BIN)/isort --extend-skip="examples/notebook" examples --apply
+	$(VENV_BIN)/black --extend-exclude="examples/notebook" .
+	$(VENV_BIN)/blackdoc gptdb
+	$(VENV_BIN)/blackdoc examples
+	$(VENV_BIN)/flake8 gptdb/core/ gptdb/rag/ gptdb/storage/ gptdb/datasource/ gptdb/client/ gptdb/agent/ gptdb/vis/ gptdb/experimental/ --ignore=E501 --quiet
 
 .PHONY: fmt-check
 fmt-check: setup ## Check Python code formatting and style without making changes
@@ -56,7 +53,7 @@ fmt-check: setup ## Check Python code formatting and style without making change
 	$(VENV_BIN)/isort --check-only --extend-skip="examples/notebook" examples
 	$(VENV_BIN)/black --check --extend-exclude="examples/notebook" .
 	$(VENV_BIN)/blackdoc --check gptdb examples
-	$(VENV_BIN)/flake8 gptdb/core/ gptdb/rag/ gptdb/storage/ gptdb/datasource/ gptdb/client/ gptdb/agent/ gptdb/vis/ gptdb/experimental/
+	$(VENV_BIN)/flake8 gptdb/core/ gptdb/rag/ gptdb/storage/ gptdb/datasource/ gptdb/client/ gptdb/agent/ gptdb/vis/ gptdb/experimental/ --ignore=E501 --quiet
 
 .PHONY: pre-commit
 pre-commit: fmt-check test test-doc mypy ## Run formatting and unit tests before committing
@@ -66,17 +63,11 @@ test: $(VENV)/.testenv ## Run unit tests
 
 .PHONY: test-doc
 test-doc: $(VENV)/.testenv ## Run doctests
-	# -k "not test_" skips tests that are not doctests.
 	$(VENV_BIN)/pytest --doctest-modules -k "not test_" gptdb/core
 
 .PHONY: mypy
 mypy: $(VENV)/.testenv ## Run mypy checks
-	# https://github.com/python/mypy
 	$(VENV_BIN)/mypy --config-file .mypy.ini gptdb/rag/ gptdb/datasource/ gptdb/client/ gptdb/agent/ gptdb/vis/ gptdb/experimental/
-	# rag depends on core and storage, so we not need to check it again.
-	# $(VENV_BIN)/mypy --config-file .mypy.ini gptdb/storage/
-	# $(VENV_BIN)/mypy --config-file .mypy.ini gptdb/core/
-	# TODO: More package checks with mypy.
 
 .PHONY: coverage
 coverage: setup ## Run tests and report coverage
@@ -100,7 +91,6 @@ package: clean-dist ## Package the project for distribution
 
 .PHONY: upload
 upload: ## Upload the package to PyPI
-	# upload to testpypi: twine upload --repository testpypi dist/*
 	twine upload dist/*
 
 .PHONY: help
