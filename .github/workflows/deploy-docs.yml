@@ -43,19 +43,18 @@ jobs:
           push: true
           tags: khulnasoft/gptdb-docs:${{ github.ref_name }},khulnasoft/gptdb-docs:latest
 
-      - name: Deploy to GitHub Pages
-        uses: actions/configure-pages@v4
-        with:
-          secret: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Deploy documentation
         run: |
           mkdir -p gh-pages
           cp -r docs/* gh-pages/
           cd gh-pages
           git init
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
           git remote add origin https://github.com/${{ github.repository }}.git
           git checkout -b gh-pages
           git add .
           git commit -m "Deploy documentation"
           git push --force origin gh-pages
+        env:
+          GITHUB_PAGES: true
