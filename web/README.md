@@ -73,7 +73,7 @@ cp -rf out/* ../gptdb/app/static
 
 ## 📚 Documentation
 
-For full documentation, visit [document](https://docs.gptdb.site/).
+For full documentation, visit [document](https://docs-gptdb.khulnasoft.com/).
 
 
 ## Usage

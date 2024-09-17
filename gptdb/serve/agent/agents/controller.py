@@ -47,7 +47,7 @@ from ..db import GptsMessagesDao
 from ..db.gpts_app import GptsApp, GptsAppDao, GptsAppQuery
 from ..db.gpts_conversations_db import GptsConversationsDao, GptsConversationsEntity
 from ..team.base import TeamMode
-from .db_gpts_memory import MetaGptDbsMessageMemory, MetaGptDbsPlansMemory
+from .gpt_dbs_memory import MetaGptDbsMessageMemory, MetaGptDbsPlansMemory
 
 CFG = Config()
 

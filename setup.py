@@ -20,7 +20,7 @@ with open("README.md", mode="r", encoding="utf-8") as fh:
 IS_DEV_MODE = os.getenv("IS_DEV_MODE", "true").lower() == "true"
 # If you modify the version, please modify the version in the following files:
 # gptdb/_version.py
-DB_GPT_VERSION = os.getenv("DB_GPT_VERSION", "0.6.0")
+GPT_DB_VERSION = os.getenv("GPT_DB_VERSION", "0.6.0")
 
 BUILD_NO_CACHE = os.getenv("BUILD_NO_CACHE", "true").lower() == "true"
 LLAMA_CPP_GPU_ACCELERATION = (
@@ -830,9 +830,9 @@ class PrintExtrasCommand(setuptools.Command):
 setuptools.setup(
     name="gptdb",
     packages=packages,
-    version=DB_GPT_VERSION,
-    author="csunny",
-    author_email="cfqcsunny@gmail.com",
+    version=GPT_DB_VERSION,
+    author="khulnasoft",
+    author_email="cfqkhulnasoft@gmail.com",
     description="GPT-DB is an experimental open-source project that uses localized GPT "
     "large models to interact with your data and environment."
     " With this solution, you can be assured that there is no risk of data leakage, "

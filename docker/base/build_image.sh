@@ -18,7 +18,7 @@ LANGUAGE="en"
 BUILD_LOCAL_CODE="true"
 LOAD_EXAMPLES="true"
 BUILD_NETWORK=""
-DB_GPT_INSTALL_MODEL="default"
+GPT_DB_INSTALL_MODEL="default"
 
 DOCKERFILE="Dockerfile"
 IMAGE_NAME_SUFFIX=""
@@ -86,7 +86,7 @@ while [[ $# -gt 0 ]]; do
         shift
         ;;
         --install-mode)
-        DB_GPT_INSTALL_MODEL="$2"
+        GPT_DB_INSTALL_MODEL="$2"
         shift # past argument
         shift # past value
         ;;
@@ -111,13 +111,13 @@ if [[ $help ]]; then
     exit 0
 fi
 
-if [ "$DB_GPT_INSTALL_MODEL" != "default" ]; then
-    IMAGE_NAME="$IMAGE_NAME-$DB_GPT_INSTALL_MODEL"
+if [ "$GPT_DB_INSTALL_MODEL" != "default" ]; then
+    IMAGE_NAME="$IMAGE_NAME-$GPT_DB_INSTALL_MODEL"
     echo "install mode is not 'default', set image name to: ${IMAGE_NAME}"
 fi
 
 if [ -z "$IMAGE_NAME_ARGS" ]; then
-    if [ "$DB_GPT_INSTALL_MODEL" == "openai" ]; then 
+    if [ "$GPT_DB_INSTALL_MODEL" == "openai" ]; then 
         # Use cpu image
         BASE_IMAGE=$BASE_IMAGE_DEFAULT_CPU
     fi
@@ -138,6 +138,6 @@ docker build $BUILD_NETWORK \
     --build-arg LANGUAGE=$LANGUAGE \
     --build-arg BUILD_LOCAL_CODE=$BUILD_LOCAL_CODE \
     --build-arg LOAD_EXAMPLES=$LOAD_EXAMPLES \
-    --build-arg DB_GPT_INSTALL_MODEL=$DB_GPT_INSTALL_MODEL \
+    --build-arg GPT_DB_INSTALL_MODEL=$GPT_DB_INSTALL_MODEL \
     -f $DOCKERFILE \
     -t $IMAGE_NAME $WORK_DIR/../../
