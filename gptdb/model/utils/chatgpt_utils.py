@@ -16,7 +16,13 @@ from typing import (
 
 from gptdb._private.pydantic import model_to_json
 from gptdb.core.awel import TransformStreamAbsOperator
-from gptdb.core.awel.flow import IOField, OperatorCategory, OperatorType, ViewMetadata
+from gptdb.core.awel.flow import (
+    TAGS_ORDER_HIGH,
+    IOField,
+    OperatorCategory,
+    OperatorType,
+    ViewMetadata,
+)
 from gptdb.core.interface.llm import ModelOutput
 from gptdb.core.operators import BaseLLM
 from gptdb.util.i18n_utils import _
@@ -184,6 +190,7 @@ class OpenAIStreamingOutputOperator(TransformStreamAbsOperator[ModelOutput, str]
                 ),
             )
         ],
+        tags={"order": TAGS_ORDER_HIGH},
     )
 
     async def transform_stream(self, model_output: AsyncIterator[ModelOutput]):

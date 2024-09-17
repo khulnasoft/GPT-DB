@@ -213,6 +213,9 @@ class Config(metaclass=Singleton):
 
         # Vector Store Configuration
         self.VECTOR_STORE_TYPE = os.getenv("VECTOR_STORE_TYPE", "Chroma")
+        self.GRAPH_COMMUNITY_SUMMARY_ENABLED = (
+            os.getenv("GRAPH_COMMUNITY_SUMMARY_ENABLED", "").lower() == "true"
+        )
         self.MILVUS_URL = os.getenv("MILVUS_URL", "127.0.0.1")
         self.MILVUS_PORT = os.getenv("MILVUS_PORT", "19530")
         self.MILVUS_USERNAME = os.getenv("MILVUS_USERNAME", None)
@@ -330,6 +333,10 @@ class Config(metaclass=Singleton):
         # multi-instance flag
         self.WEBSERVER_MULTI_INSTANCE = (
             os.getenv("MULTI_INSTANCE", "False").lower() == "true"
+        )
+
+        self.SCHEDULER_ENABLED = (
+            os.getenv("SCHEDULER_ENABLED", "True").lower() == "true"
         )
 
     @property

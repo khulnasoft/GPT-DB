@@ -5,7 +5,7 @@ from typing import Any, Callable, Dict, List, Optional, Type, Union, cast
 
 from ..base import ResourceType, T
 from ..pack import Resource, ResourcePack
-from .base import GPT_DB_TOOL_IDENTIFIER, BaseTool, FunctionTool, ToolFunc
+from .base import DB_GPT_TOOL_IDENTIFIER, BaseTool, FunctionTool, ToolFunc
 from .exceptions import ToolExecutionException, ToolNotFoundException
 
 ToolResourceType = Union[BaseTool, List[BaseTool], ToolFunc, List[ToolFunc]]
@@ -14,8 +14,8 @@ ToolResourceType = Union[BaseTool, List[BaseTool], ToolFunc, List[ToolFunc]]
 def _is_function_tool(resources: Any) -> bool:
     return (
         callable(resources)
-        and hasattr(resources, GPT_DB_TOOL_IDENTIFIER)
-        and getattr(resources, GPT_DB_TOOL_IDENTIFIER)
+        and hasattr(resources, DB_GPT_TOOL_IDENTIFIER)
+        and getattr(resources, DB_GPT_TOOL_IDENTIFIER)
         and hasattr(resources, "_tool")
         and isinstance(getattr(resources, "_tool"), BaseTool)
     )

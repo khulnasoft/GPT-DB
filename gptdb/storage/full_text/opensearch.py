@@ -2,11 +2,11 @@
 from typing import List, Optional
 
 from gptdb.core import Chunk
-from gptdb.rag.index.base import IndexStoreBase
+from gptdb.storage.full_text.base import FullTextStoreBase
 from gptdb.storage.vector_store.filters import MetadataFilters
 
 
-class OpenSearch(IndexStoreBase):
+class OpenSearch(FullTextStoreBase):
     """OpenSearch index store."""
 
     def load_document(self, chunks: List[Chunk]) -> List[str]:

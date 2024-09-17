@@ -20,7 +20,7 @@ with open("README.md", mode="r", encoding="utf-8") as fh:
 IS_DEV_MODE = os.getenv("IS_DEV_MODE", "true").lower() == "true"
 # If you modify the version, please modify the version in the following files:
 # gptdb/_version.py
-GPT_DB_VERSION = os.getenv("GPT_DB_VERSION", "0.5.10")
+DB_GPT_VERSION = os.getenv("DB_GPT_VERSION", "0.6.0")
 
 BUILD_NO_CACHE = os.getenv("BUILD_NO_CACHE", "true").lower() == "true"
 LLAMA_CPP_GPU_ACCELERATION = (
@@ -190,10 +190,15 @@ def get_cpu_avx_support() -> Tuple[OSType, AVXType]:
         print("Current platform is windows, use avx2 as default cpu architecture")
     elif system == "Linux":
         os_type = OSType.LINUX
-        result = subprocess.run(
-            ["lscpu"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
-        output = result.stdout.decode()
+        if os.path.exists("/etc/alpine-release"):
+            # For Alpine, we'll check /proc/cpuinfo directly
+            with open("/proc/cpuinfo", "r") as f:
+                output = f.read()
+        else:
+            result = subprocess.run(
+                ["lscpu"], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+            )
+            output = result.stdout.decode()
     elif system == "Darwin":
         os_type = OSType.DARWIN
         result = subprocess.run(
@@ -443,6 +448,7 @@ def core_requires():
         "termcolor",
         # https://github.com/khulnasoft/GPT-DB/issues/551
         # TODO: remove pandas dependency
+        # alpine can't install pandas by default
         "pandas==2.0.3",
         # numpy should less than 2.0.0
         "numpy>=1.21.0,<2.0.0",
@@ -459,6 +465,8 @@ def core_requires():
         "SQLAlchemy>=2.0.25,<2.0.29",
         # for cache
         "msgpack",
+        # for AWEL operator serialization
+        "cloudpickle",
         # for cache
         # TODO: pympler has not been updated for a long time and needs to
         #  find a new toolkit.
@@ -500,6 +508,22 @@ def core_requires():
         "graphviz",
         # For security
         "cryptography",
+        # For high performance RPC communication in code execution
+        "pyzmq",
+    ]
+
+
+def code_execution_requires():
+    """
+    pip install "gptdb[code]"
+
+    Code execution dependencies. For building a docker image.
+    """
+    setup_spec.extras["code"] = setup_spec.extras["core"] + [
+        "pyzmq",
+        "msgpack",
+        # for AWEL operator serialization
+        "cloudpickle",
     ]
 
 
@@ -517,6 +541,11 @@ def knowledge_requires():
         "pdfplumber",
         "python-multipart",
         "sentence-transformers",
+    ]
+
+    setup_spec.extras["graph_rag"] = setup_spec.extras["rag"] + [
+        "neo4j",
+        "gptdb-tugraph-plugins>=0.1.0rc1",
     ]
 
 
@@ -617,7 +646,6 @@ def all_datasource_requires():
         "pyhive",
         "thrift",
         "thrift_sasl",
-        "neo4j",
         "vertica_python",
     ]
 
@@ -687,9 +715,11 @@ def default_requires():
         "chardet",
         "sentencepiece",
         "ollama",
+        "qianfan",
     ]
     setup_spec.extras["default"] += setup_spec.extras["framework"]
     setup_spec.extras["default"] += setup_spec.extras["rag"]
+    setup_spec.extras["default"] += setup_spec.extras["graph_rag"]
     setup_spec.extras["default"] += setup_spec.extras["datasource"]
     setup_spec.extras["default"] += setup_spec.extras["torch"]
     setup_spec.extras["default"] += setup_spec.extras["cache"]
@@ -714,6 +744,7 @@ def init_install_requires():
 
 
 core_requires()
+code_execution_requires()
 torch_requires()
 llama_cpp_requires()
 quantization_requires()
@@ -799,9 +830,9 @@ class PrintExtrasCommand(setuptools.Command):
 setuptools.setup(
     name="gptdb",
     packages=packages,
-    version=GPT_DB_VERSION,
-    author="khulnasoft",
-    author_email="cfqkhulnasoft@gmail.com",
+    version=DB_GPT_VERSION,
+    author="csunny",
+    author_email="cfqcsunny@gmail.com",
     description="GPT-DB is an experimental open-source project that uses localized GPT "
     "large models to interact with your data and environment."
     " With this solution, you can be assured that there is no risk of data leakage, "

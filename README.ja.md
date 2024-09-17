@@ -7,10 +7,10 @@
 <div align="center">
   <p>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/GPT-DB?style=social" />
+        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/gpt-db?style=social" />
     </a>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/GPT-DB?style=social" />
+        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/gpt-db?style=social" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -32,7 +32,7 @@
     </a>
   </p>
 
-[**英語**](README.md) | [**中国語**](README.zh.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**ドキュメント**](https://docs.gptdb.khulnasoft.com) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**コミュニティ**](https://github.com/khulnasoft/community) | [**論文**](https://arxiv.org/pdf/2312.17449.pdf)
+[**英語**](README.md) | [**中国語**](README.zh.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**ドキュメント**](https://docs.gptdb.site) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**コミュニティ**](https://github.com/khulnasoft/community) | [**論文**](https://arxiv.org/pdf/2312.17449.pdf)
 
 </div>
 
@@ -46,7 +46,7 @@
 
 ### AIネイティブデータアプリ
 ---
-- 🔥🔥🔥 [V0.5.0リリース | ワークフローとエージェントを通じてネイティブデータアプリケーションを開発](https://docs.gptdb.khulnasoft.com/docs/changelog/Released_V0.5.0)
+- 🔥🔥🔥 [V0.5.0リリース | ワークフローとエージェントを通じてネイティブデータアプリケーションを開発](https://docs.gptdb.site/docs/changelog/Released_V0.5.0)
 ---
 
 ![Data-awels](https://github.com/khulnasoft/GPT-DB/assets/17919400/37d116fc-d9dd-4efa-b4df-9ab02b22541c)
@@ -116,19 +116,19 @@ GPT-DBのアーキテクチャは以下の図に示されています：
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 
-[**使用チュートリアル**](http://docs.gptdb.khulnasoft.com/docs/overview)
-- [**インストール**](http://docs.gptdb.khulnasoft.com/docs/installation)
-  - [Docker](https://docs.gptdb.khulnasoft.com/docs/installation/docker)
-  - [ソースコード](https://docs.gptdb.khulnasoft.com/docs/installation/sourcecode)
-- [**クイックスタート**](http://docs.gptdb.khulnasoft.com/docs/quickstart)
-- [**アプリケーション**](http://docs.gptdb.khulnasoft.com/docs/operation_manual)
-  - [アプリの使用](https://docs.gptdb.khulnasoft.com/docs/application/app_usage)
-  - [AWELフローの使用](https://docs.gptdb.khulnasoft.com/docs/application/awel_flow_usage)
-- [**デバッグ**](http://docs.gptdb.khulnasoft.com/docs/operation_manual/advanced_tutorial/debugging)
-- [**高度な使用法**](https://docs.gptdb.khulnasoft.com/docs/application/advanced_tutorial/cli)
-  - [SMMF](https://docs.gptdb.khulnasoft.com/docs/application/advanced_tutorial/smmf)
-  - [ファインチューニング](https://docs.gptdb.khulnasoft.com/docs/application/fine_tuning_manual/gptdb_hub)
-  - [AWEL](https://docs.gptdb.khulnasoft.com/docs/latest/awel/tutorial)
+[**使用チュートリアル**](http://docs.gptdb.site/docs/overview)
+- [**インストール**](http://docs.gptdb.site/docs/installation)
+  - [Docker](https://docs.gptdb.site/docs/installation/docker)
+  - [ソースコード](https://docs.gptdb.site/docs/installation/sourcecode)
+- [**クイックスタート**](http://docs.gptdb.site/docs/quickstart)
+- [**アプリケーション**](http://docs.gptdb.site/docs/operation_manual)
+  - [アプリの使用](https://docs.gptdb.site/docs/application/app_usage)
+  - [AWELフローの使用](https://docs.gptdb.site/docs/application/awel_flow_usage)
+- [**デバッグ**](http://docs.gptdb.site/docs/operation_manual/advanced_tutorial/debugging)
+- [**高度な使用法**](https://docs.gptdb.site/docs/application/advanced_tutorial/cli)
+  - [SMMF](https://docs.gptdb.site/docs/application/advanced_tutorial/smmf)
+  - [ファインチューニング](https://docs.gptdb.site/docs/application/fine_tuning_manual/gptdb_hub)
+  - [AWEL](https://docs.gptdb.site/docs/latest/awel/tutorial)
 
 ## 特徴
 
@@ -185,14 +185,14 @@ GPT-DBのアーキテクチャは以下の図に示されています：
     - 🔥🔥🔥  [Mixtral-8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
     - 🔥🔥🔥  [Qwen-72B-Chat](https://huggingface.co/Qwen/Qwen-72B-Chat)
     - 🔥🔥🔥  [Yi-34B-Chat](https://huggingface.co/01-ai/Yi-34B-Chat)
-  - [サポートされているLLMの詳細](http://docs.gptdb.khulnasoft.com/docs/modules/smmf)
+  - [サポートされているLLMの詳細](http://docs.gptdb.site/docs/modules/smmf)
 
 - **プライバシーとセキュリティ**
 
   私たちは、さまざまな技術を実装することにより、データのプライバシーとセキュリティを確保しています。これには、大規模モデルのプライベート化とプロキシの非識別化が含まれます。
 
 - サポートされているデータソース
-  - [データソース](http://docs.gptdb.khulnasoft.com/docs/modules/connections)
+  - [データソース](http://docs.gptdb.site/docs/modules/connections)
 
 ## 画像
 🌐 [AutoDLイメージ](https://www.codewithgpu.com/i/khulnasoft/GPT-DB/gptdb)
@@ -229,4 +229,4 @@ MITライセンス（MIT）
 コミュニティを構築するために取り組んでいます。コミュニティの構築に関するアイデアがあれば、お気軽にお問い合わせください。
 [![](https://dcbadge.vercel.app/api/server/7uQnPuveTY?compact=true&style=flat)](https://discord.gg/7uQnPuveTY)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)

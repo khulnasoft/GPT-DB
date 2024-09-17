@@ -13,8 +13,8 @@ ARG LANGUAGE="en"
 ARG PIP_INDEX_URL="https://pypi.org/simple"
 ENV PIP_INDEX_URL=$PIP_INDEX_URL
 
-ARG GPT_DB_INSTALL_MODEL="default"
-ENV GPT_DB_INSTALL_MODEL=$GPT_DB_INSTALL_MODEL
+ARG DB_GPT_INSTALL_MODEL="default"
+ENV DB_GPT_INSTALL_MODEL=$DB_GPT_INSTALL_MODEL
 
 RUN mkdir -p /app
 
@@ -30,7 +30,7 @@ WORKDIR /app
 # RUN pip3 install -i $PIP_INDEX_URL ".[all]"
 
 RUN pip3 install --upgrade pip -i $PIP_INDEX_URL \
-    && pip3 install -i $PIP_INDEX_URL ".[$GPT_DB_INSTALL_MODEL]" \
+    && pip3 install -i $PIP_INDEX_URL ".[$DB_GPT_INSTALL_MODEL]" \
     # install openai for proxyllm
     && pip3 install -i $PIP_INDEX_URL ".[openai]"
 

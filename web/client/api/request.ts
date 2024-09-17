@@ -4,8 +4,9 @@ import {
   PostAgentMyPluginResponse,
   PostAgentPluginResponse,
   PostAgentQueryParams,
+  PostGptdbMyQueryParams,
 } from '@/types/agent';
-import { GetAppInfoParams, IApp, IAgent, IAppData } from '@/types/app';
+import { GetAppInfoParams, IApp } from '@/types/app';
 import {
   ChatHistoryResponse,
   DialogueListResponse,
@@ -17,7 +18,13 @@ import {
   UserParam,
   UserParamResponse,
 } from '@/types/chat';
-import { ChatFeedBackSchema, DbListResponse, DbSupportTypeResponse, PostDbParams, PostDbRefreshParams } from '@/types/db';
+import {
+  ChatFeedBackSchema,
+  DbListResponse,
+  DbSupportTypeResponse,
+  PostDbParams,
+  PostDbRefreshParams,
+} from '@/types/db';
 import {
   GetEditorSQLRoundRequest,
   GetEditorySqlParams,
@@ -26,15 +33,14 @@ import {
   PostEditorSQLRunParams,
   PostSQLEditorSubmitParams,
 } from '@/types/editor';
-import { IFlow, IFlowNode, IFlowUpdateParam, IFlowResponse } from '@/types/flow';
 import {
   AddKnowledgeParams,
   ArgumentsParams,
   ChunkListParams,
   DocumentParams,
+  GraphVisResult,
   IArguments,
   IChunkList,
-  GraphVisResult,
   IChunkStrategyResponse,
   IDocumentResponse,
   ISpace,
@@ -44,15 +50,17 @@ import {
 } from '@/types/knowledge';
 import { BaseModelParams, IModelData, StartModelParams, SupportModel } from '@/types/model';
 import { AxiosRequestConfig } from 'axios';
-import { DELETE, GET, POST, PUT } from '.';
-
+import { GET, POST } from '.';
 
 /** App */
 export const postScenes = () => {
   return POST<null, Array<SceneResponse>>('/api/v1/chat/dialogue/scenes');
 };
 export const newDialogue = (data: NewDialogueParam) => {
-  return POST<NewDialogueParam, IChatDialogueSchema>(`/api/v1/chat/dialogue/new?chat_mode=${data.chat_mode}&model_name=${data.model}`, data);
+  return POST<NewDialogueParam, IChatDialogueSchema>(
+    `/api/v1/chat/dialogue/new?chat_mode=${data.chat_mode}&model_name=${data.model}`,
+    data,
+  );
 };
 
 export const addUser = (data: UserParam) => {
@@ -150,7 +158,10 @@ export const postSqlEditorSubmit = (data: PostSQLEditorSubmitParams) => {
   return POST<PostSQLEditorSubmitParams>(`/api/v1/sql/editor/submit`, data);
 };
 export const getEditorSql = (id: string, round: string | number) => {
-  return POST<GetEditorySqlParams, string | Array<any>>('/api/v1/editor/sql', { con_uid: id, round });
+  return POST<GetEditorySqlParams, string | Array<any>>('/api/v1/editor/sql', {
+    con_uid: id,
+    round,
+  });
 };
 
 /** knowledge */
@@ -161,7 +172,7 @@ export const saveArguments = (knowledgeName: string, data: ArgumentsParams) => {
   return POST<ArgumentsParams, IArguments>(`/knowledge/${knowledgeName}/argument/save`, data);
 };
 
-export const getSpaceList = (data: any) => {
+export const getSpaceList = (data?: any) => {
   return POST<any, Array<ISpace>>('/knowledge/space/list', data);
 };
 export const getDocumentList = (spaceName: string, data: Record<string, number | Array<number>>) => {
@@ -228,17 +239,56 @@ export const getSupportModels = () => {
 export const postAgentQuery = (data: PostAgentQueryParams) => {
   return POST<PostAgentQueryParams, PostAgentPluginResponse>('/api/v1/agent/query', data);
 };
+export const postGptdbsQuery = (data: PostAgentQueryParams) => {
+  return POST<PostAgentQueryParams, PostAgentPluginResponse>(
+    `/api/v1/serve/gptdbs/hub/query_page?page=${data?.page_index}&page_size=${data?.page_size}`,
+    data,
+  );
+};
 export const postAgentHubUpdate = (data?: PostAgentHubUpdateParams) => {
-  return POST<PostAgentHubUpdateParams>('/api/v1/agent/hub/update', data ?? { channel: '', url: '', branch: '', authorization: '' });
+  return POST<PostAgentHubUpdateParams>(
+    '/api/v1/agent/hub/update',
+    data ?? { channel: '', url: '', branch: '', authorization: '' },
+  );
+};
+export const postGptdbsHubUpdate = (data?: PostAgentHubUpdateParams) => {
+  return POST<PostAgentHubUpdateParams>(
+    '/api/v1/serve/gptdbs/hub/source/refresh',
+    data ?? { channel: '', url: '', branch: '', authorization: '' },
+  );
 };
 export const postAgentMy = (user?: string) => {
   return POST<undefined, PostAgentMyPluginResponse>('/api/v1/agent/my', undefined, { params: { user } });
 };
+export const postGptdbsMy = (data?: PostGptdbMyQueryParams) => {
+  return POST<PostGptdbMyQueryParams, PostAgentMyPluginResponse>(
+    `/api/v1/serve/gptdbs/my/query_page?page=${data?.page_index}&page_size=${data?.page_size}`,
+    data,
+  );
+};
 export const postAgentInstall = (pluginName: string, user?: string) => {
-  return POST('/api/v1/agent/install', undefined, { params: { plugin_name: pluginName, user }, timeout: 60000 });
+  return POST('/api/v1/agent/install', undefined, {
+    params: { plugin_name: pluginName, user },
+    timeout: 60000,
+  });
+};
+export const postGptdbsInstall = (data: object, user?: string) => {
+  return POST('/api/v1/serve/gptdbs/hub/install', data, {
+    params: { user },
+    timeout: 60000,
+  });
 };
 export const postAgentUninstall = (pluginName: string, user?: string) => {
-  return POST('/api/v1/agent/uninstall', undefined, { params: { plugin_name: pluginName, user }, timeout: 60000 });
+  return POST('/api/v1/agent/uninstall', undefined, {
+    params: { plugin_name: pluginName, user },
+    timeout: 60000,
+  });
+};
+export const postGptdbsUninstall = (data: { name: string; type: string }, user?: string) => {
+  return POST('/api/v1/serve/gptdbs/my/uninstall', undefined, {
+    params: { ...data, user },
+    timeout: 60000,
+  });
 };
 export const postAgentUpload = (user = '', data: FormData, config?: Omit<AxiosRequestConfig, 'headers'>) => {
   return POST<FormData>('/api/v1/personal/agent/upload', data, {
@@ -258,9 +308,18 @@ export const getChatFeedBackSelect = () => {
   return GET<null, FeedBack>(`/api/v1/feedback/select`, undefined);
 };
 export const getChatFeedBackItme = (conv_uid: string, conv_index: number) => {
-  return GET<null, Record<string, string>>(`/api/v1/feedback/find?conv_uid=${conv_uid}&conv_index=${conv_index}`, undefined);
+  return GET<null, Record<string, string>>(
+    `/api/v1/feedback/find?conv_uid=${conv_uid}&conv_index=${conv_index}`,
+    undefined,
+  );
 };
-export const postChatFeedBackForm = ({ data, config }: { data: ChatFeedBackSchema; config?: Omit<AxiosRequestConfig, 'headers'> }) => {
+export const postChatFeedBackForm = ({
+  data,
+  config,
+}: {
+  data: ChatFeedBackSchema;
+  config?: Omit<AxiosRequestConfig, 'headers'>;
+}) => {
   return POST<ChatFeedBackSchema, any>(`/api/v1/feedback/commit`, data, {
     headers: {
       'Content-Type': 'application/json',
@@ -270,27 +329,6 @@ export const postChatFeedBackForm = ({ data, config }: { data: ChatFeedBackSchem
 };
 
 /** prompt */
-
-/** AWEL Flow */
-export const addFlow = (data: IFlowUpdateParam) => {
-  return POST<IFlowUpdateParam, IFlow>('/api/v1/serve/awel/flows', data);
-};
-
-export const getFlowById = (id: string) => {
-  return GET<null, IFlow>(`/api/v1/serve/awel/flows/${id}`);
-};
-
-export const updateFlowById = (id: string, data: IFlowUpdateParam) => {
-  return PUT<IFlowUpdateParam, IFlow>(`/api/v1/serve/awel/flows/${id}`, data);
-};
-
-export const deleteFlowById = (id: string) => {
-  return DELETE<null, null>(`/api/v1/serve/awel/flows/${id}`);
-};
-
-export const getFlowNodes = () => {
-  return GET<null, Array<IFlowNode>>(`/api/v1/serve/awel/nodes`);
-};
 
 /** app */
 

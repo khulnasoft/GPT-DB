@@ -83,6 +83,17 @@ def register_serve_apps(system_app: SystemApp, cfg: Config, webserver_port: int)
     system_app.register(FeedbackServe)
     # ################################ Chat Feedback Register End ########################################
 
+    # ################################ GptDbs Register Begin ########################################
+    # Register serve gptdbshub
+    from gptdb.serve.gptdbs.hub.serve import Serve as GptdbsHubServe
+
+    system_app.register(GptdbsHubServe)
+    # Register serve gptdbsmy
+    from gptdb.serve.gptdbs.my.serve import Serve as GptdbsMyServe
+
+    system_app.register(GptdbsMyServe)
+    # ################################ GptDbs Register End ########################################
+
     # ################################ File Serve Register Begin ######################################
 
     from gptdb.configs.model_config import FILE_SERVER_LOCAL_STORAGE_PATH

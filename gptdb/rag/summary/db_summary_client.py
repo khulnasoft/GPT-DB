@@ -2,6 +2,7 @@
 
 import logging
 import traceback
+from typing import List
 
 from gptdb._private.config import Config
 from gptdb.component import SystemApp
@@ -46,7 +47,7 @@ class DBSummaryClient:
 
         logger.info("db summary embedding success")
 
-    def get_db_summary(self, dbname, query, topk):
+    def get_db_summary(self, dbname, query, topk) -> List[str]:
         """Get user query related tables info."""
         from gptdb.serve.rag.connector import VectorStoreConnector
         from gptdb.storage.vector_store.base import VectorStoreConfig

@@ -4,7 +4,7 @@
 
 There are two ways to prepare a Docker image. 1. Pull from the official image 2. Build locally. You can **choose any one** during actual use.
 
-1.Pulled from the official image repository, [KhulnaSoft AI Docker Hub](https://hub.docker.com/u/khulnasoft)
+1.Pulled from the official image repository, [Khulnasoft AI Docker Hub](https://hub.docker.com/u/khulnasoft)
 ```bash
 docker pull khulnasoft/gptdb:latest
 ```
