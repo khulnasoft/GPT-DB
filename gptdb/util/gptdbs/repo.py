@@ -11,10 +11,10 @@ from rich.table import Table
 from ..console import CliLogger
 from ..i18n_utils import _
 from .base import (
-    GPTDBS_METADATA_FILE,
-    GPTDBS_REPO_HOME,
     DEFAULT_PACKAGES,
     DEFAULT_REPO_MAP,
+    GPTDBS_METADATA_FILE,
+    GPTDBS_REPO_HOME,
     INSTALL_DIR,
     INSTALL_METADATA_FILE,
     _print_path,
