@@ -55,6 +55,6 @@ jobs:
           git checkout -b gh-pages
           git add .
           git commit -m "Deploy documentation"
-          git push --force origin gh-pages
+          git push --force https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git gh-pages
         env:
           GITHUB_PAGES: true
