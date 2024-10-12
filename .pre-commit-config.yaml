@@ -11,6 +11,17 @@ repos:
         stages: [commit]
         pass_filenames: false
         args: []
+        
+      - id: python-fix
+        name: Python Fix Linting and Format Issues
+        entry: make fix
+        language: system
+        exclude: '^gptdb/app/static/|^web/'
+        types: [python]
+        stages: [pre-commit]
+        pass_filenames: false
+        args: []
+        
       - id: python-test
         name: Python Unit Test
         entry: make test
@@ -20,6 +31,7 @@ repos:
         stages: [commit]
         pass_filenames: false
         args: []
+        
       - id: python-test-doc
         name: Python Doc Test
         entry: make test-doc
@@ -29,6 +41,7 @@ repos:
         stages: [commit]
         pass_filenames: false
         args: []
+        
       - id: python-lint-mypy
         name: Python Lint mypy
         entry: make mypy
@@ -38,4 +51,3 @@ repos:
         stages: [commit]
         pass_filenames: false
         args: []
-
