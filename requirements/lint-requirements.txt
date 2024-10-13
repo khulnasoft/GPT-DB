@@ -8,7 +8,7 @@ flake8-docstrings==1.6.0
 flake8-simplify==0.19.3
 flake8-tidy-imports==4.8.0
 isort==5.10.1
-pyupgrade==3.1.0
+pyupgrade==3.17.0
 types-requests
 types-beautifulsoup4
 types-Markdown
