@@ -13,6 +13,6 @@ aioresponses
 # for git hooks
 pre-commit
 # Type checking
-mypy==1.7.0
+mypy==1.12.0
 httpx
 vcrpy<7.0.0
