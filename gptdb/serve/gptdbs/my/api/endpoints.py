@@ -103,7 +103,7 @@ async def test_auth():
 async def create(
     request: ServeRequest, service: Service = Depends(get_service)
 ) -> Result[ServerResponse]:
-    """Create a new GptdbsMy entity
+    """Create a new DbgptsMy entity
 
     Args:
         request (ServeRequest): The request
@@ -120,7 +120,7 @@ async def create(
 async def update(
     request: ServeRequest, service: Service = Depends(get_service)
 ) -> Result[ServerResponse]:
-    """Update a GptdbsMy entity
+    """Update a DbgptsMy entity
 
     Args:
         request (ServeRequest): The request
@@ -139,7 +139,7 @@ async def update(
 async def query(
     request: ServeRequest, service: Service = Depends(get_service)
 ) -> Result[ServerResponse]:
-    """Query GptdbsMy entities
+    """Query DbgptsMy entities
 
     Args:
         request (ServeRequest): The request
@@ -161,7 +161,7 @@ async def query_page(
     page_size: Optional[int] = Query(default=20, description="page size"),
     service: Service = Depends(get_service),
 ) -> Result[PaginationResult[ServerResponse]]:
-    """Query GptdbsMy entities
+    """Query DbgptsMy entities
 
     Args:
         request (ServeRequest): The request

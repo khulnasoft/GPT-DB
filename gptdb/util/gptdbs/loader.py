@@ -411,7 +411,7 @@ def _flow_package_to_flow_panel(package: FlowPackage) -> FlowPanel:
 class GPTDBsLoader(BaseComponent):
     """The loader of the gptdbs packages"""
 
-    name: str = "gptgpt_dbdbs_loader"
+    name: str = "dbgpt_dbgpts_loader"
 
     def __init__(
         self,

@@ -20,7 +20,7 @@ with open("README.md", mode="r", encoding="utf-8") as fh:
 IS_DEV_MODE = os.getenv("IS_DEV_MODE", "true").lower() == "true"
 # If you modify the version, please modify the version in the following files:
 # gptdb/_version.py
-GPT_DB_VERSION = os.getenv("GPT_DB_VERSION", "0.6.0")
+GPT_DB_VERSION = os.getenv("GPT_DB_VERSION", "0.6.1")
 
 BUILD_NO_CACHE = os.getenv("BUILD_NO_CACHE", "true").lower() == "true"
 LLAMA_CPP_GPU_ACCELERATION = (

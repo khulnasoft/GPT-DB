@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
-    """The service class for GptdbsHub"""
+    """The service class for DbgptsHub"""
 
     name = SERVE_SERVICE_COMPONENT_NAME
 
@@ -51,7 +51,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self._serve_config
 
     def update(self, request: ServeRequest) -> ServerResponse:
-        """Update a GptdbsHub entity
+        """Update a DbgptsHub entity
 
         Args:
             request (ServeRequest): The request
@@ -65,7 +65,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self.dao.update(query_request, update_request=request)
 
     def get(self, request: ServeRequest) -> Optional[ServerResponse]:
-        """Get a GptdbsHub entity
+        """Get a DbgptsHub entity
 
         Args:
             request (ServeRequest): The request
@@ -79,7 +79,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self.dao.get_one(query_request)
 
     def delete(self, request: ServeRequest) -> None:
-        """Delete a GptdbsHub entity
+        """Delete a DbgptsHub entity
 
         Args:
             request (ServeRequest): The request
@@ -93,7 +93,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         self.dao.delete(query_request)
 
     def get_list(self, request: ServeRequest) -> List[ServerResponse]:
-        """Get a list of GptdbsHub entities
+        """Get a list of DbgptsHub entities
 
         Args:
             request (ServeRequest): The request
@@ -109,7 +109,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
     def get_list_by_page(
         self, request: ServeRequest, page: int, page_size: int
     ) -> PaginationResult[ServerResponse]:
-        """Get a list of GptdbsHub entities by page
+        """Get a list of DbgptsHub entities by page
 
         Args:
             request (ServeRequest): The request

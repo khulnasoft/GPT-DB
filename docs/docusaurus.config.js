@@ -209,18 +209,11 @@ const config = {
           },
           {
             type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: 'Tutorials',
-            to: "/docs/tutorials",
+            sidebarId: "tutorials",
+            to: '/turtorials', 
+            label: 'Turtorial', 
+            position: 'left'
           },
-          // {
-          //   type: 'docSidebar',
-          //   sidebarId: 'tutorialSidebar',
-          //   position: 'left',
-          //   label: 'Community',
-          //   to: "/docs/tutorials",
-          // },
           {
             href: 'https://github.com/khulnasoft/community',
             position: 'left',
@@ -291,7 +284,7 @@ const config = {
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/GptDb80100',
+                href: 'https://twitter.com/DbGpt80100',
               },
             ],
           },

@@ -1,11 +1,11 @@
-"""VisGptdbsFlowResult."""
+"""VisDbgptsFlowResult."""
 from ..base import Vis
 
 
-class VisGptdbsFlowResult(Vis):
-    """VisGptdbsFlowResult."""
+class VisDbgptsFlowResult(Vis):
+    """VisDbgptsFlowResult."""
 
     @classmethod
     def vis_tag(cls) -> str:
-        """VisGptdbsFlowResult."""
+        """VisDbgptsFlowResult."""
         return "gptdbs-result"

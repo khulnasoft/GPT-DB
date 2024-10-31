@@ -21,6 +21,7 @@ from gptdb.agent import (
     DefaultAWELLayoutManager,
     GptsMemory,
     LLMConfig,
+    ResourceType,
     ShortTermMemory,
     UserProxyAgent,
     get_agent_manager,
@@ -43,11 +44,12 @@ from gptdb.serve.prompt.service import service as PromptService
 from gptdb.util.json_utils import serialize
 from gptdb.util.tracer import TracerManager
 
+from ...rag.retriever.knowledge_space import KnowledgeSpaceRetriever
 from ..db import GptsMessagesDao
 from ..db.gpts_app import GptsApp, GptsAppDao, GptsAppQuery
 from ..db.gpts_conversations_db import GptsConversationsDao, GptsConversationsEntity
 from ..team.base import TeamMode
-from .gpt_dbs_memory import MetaGptDbsMessageMemory, MetaGptDbsPlansMemory
+from .gpt_dbs_memory import MetaDbGptsMessageMemory, MetaDbGptsPlansMemory
 
 CFG = Config()
 
@@ -73,7 +75,7 @@ def _build_conversation(
         sys_code=sys_code,
         model_name=model_name,
         summary=summary,
-        param_type="GptDbs",
+        param_type="DbGpts",
         param_value=select_param,
         app_code=app_code,
         conv_storage=conv_serve.conv_storage,
@@ -97,8 +99,8 @@ class MultiAgents(BaseComponent, ABC):
 
         self.gpts_app = GptsAppDao()
         self.memory = GptsMemory(
-            plans_memory=MetaGptDbsPlansMemory(),
-            message_memory=MetaGptDbsMessageMemory(),
+            plans_memory=MetaDbGptsPlansMemory(),
+            message_memory=MetaDbGptsMessageMemory(),
         )
         self.agent_memory_map = {}
 
@@ -601,6 +603,27 @@ class MultiAgents(BaseComponent, ABC):
                 self.gpts_conversations.update(
                     last_gpts_conversation.conv_id, Status.COMPLETE.value
                 )
+
+    async def get_knowledge_resources(self, app_code: str, question: str):
+        """Get the knowledge resources."""
+        context = []
+        app: GptsApp = self.get_app(app_code)
+        if app and app.details and len(app.details) > 0:
+            for detail in app.details:
+                if detail and detail.resources and len(detail.resources) > 0:
+                    for resource in detail.resources:
+                        if resource.type == ResourceType.Knowledge:
+                            retriever = KnowledgeSpaceRetriever(
+                                space_id=str(resource.value),
+                                top_k=CFG.KNOWLEDGE_SEARCH_TOP_SIZE,
+                            )
+                            chunks = await retriever.aretrieve_with_scores(
+                                question, score_threshold=0.3
+                            )
+                            context.extend([chunk.content for chunk in chunks])
+                        else:
+                            continue
+        return context
 
 
 multi_agents = MultiAgents(system_app)
