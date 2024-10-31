@@ -771,7 +771,7 @@ class BaseMetadata(BaseResource):
     documentation_url: Optional[str] = Field(
         default=None,
         description="The documentation url of the operator or resource",
-        examples=["https://docs-gptdb.khulnasoft.com/docs/awel"],
+        examples=["https://docs.gptdb.site/docs/awel"],
     )
 
     id: str = Field(

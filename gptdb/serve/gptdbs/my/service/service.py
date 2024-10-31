@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
-    """The service class for GptdbsMy"""
+    """The service class for DbgptsMy"""
 
     name = SERVE_SERVICE_COMPONENT_NAME
 
@@ -56,7 +56,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self._serve_config
 
     def update(self, request: ServeRequest) -> ServerResponse:
-        """Update a GptdbsMy entity
+        """Update a DbgptsMy entity
 
         Args:
             request (ServeRequest): The request
@@ -70,7 +70,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self.dao.update(query_request, update_request=request)
 
     def get(self, request: ServeRequest) -> Optional[ServerResponse]:
-        """Get a GptdbsMy entity
+        """Get a DbgptsMy entity
 
         Args:
             request (ServeRequest): The request
@@ -83,7 +83,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self.dao.get_one(query_request)
 
     def delete(self, request: ServeRequest) -> None:
-        """Delete a GptdbsMy entity
+        """Delete a DbgptsMy entity
 
         Args:
             request (ServeRequest): The request
@@ -95,7 +95,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         self.dao.delete(request)
 
     def get_list(self, request: ServeRequest) -> List[ServerResponse]:
-        """Get a list of GptdbsMy entities
+        """Get a list of DbgptsMy entities
 
         Args:
             request (ServeRequest): The request
@@ -110,7 +110,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
     def get_list_by_page(
         self, request: ServeRequest, page: int, page_size: int
     ) -> PaginationResult[ServerResponse]:
-        """Get a list of GptdbsMy entities by page
+        """Get a list of DbgptsMy entities by page
 
         Args:
             request (ServeRequest): The request

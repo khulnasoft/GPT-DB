@@ -1,5 +1,5 @@
-# GPT-DB: Revolutionizing Database Interactions with Private LLM Technology
- 
+# GPT-DB: AI Native Data App Development framework with AWEL(Agentic Workflow Expression Language) and Agents
+
 <p align="left">
   <img src="./assets/LOGO.png" width="100%" />
 </p>
@@ -33,7 +33,7 @@
   </p>
 
 
-[**简体中文**](README.zh.md) | [**日本語**](README.ja.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**Documents**](https://docs-gptdb.khulnasoft.com) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**Community**](https://github.com/khulnasoft/community) | [**Paper**](https://arxiv.org/pdf/2312.17449.pdf)
+[**简体中文**](README.zh.md) | [**日本語**](README.ja.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**Documents**](https://docs.gptdb.site) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**Community**](https://github.com/khulnasoft/community) | [**Paper**](https://arxiv.org/pdf/2312.17449.pdf)
 
 </div>
 
@@ -56,8 +56,6 @@ The purpose is to build infrastructure in the field of large models, through the
   - [Support Text2NLU and Text2GQL fine-tuning]()
   - [Support Intent recognition, slot filling, and Prompt management]()
 
-
-- [Released V0.5.0 | Develop native data applications through workflows and agents](http://docs.gptdb.cn/docs/changelog/Released_V0.5.0)
 ---
 
 ![app_chat_v0 6](https://github.com/user-attachments/assets/a2f0a875-df8c-4f0d-89a3-eed321c02113)
@@ -129,19 +127,20 @@ As of October 10, 2023, through the fine-tuning of an open-source model with 13 
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 
-[**Usage Tutorial**](http://docs-gptdb.khulnasoft.com/docs/overview)
-- [**Install**](http://docs-gptdb.khulnasoft.com/docs/installation)
-  - [Docker](https://docs-gptdb.khulnasoft.com/docs/installation/docker)
-  - [Source Code](https://docs-gptdb.khulnasoft.com/docs/installation/sourcecode)
-- [**Quickstart**](http://docs-gptdb.khulnasoft.com/docs/quickstart)
-- [**Application**](http://docs-gptdb.khulnasoft.com/docs/operation_manual)
-  - [App Usage](https://docs-gptdb.khulnasoft.com/docs/application/app_usage)
-  - [AWEL Flow Usage](https://docs-gptdb.khulnasoft.com/docs/application/awel_flow_usage)
-- [**Debugging**](http://docs-gptdb.khulnasoft.com/docs/operation_manual/advanced_tutorial/debugging)
-- [**Advanced Usage**](https://docs-gptdb.khulnasoft.com/docs/application/advanced_tutorial/cli)
-  - [SMMF](https://docs-gptdb.khulnasoft.com/docs/application/advanced_tutorial/smmf)
-  - [Finetune](https://docs-gptdb.khulnasoft.com/docs/application/fine_tuning_manual/gptdb_hub)
-  - [AWEL](https://docs-gptdb.khulnasoft.com/docs/latest/awel/tutorial)
+[**Usage Tutorial**](http://docs.gptdb.cn/docs/overview)
+- [**Install**](http://docs.gptdb.cn/docs/installation)
+  - [Docker](http://docs.gptdb.cn/docs/installation/docker)
+  - [Source Code](http://docs.gptdb.cn/docs/installation/sourcecode)
+- [**Quickstart**](http://docs.gptdb.cn/docs/quickstart)
+- [**Application**](http://docs.gptdb.cn/docs/operation_manual)
+  - [Development Guide](http://docs.gptdb.cn/docs/cookbook/app/data_analysis_app_develop) 
+  - [App Usage](http://docs.gptdb.cn/docs/application/app_usage)
+  - [AWEL Flow Usage](http://docs.gptdb.cn/docs/application/awel_flow_usage)
+- [**Debugging**](http://docs.gptdb.cn/docs/operation_manual/advanced_tutorial/debugging)
+- [**Advanced Usage**](http://docs.gptdb.cn/docs/application/advanced_tutorial/cli)
+  - [SMMF](http://docs.gptdb.cn/docs/application/advanced_tutorial/smmf)
+  - [Finetune](http://docs.gptdb.cn/docs/application/fine_tuning_manual/gptdb_hub)
+  - [AWEL](http://docs.gptdb.cn/docs/latest/awel/tutorial)
 
 
 ## Features
@@ -207,14 +206,14 @@ At present, we have introduced several key features to showcase our current capa
     - 🔥🔥🔥  [Mixtral-8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
     - 🔥🔥🔥  [Qwen-72B-Chat](https://huggingface.co/Qwen/Qwen-72B-Chat)
     - 🔥🔥🔥  [Yi-34B-Chat](https://huggingface.co/01-ai/Yi-34B-Chat)
-  - [More Supported LLMs](http://docs-gptdb.khulnasoft.com/docs/modules/smmf)
+  - [More Supported LLMs](http://docs.gptdb.site/docs/modules/smmf)
 
 - **Privacy and Security**
   
   We ensure the privacy and security of data through the implementation of various technologies, including privatized large models and proxy desensitization.
 
 - Support Datasources
-  - [Datasources](http://docs-gptdb.khulnasoft.com/docs/modules/connections)
+  - [Datasources](http://docs.gptdb.cn/docs/modules/connections)
 
 ## Image
 🌐 [AutoDL Image](https://www.codewithgpu.com/i/khulnasoft/GPT-DB/gptdb)

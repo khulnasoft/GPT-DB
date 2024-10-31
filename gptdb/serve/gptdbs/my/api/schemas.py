@@ -7,7 +7,7 @@ from ..config import SERVE_APP_NAME_HUMP
 
 
 class ServeRequest(BaseModel):
-    """GptdbsMy request model"""
+    """DbgptsMy request model"""
 
     id: Optional[int] = Field(None, description="id")
     user_name: Optional[str] = Field(None, description="My gpts user name")
@@ -27,5 +27,5 @@ class ServeRequest(BaseModel):
 
 
 class ServerResponse(ServeRequest):
-    gmt_created: Optional[str] = Field(None, description="Gptdbs create time")
-    gmt_modified: Optional[str] = Field(None, description="Gptdbs upload time")
+    gmt_created: Optional[str] = Field(None, description="Dbgpts create time")
+    gmt_modified: Optional[str] = Field(None, description="Dbgpts upload time")

@@ -604,7 +604,7 @@ class OpenAPIEmbeddings(BaseModel, Embeddings):
         Using GPT-DB APIServer's embedding API:
         To use the GPT-DB APIServer's embedding API, you should deploy GPT-DB according
         to the `Cluster Deploy
-        <https://docs-gptdb.khulnasoft.com/docs/installation/model_service/cluster>`_.
+        <https://docs.gptdb.site/docs/installation/model_service/cluster>`_.
 
         A simple example:
         1. Deploy Model Cluster with following command:
@@ -912,6 +912,7 @@ class TongYiEmbeddings(BaseModel, Embeddings):
         # text-embedding-v3  embedding batch size should not be larger than 6
         if str(self.model_name) == "text-embedding-v3":
             max_batch_chunks_size = 6
+
         for i in range(0, len(texts), max_batch_chunks_size):
             batch_texts = texts[i : i + max_batch_chunks_size]
             resp = TextEmbedding.call(

@@ -18,7 +18,7 @@ export type PostAgentQueryParams = {
   storage_url?: string;
 };
 
-export type PostGptdbMyQueryParams = {
+export type PostDbgptMyQueryParams = {
   type: string | undefined;
   name: string | undefined;
   page_index: number;
