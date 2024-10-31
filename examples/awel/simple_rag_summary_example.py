@@ -23,7 +23,7 @@ This example shows how to use AWEL to build a simple rag summary example.
 
         curl -X POST http://127.0.0.1:5555/api/v1/awel/trigger/examples/rag/summary \
         -H "Content-Type: application/json" -d '{
-            "url": "https://docs.gptdb.site/docs/awel"
+            "url": "https://docs-gptdb.khulnasoft.com/docs/awel"
         }'
 """
 from typing import Dict

@@ -1,6 +1,6 @@
 from gptdb import EmbeddingEngine, KnowledgeType
 
-url = "https://docs.gptdb.site/docs/overview"
+url = "https://docs-gptdb.khulnasoft.com/docs/overview"
 embedding_model = "your_embedding_model"
 vector_store_type = "Chroma"
 chroma_persist_path = "your_persist_path"

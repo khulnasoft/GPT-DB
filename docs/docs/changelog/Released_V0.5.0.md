@@ -14,12 +14,12 @@ In essence, this framework facilitates the creation of data-centric applications
 ## Introduction to Version Update
 
 In its early releases, the GPT-DB project offered six default use cases, namely:
-- [ChatData](https://docs.gptdb.site/docs/application/started_tutorial/chat_data)
-- [ChatExcel](https://docs.gptdb.site/docs/application/started_tutorial/chat_excel)
-- [ChatDB](https://docs.gptdb.site/docs/application/started_tutorial/chat_db)
-- [ChatKnowledge](https://docs.gptdb.site/docs/application/started_tutorial/chat_knowledge)
-- [ChatAgents](https://docs.gptdb.site/docs/agents)
-- [ChatDashboard](https://docs.gptdb.site/docs/application/started_tutorial/chat_dashboard)
+- [ChatData](https://docs-gptdb.khulnasoft.com/docs/application/started_tutorial/chat_data)
+- [ChatExcel](https://docs-gptdb.khulnasoft.com/docs/application/started_tutorial/chat_excel)
+- [ChatDB](https://docs-gptdb.khulnasoft.com/docs/application/started_tutorial/chat_db)
+- [ChatKnowledge](https://docs-gptdb.khulnasoft.com/docs/application/started_tutorial/chat_knowledge)
+- [ChatAgents](https://docs-gptdb.khulnasoft.com/docs/agents)
+- [ChatDashboard](https://docs-gptdb.khulnasoft.com/docs/application/started_tutorial/chat_dashboard)
 
 These scenarios were designed to satisfy basic and simple use requirements. However, for large-scale production deployment, particularly when dealing with complex business scenarios, it becomes necessary to develop custom scenarios tailored to specific business conditions. This presents significant challenges in terms of flexibility and development complexity.
 
@@ -261,5 +261,5 @@ We would like to express our deepest gratitude to all the contributors who made 
 - GPT-DB framework: https://github.com/khulnasoft 
 - Text2SQL fine tuning: https://github.com/khulnasoft-lab/GPT-DB-Hub 
 - GPT-DB-Web : https://github.com/khulnasoft-lab/GPT-DB-Web 
-- official English documentation: http://docs.gptdb.site/docs/overview 
+- official English documentation: http://docs-gptdb.khulnasoft.com/docs/overview 
 - official Chinese documentation: https://www.yuque.com/khulnasoft/gptdb-docs/bex30nsv60ru0fmx
