@@ -11,7 +11,7 @@ from ..db.gpts_messages_db import GptsMessagesDao
 from ..db.gpts_plans_db import GptsPlansDao, GptsPlansEntity
 
 
-class MetaGptDbsPlansMemory(GptsPlansMemory):
+class MetaDbGptsPlansMemory(GptsPlansMemory):
     def __init__(self):
         self.gpts_plan = GptsPlansDao()
 
@@ -74,7 +74,7 @@ class MetaGptDbsPlansMemory(GptsPlansMemory):
         self.gpts_plan.remove_by_conv_id(conv_id=conv_id)
 
 
-class MetaGptDbsMessageMemory(GptsMessageMemory):
+class MetaDbGptsMessageMemory(GptsMessageMemory):
     def __init__(self):
         self.gpts_message = GptsMessagesDao()
 

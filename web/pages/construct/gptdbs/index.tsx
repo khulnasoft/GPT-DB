@@ -1,10 +1,10 @@
 import {
   apiInterceptors,
-  postGptdbsHubUpdate,
-  postGptdbsInstall,
-  postGptdbsMy,
-  postGptdbsQuery,
-  postGptdbsUninstall,
+  postDbgptsHubUpdate,
+  postDbgptsInstall,
+  postDbgptsMy,
+  postDbgptsQuery,
+  postDbgptsUninstall,
 } from '@/client/api';
 import BlurredCard, { ChatButton } from '@/new-components/common/blurredCard';
 import ConstructLayout from '@/new-components/layout/Construct';
@@ -40,7 +40,7 @@ function Agent() {
       setLoading(true);
       if (activeKey === 'my') {
         const [err, res] = await apiInterceptors(
-          postGptdbsMy({
+          postDbgptsMy({
             name: searchValue || undefined,
             type: typeStr === 'all' ? undefined : typeStr,
             page_index: pagination.pageNo,
@@ -57,7 +57,7 @@ function Agent() {
         name: searchValue || undefined,
         type: typeStr === 'all' ? undefined : typeStr,
       };
-      const [err, res] = await apiInterceptors(postGptdbsQuery(queryParams));
+      const [err, res] = await apiInterceptors(postDbgptsQuery(queryParams));
       setLoading(false);
       setIsError(!!err);
       return res?.items ?? [];
@@ -70,7 +70,7 @@ function Agent() {
   const updateFromGithub = async () => {
     try {
       setUploading(true);
-      const [err] = await apiInterceptors(postGptdbsHubUpdate());
+      const [err] = await apiInterceptors(postDbgptsHubUpdate());
       if (err) return;
       message.success('success');
       refresh();
@@ -89,11 +89,11 @@ function Agent() {
       setLoading(true);
       let errs = null;
       if (isInstall) {
-        const [err] = await apiInterceptors(postGptdbsInstall(agent));
+        const [err] = await apiInterceptors(postDbgptsInstall(agent));
         errs = err;
       } else {
         const [err] = await apiInterceptors(
-          postGptdbsUninstall({
+          postDbgptsUninstall({
             name: agent.name,
             type: agent.type,
           }),
