@@ -346,10 +346,10 @@ async def document_upload(
            safe_filename = os.path.basename(doc_file.filename)
 
            # Create absolute paths and verify they are within allowed directory
-           upload_dir = os.path.abspath(os.path.join(KNOWLEDGE_UPLOAD_ROOT_PATH, safe_space_name))
-           target_path = os.path.abspath(os.path.join(upload_dir, safe_filename))
+           upload_dir = os.path.normpath(os.path.abspath(os.path.join(KNOWLEDGE_UPLOAD_ROOT_PATH, safe_space_name)))
+           target_path = os.path.normpath(os.path.abspath(os.path.join(upload_dir, safe_filename)))
 
-           if not os.path.abspath(KNOWLEDGE_UPLOAD_ROOT_PATH) in target_path:
+           if not upload_dir.startswith(os.path.abspath(KNOWLEDGE_UPLOAD_ROOT_PATH)) or not target_path.startswith(os.path.abspath(KNOWLEDGE_UPLOAD_ROOT_PATH)):
                raise HTTPException(status_code=400, detail="Invalid path detected")
 
            if not os.path.exists(upload_dir):
