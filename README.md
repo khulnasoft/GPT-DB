@@ -1,8 +1,4 @@
-# GPT-DB: AI Native Data App Development framework with AWEL(Agentic Workflow Expression Language) and Agents
-
-<p align="left">
-  <img src="./assets/LOGO.png" width="100%" />
-</p>
+# GPT-DB: AI Native Data App Development framework with AWEL
 
 <div align="center">
   <p>
