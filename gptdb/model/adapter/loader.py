@@ -130,6 +130,8 @@ class ModelLoader:
             return llm_adapter.load_from_params(model_params)
         elif model_type == ModelType.VLLM:
             return llm_adapter.load_from_params(model_params)
+        elif model_type == ModelType.LLAMA_CPP_SERVER:
+            return llm_adapter.load_from_params(model_params)
         else:
             raise Exception(f"Unkown model type {model_type}")
 
@@ -410,7 +412,7 @@ def llamacpp_loader(
     except ImportError as exc:
         raise ValueError(
             "Could not import python package: llama-cpp-python "
-            "Please install gpt-db llama support with `cd $GPT-DB-DIR && pip install .[llama_cpp]` "
+            "Please install db-gpt llama support with `cd $GPT-DB-DIR && pip install .[llama_cpp]` "
             "or install llama-cpp-python with `pip install llama-cpp-python`"
         ) from exc
     model_path = model_params.model_path

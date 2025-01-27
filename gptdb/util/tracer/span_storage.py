@@ -67,7 +67,8 @@ class SpanStorageContainer(SpanStorage):
             try:
                 self.flush_signal_queue.put_nowait(True)
             except queue.Full:
-                pass  # If the signal queue is full, it's okay. The flush thread will handle it.
+                # If the signal queue is full, it's okay. The flush thread will handle it.
+                pass
 
     def _flush_to_storages(self):
         while not self._stop_event.is_set():

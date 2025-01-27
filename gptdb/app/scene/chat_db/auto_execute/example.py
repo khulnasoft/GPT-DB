@@ -1,6 +1,6 @@
 from gptdb.core._private.example_base import ExampleSelector, ExampleType
 
-## Two examples are defined by default
+# Two examples are defined by default
 EXAMPLES = [
     {
         "messages": [

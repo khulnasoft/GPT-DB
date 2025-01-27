@@ -38,7 +38,7 @@ class ServeEntity(Model):
 
 
 class ServeDao(BaseDao[ServeEntity, ServeRequest, ServerResponse]):
-    """The DAO class for MyDbgpts"""
+    """The DAO class for MyGptdbs"""
 
     def __init__(self, serve_config: ServeConfig):
         super().__init__()

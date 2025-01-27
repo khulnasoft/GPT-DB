@@ -1,29 +1,29 @@
 """Translate the po file content to Chinese using LLM."""
 
-from typing import List, Dict, Any
+import argparse
 import asyncio
 import os
-import argparse
+from typing import Any, Dict, List
+
 from gptdb.core import (
-    SystemPromptTemplate,
-    HumanPromptTemplate,
     ChatPromptTemplate,
-    ModelOutput,
+    HumanPromptTemplate,
     LLMClient,
+    ModelOutput,
+    SystemPromptTemplate,
 )
-from gptdb.core.operators import PromptBuilderOperator, RequestBuilderOperator
 from gptdb.core.awel import (
     DAG,
-    MapOperator,
     InputOperator,
     InputSource,
-    JoinOperator,
     IteratorTrigger,
+    JoinOperator,
+    MapOperator,
 )
+from gptdb.core.operators import PromptBuilderOperator, RequestBuilderOperator
 from gptdb.model.operators import LLMOperator
 from gptdb.model.proxy import OpenAILLMClient
 from gptdb.model.proxy.base import TiktokenProxyTokenizer
-
 
 # Adapted from https://baoyu.io/blog/prompt-engineering/my-translator-bot
 PROMPT_ZH = """

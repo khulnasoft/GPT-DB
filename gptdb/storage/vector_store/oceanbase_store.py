@@ -73,8 +73,8 @@ def _normalize(vector: List[float]) -> List[float]:
 
 
 @register_resource(
-    _("OceanBase Vector Store"),
-    "oceanbase_vector_store",
+    _("OceanBase Config"),
+    "oceanbase_vector_config",
     category=ResourceCategory.VECTOR_STORE,
     parameters=[
         *_COMMON_PARAMETERS,
@@ -119,7 +119,7 @@ def _normalize(vector: List[float]) -> List[float]:
             default=None,
         ),
     ],
-    description="OceanBase vector store.",
+    description="OceanBase vector store config.",
 )
 class OceanBaseConfig(VectorStoreConfig):
     """OceanBase vector store config."""
@@ -152,6 +152,22 @@ class OceanBaseConfig(VectorStoreConfig):
     )
 
 
+@register_resource(
+    _("OceanBase Vector Store"),
+    "ob_vector_store",
+    category=ResourceCategory.VECTOR_STORE,
+    description=_("OceanBase vector store."),
+    parameters=[
+        Parameter.build_from(
+            _("OceanBase Config"),
+            "vector_store_config",
+            OceanBaseConfig,
+            description=_("the ob config of vector store."),
+            optional=True,
+            default=None,
+        ),
+    ],
+)
 class OceanBaseStore(VectorStoreBase):
     """OceanBase vector store."""
 
@@ -293,17 +309,17 @@ class OceanBaseStore(VectorStoreBase):
                     self.metadata_field: metadata,
                 }
                 for id, embedding, text, metadata in zip(
-                    ids[i : i + batch_size],
-                    embeddings[i : i + batch_size],
-                    texts[i : i + batch_size],
-                    metadatas[i : i + batch_size],
+                    ids[i: i + batch_size],
+                    embeddings[i: i + batch_size],
+                    texts[i: i + batch_size],
+                    metadatas[i: i + batch_size],
                 )
             ]
             self.vector_store_client.insert(
                 table_name=self.table_name,
                 data=data,
             )
-            pks.extend(ids[i : i + batch_size])
+            pks.extend(ids[i: i + batch_size])
         return pks
 
     def _parse_metric_type_str_to_dist_func(self) -> Any:

@@ -8,10 +8,10 @@
 <div align="center">
   <p>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/gpt-db?style=social" />
+        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/gpt-db?style=social" />
+        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -263,7 +263,11 @@
 The MIT License (MIT)
 
 ## 引用
-如果您发现`GPT-DB`对您的研究或开发有用，请引用以下<a href="https://arxiv.org/abs/2312.17449" target="_blank">论文</a>：
+如果您发现`GPT-DB`对您的研究或开发有用，请引用以下论文，其中：
+
+如果您想了解GPT-DB整体架构，请引用<a href="https://arxiv.org/abs/2312.17449" target="_blank">论文</a>和<a href="https://arxiv.org/abs/2404.10209" target="_blank">论文</a>
+
+如果您想了解使用GPT-DB进行Agent开发相关的内容，请引用<a href="https://arxiv.org/abs/2412.13520" target="_blank">论文</a>
 
 ```bibtex
 @article{xue2023gptdb,
@@ -272,6 +276,22 @@ The MIT License (MIT)
       year={2023},
       journal={arXiv preprint arXiv:2312.17449},
       url={https://arxiv.org/abs/2312.17449}
+}
+@misc{huang2024romasrolebasedmultiagentdatabase,
+      title={ROMAS: A Role-Based Multi-Agent System for Database monitoring and Planning}, 
+      author={Yi Huang and Fangyin Cheng and Fan Zhou and Jiahui Li and Jian Gong and Hongjun Yang and Zhidong Fan and Caigao Jiang and Siqiao Xue and Faqiang Chen},
+      year={2024},
+      eprint={2412.13520},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2412.13520}, 
+}
+@inproceedings{xue2024demonstration,
+      title={Demonstration of GPT-DB: Next Generation Data Interaction System Empowered by Large Language Models}, 
+      author={Siqiao Xue and Danrui Qi and Caigao Jiang and Wenhui Shi and Fangyin Cheng and Keting Chen and Hongjun Yang and Zhiping Zhang and Jianshan He and Hongyang Zhang and Ganglin Wei and Wang Zhao and Fan Zhou and Hong Yi and Shaodong Liu and Hongjun Yang and Faqiang Chen},
+      year={2024},
+      booktitle = "Proceedings of the VLDB Endowment",
+      url={https://arxiv.org/abs/2404.10209}
 }
 ```
 
@@ -297,4 +317,4 @@ The MIT License (MIT)
   <img src="./assets/wechat.jpg" width="300px" />
 </p> -->
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)

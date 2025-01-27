@@ -35,7 +35,7 @@ class GptsMemory:
             message_memory if message_memory is not None else DefaultGptsMessageMemory()
         )
 
-        self.messages_cache: defaultdict = defaultdict(List[GptsMessage])
+        self.messages_cache: defaultdict = defaultdict(list)
         self.channels: defaultdict = defaultdict(Queue)
         self.enable_vis_map: defaultdict = defaultdict(bool)
         self.start_round_map: defaultdict = defaultdict(int)
@@ -127,8 +127,11 @@ class GptsMemory:
         await self.push_message(conv_id)
 
     async def get_messages(self, conv_id: str) -> List[GptsMessage]:
-        """Get conversation message."""
-        return self.messages_cache[conv_id]
+        """Get message by conv_id."""
+        messages = self.messages_cache[conv_id]
+        if not messages:
+            messages = self.message_memory.get_by_conv_id(conv_id)
+        return messages
 
     async def get_agent_messages(
         self, conv_id: str, agent_role: str
@@ -374,9 +377,9 @@ class GptsMemory:
                     "receiver": message.receiver,
                     "model": message.model_name,
                     "markdown": view_info,
-                    "resource": message.resource_info
-                    if message.resource_info
-                    else None,
+                    "resource": (
+                        message.resource_info if message.resource_info else None
+                    ),
                 }
             )
         return await vis_client.get(VisAgentMessages.vis_tag()).display(
@@ -427,3 +430,20 @@ class GptsMemory:
         else:
             param["status"] = Status.COMPLETE.value
         return await vis_client.get(VisAppLink.vis_tag()).display(content=param)
+
+    async def chat_messages(
+        self,
+        conv_id: str,
+    ):
+        """Get chat messages."""
+        while True:
+            queue = self.queue(conv_id)
+            if not queue:
+                break
+            item = await queue.get()
+            if item == "[DONE]":
+                queue.task_done()
+                break
+            else:
+                yield item
+                await asyncio.sleep(0.005)
