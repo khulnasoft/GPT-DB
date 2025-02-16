@@ -103,7 +103,7 @@ async def test_auth():
 async def create(
     request: ServeRequest, service: Service = Depends(get_service)
 ) -> Result[ServerResponse]:
-    """Create a new DbgptsHub entity
+    """Create a new GptdbsHub entity
 
     Args:
         request (ServeRequest): The request
@@ -120,7 +120,7 @@ async def create(
 async def update(
     request: ServeRequest, service: Service = Depends(get_service)
 ) -> Result[ServerResponse]:
-    """Update a DbgptsHub entity
+    """Update a GptdbsHub entity
 
     Args:
         request (ServeRequest): The request
@@ -139,7 +139,7 @@ async def update(
 async def query(
     request: ServeRequest, service: Service = Depends(get_service)
 ) -> Result[ServerResponse]:
-    """Query DbgptsHub entities
+    """Query GptdbsHub entities
 
     Args:
         request (ServeRequest): The request
@@ -161,7 +161,7 @@ async def query_page(
     page_size: Optional[int] = Query(default=20, description="page size"),
     service: Service = Depends(get_service),
 ) -> Result[PaginationResult[ServerResponse]]:
-    """Query DbgptsHub entities
+    """Query GptdbsHub entities
 
     Args:
         request (ServeRequest): The request
@@ -191,8 +191,8 @@ async def source_refresh(
 
         return Result.succ(None)
     except Exception as e:
-        logger.error("Dbgpts hub source refresh Error!", e)
-        return Result.failed(err_code="E0020", msg=f"Dbgpts Hub refresh Error! {e}")
+        logger.error("Gptdbs hub source refresh Error!", e)
+        return Result.failed(err_code="E0020", msg=f"Gptdbs Hub refresh Error! {e}")
 
 
 @router.post("/install", response_model=Result[str])

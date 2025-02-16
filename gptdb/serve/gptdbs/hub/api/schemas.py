@@ -7,19 +7,19 @@ from ..config import SERVE_APP_NAME_HUMP
 
 
 class ServeRequest(BaseModel):
-    """DbgptsHub request model"""
+    """GptdbsHub request model"""
 
     id: Optional[int] = Field(None, description="id")
-    name: Optional[str] = Field(None, description="Dbgpts name")
-    type: Optional[str] = Field(None, description="Dbgpts type")
-    version: Optional[str] = Field(None, description="Dbgpts version")
-    description: Optional[str] = Field(None, description="Dbgpts description")
-    author: Optional[str] = Field(None, description="Dbgpts author")
-    email: Optional[str] = Field(None, description="Dbgpts email")
-    storage_channel: Optional[str] = Field(None, description="Dbgpts storage channel")
-    storage_url: Optional[str] = Field(None, description="Dbgpts storage url")
-    download_param: Optional[str] = Field(None, description="Dbgpts download param")
-    installed: Optional[int] = Field(None, description="Dbgpts installed")
+    name: Optional[str] = Field(None, description="Gptdbs name")
+    type: Optional[str] = Field(None, description="Gptdbs type")
+    version: Optional[str] = Field(None, description="Gptdbs version")
+    description: Optional[str] = Field(None, description="Gptdbs description")
+    author: Optional[str] = Field(None, description="Gptdbs author")
+    email: Optional[str] = Field(None, description="Gptdbs email")
+    storage_channel: Optional[str] = Field(None, description="Gptdbs storage channel")
+    storage_url: Optional[str] = Field(None, description="Gptdbs storage url")
+    download_param: Optional[str] = Field(None, description="Gptdbs download param")
+    installed: Optional[int] = Field(None, description="Gptdbs installed")
 
     model_config = ConfigDict(title=f"ServeRequest for {SERVE_APP_NAME_HUMP}")
 
@@ -29,5 +29,5 @@ class ServeRequest(BaseModel):
 
 
 class ServerResponse(ServeRequest):
-    gmt_created: Optional[str] = Field(None, description="Dbgpts create time")
-    gmt_modified: Optional[str] = Field(None, description="Dbgpts upload time")
+    gmt_created: Optional[str] = Field(None, description="Gptdbs create time")
+    gmt_modified: Optional[str] = Field(None, description="Gptdbs upload time")

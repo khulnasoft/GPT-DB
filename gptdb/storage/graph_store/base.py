@@ -27,13 +27,9 @@ class GraphStoreConfig(BaseModel):
         default=False,
         description="Enable graph community summary or not.",
     )
-    document_graph_enabled: bool = Field(
-        default=True,
-        description="Enable document graph search or not.",
-    )
-    triplet_graph_enabled: bool = Field(
-        default=True,
-        description="Enable knowledge graph search or not.",
+    enable_similarity_search: bool = Field(
+        default=False,
+        description="Enable similarity search or not.",
     )
 
 
@@ -44,7 +40,13 @@ class GraphStoreBase(ABC):
         """Initialize graph store."""
         self._config = config
         self._conn = None
+        self.enable_summary = config.enable_summary
+        self.enable_similarity_search = config.enable_similarity_search
 
     @abstractmethod
     def get_config(self) -> GraphStoreConfig:
         """Get the graph store config."""
+
+    def is_exist(self, name) -> bool:
+        """Check Graph Name is Exist."""
+        raise NotImplementedError

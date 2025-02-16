@@ -4,7 +4,7 @@ import {
   PostAgentMyPluginResponse,
   PostAgentPluginResponse,
   PostAgentQueryParams,
-  PostDbgptMyQueryParams,
+  PostGptdbMyQueryParams,
 } from '@/types/agent';
 import { GetAppInfoParams, IApp } from '@/types/app';
 import {
@@ -239,7 +239,7 @@ export const getSupportModels = () => {
 export const postAgentQuery = (data: PostAgentQueryParams) => {
   return POST<PostAgentQueryParams, PostAgentPluginResponse>('/api/v1/agent/query', data);
 };
-export const postDbgptsQuery = (data: PostAgentQueryParams) => {
+export const postGptdbsQuery = (data: PostAgentQueryParams) => {
   return POST<PostAgentQueryParams, PostAgentPluginResponse>(
     `/api/v1/serve/gptdbs/hub/query_page?page=${data?.page_index}&page_size=${data?.page_size}`,
     data,
@@ -251,7 +251,7 @@ export const postAgentHubUpdate = (data?: PostAgentHubUpdateParams) => {
     data ?? { channel: '', url: '', branch: '', authorization: '' },
   );
 };
-export const postDbgptsHubUpdate = (data?: PostAgentHubUpdateParams) => {
+export const postGptdbsHubUpdate = (data?: PostAgentHubUpdateParams) => {
   return POST<PostAgentHubUpdateParams>(
     '/api/v1/serve/gptdbs/hub/source/refresh',
     data ?? { channel: '', url: '', branch: '', authorization: '' },
@@ -260,8 +260,8 @@ export const postDbgptsHubUpdate = (data?: PostAgentHubUpdateParams) => {
 export const postAgentMy = (user?: string) => {
   return POST<undefined, PostAgentMyPluginResponse>('/api/v1/agent/my', undefined, { params: { user } });
 };
-export const postDbgptsMy = (data?: PostDbgptMyQueryParams) => {
-  return POST<PostDbgptMyQueryParams, PostAgentMyPluginResponse>(
+export const postGptdbsMy = (data?: PostGptdbMyQueryParams) => {
+  return POST<PostGptdbMyQueryParams, PostAgentMyPluginResponse>(
     `/api/v1/serve/gptdbs/my/query_page?page=${data?.page_index}&page_size=${data?.page_size}`,
     data,
   );
@@ -272,7 +272,7 @@ export const postAgentInstall = (pluginName: string, user?: string) => {
     timeout: 60000,
   });
 };
-export const postDbgptsInstall = (data: object, user?: string) => {
+export const postGptdbsInstall = (data: object, user?: string) => {
   return POST('/api/v1/serve/gptdbs/hub/install', data, {
     params: { user },
     timeout: 60000,
@@ -284,7 +284,7 @@ export const postAgentUninstall = (pluginName: string, user?: string) => {
     timeout: 60000,
   });
 };
-export const postDbgptsUninstall = (data: { name: string; type: string }, user?: string) => {
+export const postGptdbsUninstall = (data: { name: string; type: string }, user?: string) => {
   return POST('/api/v1/serve/gptdbs/my/uninstall', undefined, {
     params: { ...data, user },
     timeout: 60000,
@@ -299,7 +299,7 @@ export const postAgentUpload = (user = '', data: FormData, config?: Omit<AxiosRe
     ...config,
   });
 };
-export const getDbgptsList = () => {
+export const getGptdbsList = () => {
   return GET<undefined, GetGPTDBsListResponse>('/api/v1/gptdbs/list');
 };
 

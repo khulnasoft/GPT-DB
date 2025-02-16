@@ -47,5 +47,5 @@ class ExtractRefineSummaryParser(BaseOutputParser):
         return response
 
     def parse_view_response(self, speak, data) -> str:
-        ### tool out data to table view
+        # tool out data to table view
         return data

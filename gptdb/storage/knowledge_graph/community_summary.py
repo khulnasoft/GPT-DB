@@ -6,23 +6,139 @@ import uuid
 from typing import List, Optional, Tuple
 
 from gptdb._private.pydantic import ConfigDict, Field
-from gptdb.core import Chunk
+from gptdb.core import Chunk, LLMClient
+from gptdb.core.awel.flow import Parameter, ResourceCategory, register_resource
 from gptdb.rag.transformer.community_summarizer import CommunitySummarizer
+from gptdb.rag.transformer.graph_embedder import GraphEmbedder
 from gptdb.rag.transformer.graph_extractor import GraphExtractor
-from gptdb.storage.graph_store.graph import MemoryGraph
+from gptdb.rag.transformer.text_embedder import TextEmbedder
 from gptdb.storage.knowledge_graph.base import ParagraphChunk
 from gptdb.storage.knowledge_graph.community.community_store import CommunityStore
+from gptdb.storage.knowledge_graph.graph_retriever.graph_retriever import GraphRetriever
 from gptdb.storage.knowledge_graph.knowledge_graph import (
+    GRAPH_PARAMETERS,
     BuiltinKnowledgeGraph,
     BuiltinKnowledgeGraphConfig,
 )
 from gptdb.storage.vector_store.base import VectorStoreConfig
 from gptdb.storage.vector_store.factory import VectorStoreFactory
 from gptdb.storage.vector_store.filters import MetadataFilters
+from gptdb.util.i18n_utils import _
 
 logger = logging.getLogger(__name__)
 
 
+@register_resource(
+    _("Community Summary KG Config"),
+    "community_summary_kg_config",
+    category=ResourceCategory.KNOWLEDGE_GRAPH,
+    description=_("community Summary kg Config."),
+    parameters=[
+        *GRAPH_PARAMETERS,
+        Parameter.build_from(
+            _("Knowledge Graph Type"),
+            "graph_store_type",
+            str,
+            description=_("graph store type."),
+            optional=True,
+            default="TuGraph",
+        ),
+        Parameter.build_from(
+            _("LLM Client"),
+            "llm_client",
+            LLMClient,
+            description=_("llm client for extract graph triplets."),
+        ),
+        Parameter.build_from(
+            _("LLM Model Name"),
+            "model_name",
+            str,
+            description=_("llm model name."),
+            optional=True,
+            default=None,
+        ),
+        Parameter.build_from(
+            _("Vector Store Type"),
+            "vector_store_type",
+            str,
+            description=_("vector store type."),
+            optional=True,
+            default="Chroma",
+        ),
+        Parameter.build_from(
+            _("Topk of Knowledge Graph Extract"),
+            "extract_topk",
+            int,
+            description=_("Topk of knowledge graph extract"),
+            optional=True,
+            default=5,
+        ),
+        Parameter.build_from(
+            _("Recall Score of Knowledge Graph Extract"),
+            "extract_score_threshold",
+            float,
+            description=_("Recall score of knowledge graph extract"),
+            optional=True,
+            default=0.3,
+        ),
+        Parameter.build_from(
+            _("Recall Score of Community Search in Knowledge Graph"),
+            "community_topk",
+            int,
+            description=_("Recall score of community search in knowledge graph"),
+            optional=True,
+            default=50,
+        ),
+        Parameter.build_from(
+            _("Recall Score of Community Search in Knowledge Graph"),
+            "community_score_threshold",
+            float,
+            description=_("Recall score of community search in knowledge graph"),
+            optional=True,
+            default=0.0,
+        ),
+        Parameter.build_from(
+            _("Enable the graph search for documents and chunks"),
+            "triplet_graph_enabled",
+            bool,
+            description=_("Enable the graph search for triplets"),
+            optional=True,
+            default=True,
+        ),
+        Parameter.build_from(
+            _("Enable the graph search for documents and chunks"),
+            "document_graph_enabled",
+            bool,
+            description=_("Enable the graph search for documents and chunks"),
+            optional=True,
+            default=True,
+        ),
+        Parameter.build_from(
+            _("Top size of knowledge graph chunk search"),
+            "knowledge_graph_chunk_search_top_size",
+            int,
+            description=_("Top size of knowledge graph chunk search"),
+            optional=True,
+            default=5,
+        ),
+        Parameter.build_from(
+            _("Batch size of triplets extraction from the text"),
+            "knowledge_graph_extraction_batch_size",
+            int,
+            description=_("Batch size of triplets extraction from the text"),
+            optional=True,
+            default=20,
+        ),
+        Parameter.build_from(
+            _("Batch size of parallel community building process"),
+            "community_summary_batch_size",
+            int,
+            description=_("TBatch size of parallel community building process"),
+            optional=True,
+            default=20,
+        ),
+    ],
+)
 class CommunitySummaryKnowledgeGraphConfig(BuiltinKnowledgeGraphConfig):
     """Community summary knowledge graph config."""
 
@@ -39,8 +155,7 @@ class CommunitySummaryKnowledgeGraphConfig(BuiltinKnowledgeGraphConfig):
     password: Optional[str] = Field(
         default=None,
         description=(
-            "The password of vector store, "
-            "if not set, will use the default password."
+            "The password of vector store, if not set, will use the default password."
         ),
     )
     extract_topk: int = Field(
@@ -59,12 +174,60 @@ class CommunitySummaryKnowledgeGraphConfig(BuiltinKnowledgeGraphConfig):
         default=0.0,
         description="Recall score of community search in knowledge graph",
     )
+    triplet_graph_enabled: bool = Field(
+        default=True,
+        description="Enable the graph search for triplets",
+    )
+    document_graph_enabled: bool = Field(
+        default=True,
+        description="Enable the graph search for documents and chunks",
+    )
     knowledge_graph_chunk_search_top_size: int = Field(
         default=5,
         description="Top size of knowledge graph chunk search",
     )
+    knowledge_graph_extraction_batch_size: int = Field(
+        default=20,
+        description="Batch size of triplets extraction from the text",
+    )
+    community_summary_batch_size: int = Field(
+        default=20,
+        description="Batch size of parallel community building process",
+    )
+    knowledge_graph_embedding_batch_size: int = Field(
+        default=20,
+        description="Batch size of triplets embedding from the text",
+    )
+    similarity_search_topk: int = Field(
+        default=5,
+        description="Topk of similarity search",
+    )
+    similarity_search_score_threshold: float = Field(
+        default=0.7,
+        description="Recall score of similarity search",
+    )
+    enable_text_search: bool = Field(
+        default=False,
+        description="Enable text2gql search or not.",
+    )
 
 
+@register_resource(
+    _("Community Summary Knowledge Graph"),
+    "community_summary_knowledge_graph",
+    category=ResourceCategory.KNOWLEDGE_GRAPH,
+    description=_("Community Summary Knowledge Graph."),
+    parameters=[
+        Parameter.build_from(
+            _("Community Summary Knowledge Graph Config."),
+            "config",
+            BuiltinKnowledgeGraphConfig,
+            description=_("Community Summary Knowledge Graph Config."),
+            optional=True,
+            default=None,
+        ),
+    ],
+)
 class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
     """Community summary knowledge graph class."""
 
@@ -96,6 +259,34 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
                 config.community_score_threshold,
             )
         )
+        self._document_graph_enabled = (
+            os.environ["DOCUMENT_GRAPH_ENABLED"].lower() == "true"
+            if "DOCUMENT_GRAPH_ENABLED" in os.environ
+            else config.document_graph_enabled
+        )
+        self._triplet_graph_enabled = (
+            os.environ["TRIPLET_GRAPH_ENABLED"].lower() == "true"
+            if "TRIPLET_GRAPH_ENABLED" in os.environ
+            else config.triplet_graph_enabled
+        )
+        self._triplet_extraction_batch_size = int(
+            os.getenv(
+                "KNOWLEDGE_GRAPH_EXTRACTION_BATCH_SIZE",
+                config.knowledge_graph_extraction_batch_size,
+            )
+        )
+        self._triplet_embedding_batch_size = int(
+            os.getenv(
+                "KNOWLEDGE_GRAPH_EMBEDDING_BATCH_SIZE",
+                config.knowledge_graph_embedding_batch_size,
+            )
+        )
+        self._community_summary_batch_size = int(
+            os.getenv(
+                "COMMUNITY_SUMMARY_BATCH_SIZE",
+                config.community_summary_batch_size,
+            )
+        )
 
         def extractor_configure(name: str, cfg: VectorStoreConfig):
             cfg.name = name
@@ -117,6 +308,9 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
             ),
         )
 
+        self._graph_embedder = GraphEmbedder(self._config.embedding_fn)
+        self._text_embedder = TextEmbedder(self._config.embedding_fn)
+
         def community_store_configure(name: str, cfg: VectorStoreConfig):
             cfg.name = name
             cfg.embedding_fn = config.embedding_fn
@@ -128,7 +322,7 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
             cfg.score_threshold = self._community_score_threshold
 
         self._community_store = CommunityStore(
-            self._graph_store_apdater,
+            self._graph_store_adapter,
             CommunitySummarizer(self._llm_client, self._model_name),
             VectorStoreFactory.create(
                 self._vector_store_type,
@@ -137,15 +331,24 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
             ),
         )
 
+        self._graph_retriever = GraphRetriever(
+            config,
+            self._graph_store_adapter,
+        )
+
     def get_config(self) -> BuiltinKnowledgeGraphConfig:
         """Get the knowledge graph config."""
         return self._config
 
     async def aload_document(self, chunks: List[Chunk]) -> List[str]:
         """Extract and persist graph from the document file."""
+        if not self.vector_name_exists():
+            self._graph_store_adapter.create_graph(self.get_config().name)
         await self._aload_document_graph(chunks)
         await self._aload_triplet_graph(chunks)
-        await self._community_store.build_communities()
+        await self._community_store.build_communities(
+            batch_size=self._community_summary_batch_size
+        )
 
         return [chunk.chunk_id for chunk in chunks]
 
@@ -154,7 +357,7 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
 
         The chunks include the doc structure.
         """
-        if not self._graph_store.get_config().document_graph_enabled:
+        if not self._document_graph_enabled:
             return
 
         _chunks: List[ParagraphChunk] = [
@@ -162,21 +365,33 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
         ]
         documment_chunk, paragraph_chunks = self._load_chunks(_chunks)
 
+        if self._graph_store.enable_similarity_search:
+            # Add embeddings from chunk content
+            texts: List[str] = [chunk.content for chunk in paragraph_chunks]
+
+            embeddings = await self._text_embedder.batch_embed(
+                inputs=texts,
+                batch_size=self._triplet_embedding_batch_size,
+            )
+
+            for idx, chunk in enumerate(paragraph_chunks):
+                chunk.embedding = embeddings[idx]
+
         # upsert the document and chunks vertices
-        self._graph_store_apdater.upsert_documents(iter([documment_chunk]))
-        self._graph_store_apdater.upsert_chunks(iter(paragraph_chunks))
+        self._graph_store_adapter.upsert_documents(iter([documment_chunk]))
+        self._graph_store_adapter.upsert_chunks(iter(paragraph_chunks))
 
         # upsert the document structure
         for chunk_index, chunk in enumerate(paragraph_chunks):
             # document -> include -> chunk
             if chunk.parent_is_document:
-                self._graph_store_apdater.upsert_doc_include_chunk(chunk=chunk)
+                self._graph_store_adapter.upsert_doc_include_chunk(chunk=chunk)
             else:  # chunk -> include -> chunk
-                self._graph_store_apdater.upsert_chunk_include_chunk(chunk=chunk)
+                self._graph_store_adapter.upsert_chunk_include_chunk(chunk=chunk)
 
             # chunk -> next -> chunk
             if chunk_index >= 1:
-                self._graph_store_apdater.upsert_chunk_next_chunk(
+                self._graph_store_adapter.upsert_chunk_next_chunk(
                     chunk=paragraph_chunks[chunk_index - 1], next_chunk=chunk
                 )
 
@@ -185,33 +400,46 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
 
         The chunks include the doc structure.
         """
-        if not self._graph_store.get_config().triplet_graph_enabled:
+        if not self._triplet_graph_enabled:
             return
 
-        document_graph_enabled = self._graph_store.get_config().document_graph_enabled
-        for chunk in chunks:
-            # TODO: Use asyncio to extract graph to accelerate the process
-            # (attention to the CAP of the graph db)
+        document_graph_enabled = self._document_graph_enabled
 
-            graphs: List[MemoryGraph] = await self._graph_extractor.extract(
-                chunk.content
-            )
+        # Extract the triplets from the chunks, and return the list of graphs
+        # in the same order as the input texts
+        graphs_list = await self._graph_extractor.batch_extract(
+            [chunk.content for chunk in chunks],
+            batch_size=self._triplet_extraction_batch_size,
+        )
+        if not graphs_list:
+            raise ValueError("No graphs extracted from the chunks")
 
+        # If enable the similarity search, add the embedding to the graphs
+        if self._graph_store.enable_similarity_search:
+            for idx, graphs in enumerate(graphs_list):
+                embeded_graphs = await self._graph_embedder.batch_embed(
+                    inputs=graphs,
+                    batch_size=self._triplet_embedding_batch_size,
+                )
+                graphs_list[idx] = embeded_graphs
+
+        # Upsert the graphs into the graph store
+        for idx, graphs in enumerate(graphs_list):
             for graph in graphs:
                 if document_graph_enabled:
-                    # append the chunk id to the edge
+                    # Append the chunk id to the edge
                     for edge in graph.edges():
-                        edge.set_prop("_chunk_id", chunk.chunk_id)
+                        edge.set_prop("_chunk_id", chunks[idx].chunk_id)
                         graph.append_edge(edge=edge)
 
-                # upsert the graph
-                self._graph_store_apdater.upsert_graph(graph)
+                # Upsert the graph
+                self._graph_store_adapter.upsert_graph(graph)
 
                 # chunk -> include -> entity
                 if document_graph_enabled:
                     for vertex in graph.vertices():
-                        self._graph_store_apdater.upsert_chunk_include_entity(
-                            chunk=chunk, entity=vertex
+                        self._graph_store_adapter.upsert_chunk_include_entity(
+                            chunk=chunks[idx], entity=vertex
                         )
 
     def _load_chunks(
@@ -284,47 +512,22 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
         ]
         context = "\n".join(summaries) if summaries else ""
 
-        keywords: List[str] = await self._keyword_extractor.extract(text)
+        subgraph, (
+            subgraph_for_doc,
+            text2gql_query,
+        ) = await self._graph_retriever.retrieve(text)
 
-        # Local search: extract keywords and explore subgraph
-        triplet_graph_enabled = self._graph_store.get_config().triplet_graph_enabled
-        document_graph_enabled = self._graph_store.get_config().document_graph_enabled
-
-        if triplet_graph_enabled:
-            subgraph: MemoryGraph = self._graph_store_apdater.explore(
-                subs=keywords, limit=topk, search_scope="knowledge_graph"
-            )
-
-            if document_graph_enabled:
-                keywords_for_document_graph = keywords
-                for vertex in subgraph.vertices():
-                    keywords_for_document_graph.append(vertex.name)
-
-                subgraph_for_doc = self._graph_store_apdater.explore(
-                    subs=keywords_for_document_graph,
-                    limit=self._config.knowledge_graph_chunk_search_top_size,
-                    search_scope="document_graph",
-                )
-        else:
-            if document_graph_enabled:
-                subgraph_for_doc = self._graph_store_apdater.explore(
-                    subs=keywords,
-                    limit=self._config.knowledge_graph_chunk_search_top_size,
-                    search_scope="document_graph",
-                )
         knowledge_graph_str = subgraph.format() if subgraph else ""
         knowledge_graph_for_doc_str = (
             subgraph_for_doc.format() if subgraph_for_doc else ""
         )
-
-        logger.info(f"Search subgraph from the following keywords:\n{len(keywords)}")
-
         if not (summaries or knowledge_graph_str or knowledge_graph_for_doc_str):
             return []
 
         # merge search results into context
-        content = HYBRID_SEARCH_PT_CN.format(
+        content = HYBRID_SEARCH_PT.format(
             context=context,
+            query=text2gql_query,
             knowledge_graph=knowledge_graph_str,
             knowledge_graph_for_doc=knowledge_graph_for_doc_str,
         )
@@ -339,6 +542,10 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
         self._keyword_extractor.truncate()
         logger.info("Truncate triplet extractor")
         self._graph_extractor.truncate()
+        logger.info("Truncate graph embedder")
+        self._graph_embedder.truncate()
+        logger.info("Truncate text embedder")
+        self._text_embedder.truncate()
         return [self._config.name]
 
     def delete_vector_name(self, index_name: str):
@@ -352,180 +559,102 @@ class CommunitySummaryKnowledgeGraph(BuiltinKnowledgeGraph):
         logger.info("Drop triplet extractor")
         self._graph_extractor.drop()
 
+        logger.info("Drop graph embedder")
+        self._graph_embedder.drop()
 
-HYBRID_SEARCH_PT_CN = """## 角色
-你非常擅长结合提示词模板提供的[上下文]信息与[知识图谱]信息，
-准确恰当地回答用户的问题，并保证不会输出与上下文和知识图谱无关的信息。
-
-## 技能
-### 技能 1: 上下文理解
-- 准确地理解[上下文]提供的信息，上下文信息可能被拆分为多个章节。
-- 上下文的每个章节内容都会以[Section]开始，并按需进行了编号。
-- 上下文信息提供了与用户问题相关度最高的总结性描述，请合理使用它们。
-### 技能 2: 知识图谱理解
-- 准确地识别[知识图谱]中提供的[Entities:]章节中的实体信息和[Relationships:]章节中的关系信息，实体和关系信息的一般格式为：
-```
-* 实体信息格式:
-- (实体名)
-- (实体名:实体描述)
-- (实体名:实体属性表)
-- (文本块ID:文档块内容)
-- (目录ID:目录名)
-- (文档ID:文档名称)
-
-* 关系信息的格式:
-- (来源实体名)-[关系名]->(目标实体名)
-- (来源实体名)-[关系名:关系描述]->(目标实体名)
-- (来源实体名)-[关系名:关系属性表]->(目标实体名)
-- (文本块实体)-[包含]->(实体名)
-- (目录ID)-[包含]->(文本块实体)
-- (目录ID)-[包含]->(子目录ID)
-- (文档ID)-[包含]->(文本块实体)
-- (文档ID)-[包含]->(目录ID)
-```
-- 正确地将关系信息中的实体名/ID与实体信息关联，还原出图结构。
-- 将图结构所表达的信息作为用户提问的明细上下文，辅助生成更好的答案。
+        logger.info("Drop text embedder")
+        self._text_embedder.drop()
 
 
-## 约束条件
-- 不要在答案中描述你的思考过程，直接给出用户问题的答案，不要生成无关信息。
-- 若[知识图谱]或者[知识库原文]没有提供信息，此时应根据[上下文]提供的信息回答问题。
-- 确保以第三人称书写，从客观角度结合[上下文]、[知识图谱]和[知识库原文]表达的信息回答问题。
-- 若提供的信息相互矛盾，请解决矛盾并提供一个单一、连贯的描述。
-- 避免使用停用词和过于常见的词汇。
-
-## 参考案例
-```
-[上下文]:
-Section 1:
-菲尔・贾伯的大儿子叫雅各布・贾伯。
-Section 2:
-菲尔・贾伯的小儿子叫比尔・贾伯。
-
-[知识图谱]:
-Entities:
-(菲尔・贾伯#菲尔兹咖啡创始人)
-(菲尔兹咖啡#加利福尼亚州伯克利创立的咖啡品牌)
-(雅各布・贾伯#菲尔・贾伯的儿子)
-(美国多地#菲尔兹咖啡的扩展地区)
-
-Relationships:
-(菲尔・贾伯#创建#菲尔兹咖啡#1978年在加利福尼亚州伯克利创立)
-(菲尔兹咖啡#位于#加利福尼亚州伯克利#菲尔兹咖啡的创立地点)
-(菲尔・贾伯#拥有#雅各布・贾伯#菲尔・贾伯的儿子)
-(雅各布・贾伯#担任#首席执行官#在2005年成为菲尔兹咖啡的首席执行官)
-(菲尔兹咖啡#扩展至#美国多地#菲尔兹咖啡的扩展范围)
-
-[知识库原文]:
-...
-```
-
-----
-
-接下来的[上下文]、[知识图谱]和[知识库原文]的信息，可以帮助你回答更好地用户的问题。
-
-[上下文]:
-{context}
-
-[知识图谱]:
-{knowledge_graph}
-
-[知识库原文]
-{knowledge_graph_for_doc}
-"""  # noqa: E501
-
-HYBRID_SEARCH_PT_EN = """## Role
-You excel at combining the information provided in the [Context] with
-information from the [KnowledgeGraph] to accurately and appropriately
-answer user questions, ensuring that you do not output information
-unrelated to the context and knowledge graph.
-
-## Skills
-### Skill 1: Context Understanding
-- Accurately understand the information provided in the [Context],
-which may be divided into several sections.
-- Each section in the context will start with [Section]
-and may be numbered as needed.
-- The context provides a summary description most relevant to the user's
-question, and it should be used wisely.
-### Skill 2: Knowledge Graph Understanding
-- Accurately identify entity information in the [Entities:] section and
-relationship information in the [Relationships:] section
-of the [KnowledgeGraph]. The general format for entity
-and relationship information is:
-```
-* Entity Information Format:
-- (entity_name)
-- (entity_name: entity_description)
-- (entity_name: entity_property_map)
-- (chunk_id: chunk_content)
-- (catalog_id: catalog_name)
-- (document_id: document_name)
-
-* Relationship Information Format:
-- (source_entity_name)-[relationship_name]->(target_entity_name)
-- (source_entity_name)-[relationship_name: relationship_description]->(target_entity_name)
-- (source_entity_name)-[relationship_name: relationship_property_map]->(target_entity_name)
-- (chunk_id)-[Contains]->(entity_name)
-- (catalog_id)-[Contains]->(chunk_id)
-- (catalog_id)-[Contains]->(sub_catalog_id)
-- (document_id)-[Contains]->(chunk_id)
-- (document_id)-[Contains]->(catalog_id)
-```
-- Correctly associate entity names/IDs in the relationship information
-with entity information to restore the graph structure.
-- Use the information expressed by the graph structure as detailed
-context for the user's query to assist in generating better answers.
-
-## Constraints
-- Don't describe your thought process in the answer, provide the answer
-to the user's question directly without generating irrelevant information.
-- If the [KnowledgeGraph] or [Knowledge base original text] does not provide information, you should answer
-the question based on the information provided in the [Context].
-- Ensure to write in the third person, responding to questions from
-an objective perspective based on the information combined from the
-[Context], the [KnowledgeGraph] and the [Knowledge base original text].
-- If the provided information is contradictory, resolve the
-contradictions and provide a single, coherent description.
-- Avoid using stop words and overly common vocabulary.
-
-## Reference Example
-```
-[Context]:
-Section 1:
-Phil Schiller's eldest son is Jacob Schiller.
-Section 2:
-Phil Schiller's youngest son is Bill Schiller.
-
-[KnowledgeGraph]:
-Entities:
-(Phil Jaber#Founder of Philz Coffee)
-(Philz Coffee#Coffee brand founded in Berkeley, California)
-(Jacob Jaber#Son of Phil Jaber)
-(Multiple locations in the USA#Expansion regions of Philz Coffee)
-
-Relationships:
-(Phil Jaber#Created#Philz Coffee#Founded in Berkeley, California in 1978)
-(Philz Coffee#Located in#Berkeley, California#Founding location of Philz Coffee)
-(Phil Jaber#Has#Jacob Jaber#Son of Phil Jaber)
-(Jacob Jaber#Serves as#CEO#Became CEO of Philz Coffee in 2005)
-(Philz Coffee#Expanded to#Multiple locations in the USA#Expansion regions of Philz Coffee)
-
-[Knowledge base original text]
-...
-```
-
-----
-
-The following information from the [Context], [KnowledgeGraph] and [Knowledge base original text]
-can help you better answer user questions.
+HYBRID_SEARCH_PT = """
+=====
+The following information from [Context], [Graph Query Statement], [Knowledge Graph], and [Original Text From RAG] can help you answer user questions better.
 
 [Context]:
 {context}
 
-[KnowledgeGraph]:
+[Graph Query Statement]:
+{query}
+
+[Knowledge Graph]:
 {knowledge_graph}
 
-[Knowledge base original text]
+[Original Text From RAG]
 {knowledge_graph_for_doc}
+=====
+
+You are very good at combining the [Context] information provided by the prompt word template with the [Knowledge Graph] information,
+answering the user's questions accurately and appropriately, and ensuring that no information irrelevant to the context and knowledge graph is output.
+
+## Role: GraphRAG Assistant
+
+### Core Capabilities
+0. Make sure DO NOT answer irrelevant questions from the user.
+
+1. Information Processing
+- Process contextual information across multiple sections ([Section] markers)
+- Interpret knowledge graph relationships ((entity)-[relationship]->(entity))
+- Synthesize information from both structured and unstructured sources
+
+2. Response Generation
+- Provide nuanced, multi-perspective answers
+- Balance technical accuracy with conversational engagement
+- Connect related concepts across different information sources
+- Highlight uncertainties and limitations when appropriate
+
+3. Interaction Style
+- Maintain a natural, engaging conversation flow
+- Ask clarifying questions when needed
+- Provide examples and analogies to illustrate complex points
+- Adapt explanation depth based on user's apparent expertise
+
+4. Knowledge Integration
+- Seamlessly blend information from:
+  * Context sections
+  * Knowledge graph relationships
+  * Background knowledge (when appropriate)
+- Prioritize relevance over comprehensiveness
+- Acknowledge information gaps explicitly
+
+5. Quality Assurance
+- Verify logical consistency across sources
+- Cross-reference relationships for validation
+- Flag potential contradictions or ambiguities
+- Provide confidence levels when appropriate
+
+### Information Sources Handling
+1. Context Processing [Context]
+- Parse information from numbered sections systematically
+- Identify key concepts and relationships within each section
+- Track section dependencies and cross-references
+- Prioritize recent/relevant sections for the query
+
+2. Knowledge Graph Integration [Knowledge Graph]
+- Parse Entities and Relationships sections separately
+- Map entity-relationship-entity triples accurately
+- Understand relationship directionality
+- Use graph structure to find connected information
+
+3. Original Text Reference [Original Text From RAG]
+- The GraphRAG document directory is stored as an edge in relationships to show the hierarchy of the current source text in the entire document.
+- Use as authoritative source for detailed information
+- Cross-reference with Context and Knowledge Graph
+- Extract supporting evidence and examples
+- Resolve conflicts between sources using this as primary reference
+
+4. Original Graph Query [Graph Query Statement]
+- The graph query statement used if text2gql translation is successful
+- Graph query will be empty if the translation failed
+- Use the markdown code block format to highlight the graph query statement if the statement is not empty
+
+### Output Format
+1. Answer Structure
+- Lead with a markdown code block to highlight the original cypher query statement from [Graph Query Statement] if it's not empty
+- Demonstate synthesized core information
+- Support with specific references to sources
+- Include relevant entity-relationship pairs
+- Conclude with confidence assessment
+- Use the markdown format of the "quote" to highlight the original text (in details) from "GraphRAG"
+
+=====
 """  # noqa: E501

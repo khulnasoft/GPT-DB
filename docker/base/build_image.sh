@@ -24,9 +24,9 @@ DOCKERFILE="Dockerfile"
 IMAGE_NAME_SUFFIX=""
 
 usage () {
-    echo "USAGE: $0 [--base-image nvidia/cuda:12.1.0-runtime-ubuntu22.04] [--image-name gpt-db]"
+    echo "USAGE: $0 [--base-image nvidia/cuda:12.1.0-runtime-ubuntu22.04] [--image-name db-gpt]"
     echo "  [-b|--base-image base image name] Base image name"
-    echo "  [-n|--image-name image name] Current image name, default: gpt-db"
+    echo "  [-n|--image-name image name] Current image name, default: db-gpt"
     echo "  [--image-name-suffix image name suffix] Image name suffix"
     echo "  [-i|--pip-index-url pip index url] Pip index url, default: https://pypi.org/simple"
     echo "  [--language en or zh] You language, default: en"

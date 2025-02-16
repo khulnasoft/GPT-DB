@@ -23,7 +23,7 @@ This example shows how to use AWEL to build a simple rag summary example.
 
         curl -X POST http://127.0.0.1:5555/api/v1/awel/trigger/examples/rag/summary \
         -H "Content-Type: application/json" -d '{
-            "url": "https://docs-gptdb.khulnasoft.com/docs/awel"
+            "url": "https://docs.gptdb.site/docs/awel"
         }'
 """
 from typing import Dict
@@ -31,7 +31,7 @@ from typing import Dict
 from gptdb._private.pydantic import BaseModel, Field
 from gptdb.core.awel import DAG, HttpTrigger, MapOperator
 from gptdb.model.proxy import OpenAILLMClient
-from gptdb.rag.knowledge import KnowledgeType
+from gptdb.rag.knowledge.base import KnowledgeType
 from gptdb.rag.operators import KnowledgeOperator, SummaryAssemblerOperator
 
 

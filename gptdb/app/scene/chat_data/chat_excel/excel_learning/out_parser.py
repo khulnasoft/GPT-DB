@@ -62,7 +62,7 @@ class LearningExcelOutputParser(BaseOutputParser):
 
     def parse_view_response(self, speak, data, prompt_response) -> str:
         if data and not isinstance(data, str):
-            ### tool out data to table view
+            # tool out data to table view
             html_title = f"### **Data Summary**\n{data.desciption} "
             html_colunms = self.__build_colunms_html(data.clounms)
             html_plans = self.__build_plans_html(data.plans)

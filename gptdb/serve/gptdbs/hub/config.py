@@ -5,7 +5,7 @@ from gptdb.serve.core import BaseServeConfig
 
 APP_NAME = "gptdbs_hub"
 SERVE_APP_NAME = "gptdb_serve_gptdbs_hub"
-SERVE_APP_NAME_HUMP = "gptdb_serve_DbgptsHub"
+SERVE_APP_NAME_HUMP = "gptdb_serve_GptdbsHub"
 SERVE_CONFIG_KEY_PREFIX = "gptdb.serve.gptdbs_hub."
 SERVE_SERVICE_COMPONENT_NAME = f"{SERVE_APP_NAME}_service"
 # Database table name

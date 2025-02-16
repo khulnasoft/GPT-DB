@@ -175,7 +175,7 @@ async def chat_stream_with_dag_task(
                     model_output.text = full_text
                 else:
                     # Return the incremental text
-                    delta_text = full_text[len(previous_text) :]
+                    delta_text = full_text[len(previous_text):]
                     previous_text = (
                         full_text
                         if len(full_text) > len(previous_text)

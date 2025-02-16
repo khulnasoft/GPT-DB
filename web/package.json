@@ -1,5 +1,5 @@
 {
-  "name": "gpt-db-web",
+  "name": "db-gpt-web",
   "version": "0.1.0",
   "private": true,
   "description": "GPT-DB WebUI",
@@ -62,7 +62,7 @@
     "monaco-editor": ">=0.31.0",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.2",
-    "next": "14.2.10",
+    "next": "13.4.7",
     "next-auth": "^4.20.1",
     "next-connect": "^1.0.0-next.4",
     "next-transpile-modules": "^10.0.1",

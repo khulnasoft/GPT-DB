@@ -411,7 +411,7 @@ def _flow_package_to_flow_panel(package: FlowPackage) -> FlowPanel:
 class GPTDBsLoader(BaseComponent):
     """The loader of the gptdbs packages"""
 
-    name: str = "dbgpt_dbgpts_loader"
+    name: str = "gptdb_gptdbs_loader"
 
     def __init__(
         self,
@@ -449,6 +449,17 @@ class GPTDBsLoader(BaseComponent):
                 self._register_packages(package)
         except Exception as e:
             logger.warning(f"Load gptdbs package error: {e}", e)
+
+    def get_flow_package(self, flow_name: str) -> Optional[BasePackage]:
+        try:
+            packages = _load_package_from_path(self._install_dir)
+            for package in packages:
+                if package.name == flow_name:
+                    return package
+            return None
+        except Exception as e:
+            logger.warning(f"Get flow package error: {str(e)}", e)
+            return None
 
     def get_flows(self) -> List[FlowPanel]:
         """Get the flows.

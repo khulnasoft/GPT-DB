@@ -2,10 +2,10 @@ import logging
 from concurrent.futures import Executor
 from typing import Iterator, Optional
 
-from gptdb.core import MessageConverter, ModelOutput, ModelRequest, ModelRequestContext
+from gptdb.core import MessageConverter, ModelOutput, ModelRequest
 from gptdb.model.parameter import ProxyModelParameters
 from gptdb.model.proxy.base import ProxyLLMClient
-from gptdb.model.proxy.llms.proxy_model import ProxyModel
+from gptdb.model.proxy.llms.proxy_model import ProxyModel, parse_model_request
 
 logger = logging.getLogger(__name__)
 
@@ -14,15 +14,7 @@ def tongyi_generate_stream(
     model: ProxyModel, tokenizer, params, device, context_len=2048
 ):
     client: TongyiLLMClient = model.proxy_llm_client
-    context = ModelRequestContext(stream=True, user_name=params.get("user_name"))
-    request = ModelRequest.build_request(
-        client.default_model,
-        messages=params["messages"],
-        temperature=params.get("temperature"),
-        context=context,
-        max_new_tokens=params.get("max_new_tokens"),
-        stop=params.get("stop"),
-    )
+    request = parse_model_request(params, client.default_model, stream=True)
     for r in client.sync_generate_stream(request):
         yield r
 
