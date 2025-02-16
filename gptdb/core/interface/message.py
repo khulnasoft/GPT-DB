@@ -1054,7 +1054,7 @@ class StorageConversation(OnceConversation, StorageItem):
         self._message_ids = [
             message.identifier.str_identifier for message in message_list
         ]
-        messages_to_save = message_list[self._has_stored_message_index + 1:]
+        messages_to_save = message_list[self._has_stored_message_index + 1 :]
         self._has_stored_message_index = len(message_list) - 1
         if self.save_message_independent:
             # Save messages independently

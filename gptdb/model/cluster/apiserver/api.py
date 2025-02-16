@@ -307,7 +307,7 @@ class APIServer(BaseComponent):
                     yield "data: [DONE]\n\n"
                     return
                 decoded_unicode = model_output.text.replace("\ufffd", "")
-                delta_text = decoded_unicode[len(previous_text):]
+                delta_text = decoded_unicode[len(previous_text) :]
                 previous_text = (
                     decoded_unicode
                     if len(decoded_unicode) > len(previous_text)
@@ -416,7 +416,7 @@ class APIServer(BaseComponent):
                         yield "data: [DONE]\n\n"
                         return
                     decoded_unicode = model_output.text.replace("\ufffd", "")
-                    delta_text = decoded_unicode[len(previous_text):]
+                    delta_text = decoded_unicode[len(previous_text) :]
                     previous_text = (
                         decoded_unicode
                         if len(decoded_unicode) > len(previous_text)
@@ -687,7 +687,7 @@ async def create_embeddings(
         texts = [texts]
     batch_size = api_settings.embedding_bach_size
     batches = [
-        texts[i: min(i + batch_size, len(texts))]
+        texts[i : min(i + batch_size, len(texts))]
         for i in range(0, len(texts), batch_size)
     ]
     data = []

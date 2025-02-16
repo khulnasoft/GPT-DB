@@ -596,4 +596,4 @@ def split_string_by_terminal_width(s, split=True, max_len=None, sp="\n"):
         except OSError:
             # Default to 80 columns if the terminal size can't be determined
             max_len = 100
-    return sp.join([s[i: i + max_len] for i in range(0, len(s), max_len)])
+    return sp.join([s[i : i + max_len] for i in range(0, len(s), max_len)])

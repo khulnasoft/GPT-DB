@@ -131,9 +131,9 @@ class QueryRewrite:
             response = output.strip()
 
             if response.startswith("queries:"):
-                response = response[len("queries:"):]
+                response = response[len("queries:") :]
             if response.startswith("queries："):
-                response = response[len("queries："):]
+                response = response[len("queries：") :]
 
             queries = response.split(",")
             if len(queries) == 1:
@@ -144,9 +144,9 @@ class QueryRewrite:
                 queries = response.split("？")
             for k in queries:
                 if k.startswith("queries:"):
-                    k = k[len("queries:"):]
+                    k = k[len("queries:") :]
                 if k.startswith("queries："):
-                    k = response[len("queries："):]
+                    k = response[len("queries：") :]
                 rk = k
                 if lowercase:
                     rk = rk.lower()

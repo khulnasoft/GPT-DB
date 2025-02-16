@@ -627,7 +627,7 @@ async def flow_stream_generator(func, incremental: bool, model_name: str):
         if chunk:
             msg = chunk.replace("\ufffd", "")
             if incremental:
-                incremental_output = msg[len(previous_response):]
+                incremental_output = msg[len(previous_response) :]
                 choice_data = ChatCompletionResponseStreamChoice(
                     index=0,
                     delta=DeltaMessage(role="assistant", content=incremental_output),
@@ -674,7 +674,7 @@ async def stream_generator(chat, incremental: bool, model_name: str):
         if chunk:
             msg = chunk.replace("\ufffd", "")
             if incremental:
-                incremental_output = msg[len(previous_response):]
+                incremental_output = msg[len(previous_response) :]
                 choice_data = ChatCompletionResponseStreamChoice(
                     index=0,
                     delta=DeltaMessage(role="assistant", content=incremental_output),

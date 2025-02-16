@@ -85,7 +85,7 @@ class TimeWeightedEmbeddingRetriever(EmbeddingRetriever):
         current_time = datetime.datetime.now()
         docs_and_scores = {
             doc.metadata["buffer_idx"]: (doc, self.default_salience)
-            for doc in self.memory_stream[-self._k:]
+            for doc in self.memory_stream[-self._k :]
         }
         # If a doc is considered salient, update the salience score
         docs_and_scores.update(self.get_salient_docs(query))

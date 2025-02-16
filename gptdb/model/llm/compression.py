@@ -69,14 +69,14 @@ def compress(tensor, config):
     new_shape = (
         original_shape[:group_dim]
         + (num_groups, group_size)
-        + original_shape[group_dim + 1:]
+        + original_shape[group_dim + 1 :]
     )
 
     # Pad
     pad_len = (group_size - original_shape[group_dim] % group_size) % group_size
     if pad_len != 0:
         pad_shape = (
-            original_shape[:group_dim] + (pad_len,) + original_shape[group_dim + 1:]
+            original_shape[:group_dim] + (pad_len,) + original_shape[group_dim + 1 :]
         )
         tensor = torch.cat(
             [tensor, torch.zeros(pad_shape, dtype=tensor.dtype, device=tensor.device)],
@@ -131,7 +131,7 @@ def decompress(packed_data, config):
         padded_original_shape = (
             original_shape[:group_dim]
             + (original_shape[group_dim] + pad_len,)
-            + original_shape[group_dim + 1:]
+            + original_shape[group_dim + 1 :]
         )
         data = data.reshape(padded_original_shape)
         indices = [slice(0, x) for x in original_shape]

@@ -613,7 +613,7 @@ class MarkdownHeaderTextSplitter(TextSplitter):
                         header: HeaderType = {
                             "level": current_header_level,
                             "name": name,
-                            "data": stripped_line[len(sep):].strip(),
+                            "data": stripped_line[len(sep) :].strip(),
                         }
                         header_stack.append(header)
                         # Update initial_metadata with the current header

@@ -439,7 +439,7 @@ class DefaultModelWorker(ModelWorker):
             usage = output.usage
             error_code = output.error_code
             output = output.text
-        incremental_output = output[len(previous_response):]
+        incremental_output = output[len(previous_response) :]
         print(incremental_output, end="", flush=True)
 
         metrics = _new_metrics_from_model_output(last_metrics, is_first_generate, usage)

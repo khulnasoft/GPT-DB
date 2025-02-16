@@ -80,7 +80,7 @@ class DashboardDataLoader:
                         else (datetime_index if datetime_index != -1 else id_index)
                     )
                     temp_field_name = field_names[:primary_index]
-                    temp_field_name.extend(field_names[primary_index + 1:])
+                    temp_field_name.extend(field_names[primary_index + 1 :])
                     for field_name in temp_field_name:
                         for data in datas:
                             # None Data won't be ok for the chart

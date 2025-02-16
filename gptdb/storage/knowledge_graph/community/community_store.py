@@ -37,7 +37,7 @@ class CommunityStore:
         n_communities = len(community_ids)
 
         for i in range(0, n_communities, batch_size):
-            batch_ids = community_ids[i: i + batch_size]
+            batch_ids = community_ids[i : i + batch_size]
             batch_results = await asyncio.gather(
                 *[self._summary_community(cid) for cid in batch_ids]
             )

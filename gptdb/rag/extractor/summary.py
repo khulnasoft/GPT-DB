@@ -134,7 +134,7 @@ class SummaryExtractor(Extractor):
             return docs[0]
         else:
             summary_outs = await self._llm_run_tasks(
-                chunk_texts=docs[0: self._max_iteration_with_llm],
+                chunk_texts=docs[0 : self._max_iteration_with_llm],
                 prompt_template=self._prompt_template,
             )
             from gptdb.util.prompt_util import PromptHelper

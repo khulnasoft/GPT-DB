@@ -280,9 +280,9 @@ class Client:
                             break
                         if line.startswith("data:"):
                             if line.startswith("data: "):
-                                sse_data = line[len("data: "):]
+                                sse_data = line[len("data: ") :]
                             else:
-                                sse_data = line[len("data:"):]
+                                sse_data = line[len("data:") :]
                             json_data = json.loads(sse_data)
                             chat_completion_response = ChatCompletionStreamResponse(
                                 **json_data

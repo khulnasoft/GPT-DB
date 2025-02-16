@@ -266,7 +266,7 @@ async def _to_openai_stream(
             yield "data: [DONE]\n\n"
             return
         decoded_unicode = model_output.text.replace("\ufffd", "")
-        delta_text = decoded_unicode[len(previous_text):]
+        delta_text = decoded_unicode[len(previous_text) :]
         previous_text = (
             decoded_unicode
             if len(decoded_unicode) > len(previous_text)

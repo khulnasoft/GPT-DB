@@ -37,7 +37,7 @@ class LLMExtractor(ExtractorBase, ABC):
         results = []
 
         for i in range(0, len(texts), batch_size):
-            batch_texts = texts[i: i + batch_size]
+            batch_texts = texts[i : i + batch_size]
 
             # Create tasks for current batch
             extraction_tasks = [

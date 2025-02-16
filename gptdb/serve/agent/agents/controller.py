@@ -241,10 +241,10 @@ class MultiAgents(BaseComponent, ABC):
                         gpts_conversations
                     ):
                         if gpt_app.keep_start_rounds > 0:
-                            front = gpts_conversations[gpt_app.keep_start_rounds:]
+                            front = gpts_conversations[gpt_app.keep_start_rounds :]
                             rely_conversations.extend(front)
                         if gpt_app.keep_end_rounds > 0:
-                            back = gpts_conversations[-gpt_app.keep_end_rounds:]
+                            back = gpts_conversations[-gpt_app.keep_end_rounds :]
                             rely_conversations.extend(back)
                     else:
                         rely_conversations = gpts_conversations

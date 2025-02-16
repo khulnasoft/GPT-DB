@@ -480,9 +480,9 @@ class InMemoryStorage(StorageInterface[T, T]):
 
         # Apply limit and offset
         if spec.limit is not None:
-            result = result[spec.offset: spec.offset + spec.limit]
+            result = result[spec.offset : spec.offset + spec.limit]
         else:
-            result = result[spec.offset:]
+            result = result[spec.offset :]
         return result
 
     def count(self, spec: QuerySpec, cls: Type[T]) -> int:

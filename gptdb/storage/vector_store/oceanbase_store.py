@@ -309,17 +309,17 @@ class OceanBaseStore(VectorStoreBase):
                     self.metadata_field: metadata,
                 }
                 for id, embedding, text, metadata in zip(
-                    ids[i: i + batch_size],
-                    embeddings[i: i + batch_size],
-                    texts[i: i + batch_size],
-                    metadatas[i: i + batch_size],
+                    ids[i : i + batch_size],
+                    embeddings[i : i + batch_size],
+                    texts[i : i + batch_size],
+                    metadatas[i : i + batch_size],
                 )
             ]
             self.vector_store_client.insert(
                 table_name=self.table_name,
                 data=data,
             )
-            pks.extend(ids[i: i + batch_size])
+            pks.extend(ids[i : i + batch_size])
         return pks
 
     def _parse_metric_type_str_to_dist_func(self) -> Any:

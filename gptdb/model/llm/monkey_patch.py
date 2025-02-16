@@ -12,7 +12,7 @@ from torch import nn
 def rotate_half(x):
     """Rotates half the hidden dims of the input."""
     x1 = x[..., : x.shape[-1] // 2].clone()
-    x2 = x[..., x.shape[-1] // 2:].clone()
+    x2 = x[..., x.shape[-1] // 2 :].clone()
     return torch.cat((-x2, x1), dim=-1)
 
 

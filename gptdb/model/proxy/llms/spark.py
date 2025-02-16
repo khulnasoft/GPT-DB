@@ -58,7 +58,7 @@ def extract_content(line: str):
     if not line.strip():
         return line
     if line.startswith("data: "):
-        json_str = line[len("data: "):]
+        json_str = line[len("data: ") :]
     else:
         raise ValueError("Error line content ")
 

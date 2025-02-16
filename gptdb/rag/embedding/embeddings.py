@@ -915,7 +915,7 @@ class TongYiEmbeddings(BaseModel, Embeddings):
             max_batch_chunks_size = 6
 
         for i in range(0, len(texts), max_batch_chunks_size):
-            batch_texts = texts[i: i + max_batch_chunks_size]
+            batch_texts = texts[i : i + max_batch_chunks_size]
             resp = TextEmbedding.call(
                 model=self.model_name, input=batch_texts, api_key=self._api_key
             )
@@ -1034,7 +1034,7 @@ class QianFanEmbeddings(BaseModel, Embeddings):
                             Each embedding is represented as a list of float values.
         """
         text_in_chunks = [
-            texts[i: i + self.chunk_size]
+            texts[i : i + self.chunk_size]
             for i in range(0, len(texts), self.chunk_size)
         ]
         lst = []

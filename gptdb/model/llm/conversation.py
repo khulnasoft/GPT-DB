@@ -225,7 +225,7 @@ class Conversation:
     def to_gradio_chatbot(self):
         """Convert the conversation to gradio chatbot format."""
         ret = []
-        for i, (role, msg) in enumerate(self.messages[self.offset:]):
+        for i, (role, msg) in enumerate(self.messages[self.offset :]):
             if i % 2 == 0:
                 ret.append([msg, None])
             else:
@@ -236,7 +236,7 @@ class Conversation:
         """Convert the conversation to OpenAI chat completion format."""
         ret = [{"role": "system", "content": self.system}]
 
-        for i, (_, msg) in enumerate(self.messages[self.offset:]):
+        for i, (_, msg) in enumerate(self.messages[self.offset :]):
             if i % 2 == 0:
                 ret.append({"role": "user", "content": msg})
             else:
