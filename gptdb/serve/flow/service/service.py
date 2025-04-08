@@ -6,6 +6,7 @@ from typing import AsyncIterator, List, Optional, cast
 import schedule
 from fastapi import HTTPException
 
+from gptdb._private.config import Config
 from gptdb._private.pydantic import model_to_json
 from gptdb.agent import AgentDummyTrigger
 from gptdb.component import SystemApp
@@ -34,11 +35,13 @@ from gptdb.storage.metadata._base_dao import QUERY_SPEC
 from gptdb.util.gptdbs.loader import GPTDBsLoader
 from gptdb.util.pagination_utils import PaginationResult
 
-from ..api.schemas import FlowDebugRequest, ServeRequest, ServerResponse
+from ..api.schemas import FlowDebugRequest, FlowInfo, ServeRequest, ServerResponse
 from ..config import SERVE_CONFIG_KEY_PREFIX, SERVE_SERVICE_COMPONENT_NAME, ServeConfig
 from ..models.models import ServeDao, ServeEntity
 
 logger = logging.getLogger(__name__)
+
+CFG = Config()
 
 
 class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
@@ -680,6 +683,28 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
                 break
             else:
                 yield f"data:{text}\n\n"
+
+    async def get_flow_files(self, flow_uid: str):
+        logger.info(f"get_flow_files:{flow_uid}")
+
+        flow = self.get({"uid": flow_uid})
+        if not flow:
+            logger.warning(f"cant't find flow info!{flow_uid}")
+            return None
+        package = self.gptdbs_loader.get_flow_package(flow.name)
+        if package:
+            return FlowInfo(
+                name=package.name,
+                definition_type=package.definition_type,
+                description=package.description,
+                label=package.label,
+                package=package.package,
+                package_type=package.package_type,
+                root=package.root,
+                path=f"{package.root.replace(CFG.NOTE_BOOK_ROOT + '/', '')}/{package.name}",
+                version=package.version,
+            )
+        return None
 
 
 def _parse_flow_template_from_json(json_dict: dict) -> ServerResponse:

@@ -483,9 +483,9 @@ class RDBMSConnector(BaseConnector):
             set_idx = parts.index("set")
             where_idx = parts.index("where")
             # Get the field name in the `set` clause
-            set_clause = parts[set_idx + 1 : where_idx][0].split("=")[0].strip()
+            set_clause = parts[set_idx + 1: where_idx][0].split("=")[0].strip()
             # Get the condition statement after the `where`
-            where_clause = " ".join(parts[where_idx + 1 :])
+            where_clause = " ".join(parts[where_idx + 1:])
             # Return a SELECT statement that selects the updated data
             return f"SELECT {set_clause} FROM {table_name} WHERE {where_clause}"
         else:

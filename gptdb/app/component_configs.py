@@ -61,6 +61,7 @@ def initialize_components(
     # Register serve apps
     register_serve_apps(system_app, CFG, param.port)
     _initialize_operators()
+    _initialize_code_server(system_app)
 
 
 def _initialize_model_cache(system_app: SystemApp, port: int):
@@ -105,6 +106,7 @@ def _initialize_resource_manager(system_app: SystemApp):
         get_current_host_system_load,
     )
     from gptdb.agent.expand.resources.search_tool import baidu_search
+    from gptdb.agent.resource.app import AppResource
     from gptdb.agent.resource.base import ResourceType
     from gptdb.agent.resource.manage import get_resource_manager, initialize_resource
     from gptdb.serve.agent.resource.datasource import DatasourceResource
@@ -116,6 +118,7 @@ def _initialize_resource_manager(system_app: SystemApp):
     rm.register_resource(DatasourceResource)
     rm.register_resource(KnowledgeSpaceRetrieverResource)
     rm.register_resource(PluginToolPack, resource_type=ResourceType.Tool)
+    rm.register_resource(AppResource)
     # Register a search tool
     rm.register_resource(resource_instance=baidu_search)
     rm.register_resource(resource_instance=list_gptdb_support_models)
@@ -132,6 +135,7 @@ def _initialize_openapi(system_app: SystemApp):
 
 
 def _initialize_operators():
+    from gptdb.app.operators.code import CodeMapOperator
     from gptdb.app.operators.converter import StringToInteger
     from gptdb.app.operators.datasource import (
         HODatasourceExecutorOperator,
@@ -140,3 +144,9 @@ def _initialize_operators():
     from gptdb.app.operators.llm import HOLLMOperator, HOStreamingLLMOperator
     from gptdb.app.operators.rag import HOKnowledgeOperator
     from gptdb.serve.agent.resource.datasource import DatasourceResource
+
+
+def _initialize_code_server(system_app: SystemApp):
+    from gptdb.util.code.server import initialize_code_server
+
+    initialize_code_server(system_app)

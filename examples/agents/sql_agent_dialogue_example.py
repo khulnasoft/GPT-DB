@@ -20,24 +20,28 @@ import os
 from gptdb.agent import AgentContext, AgentMemory, LLMConfig, UserProxyAgent
 from gptdb.agent.expand.data_scientist_agent import DataScientistAgent
 from gptdb.agent.resource import SQLiteDBResource
+from gptdb.configs.model_config import ROOT_PATH
 from gptdb.util.tracer import initialize_tracer
 
-current_dir = os.getcwd()
-parent_dir = os.path.dirname(current_dir)
-test_plugin_dir = os.path.join(parent_dir, "test_files")
+test_plugin_dir = os.path.join(ROOT_PATH, "test_files")
 
 initialize_tracer("/tmp/agent_trace.jsonl", create_system_app=True)
 
 
 async def main():
-    from gptdb.model.proxy import OpenAILLMClient
+    from gptdb.model.proxy.llms.siliconflow import SiliconFlowLLMClient
 
-    llm_client = OpenAILLMClient(model_alias="gpt-3.5-turbo")
+    llm_client = SiliconFlowLLMClient(
+        model_alias=os.getenv(
+            "SILICONFLOW_MODEL_VERSION", "Qwen/Qwen2.5-Coder-32B-Instruct"
+        ),
+    )
     context: AgentContext = AgentContext(conv_id="test456")
+
     agent_memory = AgentMemory()
+    agent_memory.gpts_memory.init(conv_id="test456")
 
     sqlite_resource = SQLiteDBResource("SQLite Database", f"{test_plugin_dir}/gptdb.db")
-
     user_proxy = await UserProxyAgent().bind(agent_memory).bind(context).build()
 
     sql_boy = (
@@ -56,7 +60,7 @@ async def main():
     )
 
     ## gptdb-vis message infos
-    print(await agent_memory.gpts_memory.one_chat_completions("test456"))
+    print(await agent_memory.gpts_memory.app_link_chat_message("test456"))
 
 
 if __name__ == "__main__":

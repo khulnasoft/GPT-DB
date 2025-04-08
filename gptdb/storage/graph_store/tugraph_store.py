@@ -67,6 +67,14 @@ class TuGraphStoreConfig(GraphStoreConfig):
             "/gptdb-tugraph-plugins/tree/master/cpp"
         ),
     )
+    enable_summary: bool = Field(
+        default=True,
+        description="Enable graph community summary or not.",
+    )
+    enable_similarity_search: bool = Field(
+        default=True,
+        description="Enable the similarity search or not",
+    )
 
 
 class TuGraphStore(GraphStoreBase):
@@ -79,17 +87,15 @@ class TuGraphStore(GraphStoreBase):
         self._port = int(os.getenv("TUGRAPH_PORT", config.port))
         self._username = os.getenv("TUGRAPH_USERNAME", config.username)
         self._password = os.getenv("TUGRAPH_PASSWORD", config.password)
-        self._enable_summary = (
+        self.enable_summary = (
             os.getenv("GRAPH_COMMUNITY_SUMMARY_ENABLED", "").lower() == "true"
-            or config.enable_summary
+            if "GRAPH_COMMUNITY_SUMMARY_ENABLED" in os.environ
+            else config.enable_summary
         )
-        self._enable_document_graph = (
-            os.getenv("DOCUMENT_GRAPH_ENABLED", "").lower() == "true"
-            or config.document_graph_enabled
-        )
-        self._enable_triplet_graph = (
-            os.getenv("TRIPLET_GRAPH_ENABLED", "").lower() == "true"
-            or config.triplet_graph_enabled
+        self.enable_similarity_search = (
+            os.environ["SIMILARITY_SEARCH_ENABLED"].lower() == "true"
+            if "SIMILARITY_SEARCH_ENABLED" in os.environ
+            else config.enable_similarity_search
         )
         self._plugin_names = (
             os.getenv("TUGRAPH_PLUGIN_NAMES", "leiden").split(",")
@@ -109,6 +115,10 @@ class TuGraphStore(GraphStoreBase):
     def get_config(self) -> TuGraphStoreConfig:
         """Get the TuGraph store config."""
         return self._config
+
+    def is_exist(self, name) -> bool:
+        """Check Graph Name is Exist."""
+        return self.conn.is_exist(name)
 
     def _add_vertex_index(self, field_name):
         """Add an index to the vertex table."""
@@ -147,8 +157,7 @@ class TuGraphStore(GraphStoreBase):
                 except ImportError:
                     logger.error(
                         "gptdb-tugraph-plugins is not installed, "
-                        "pip install gptdb-tugraph-plugins==0.1.0rc1 -U -i "
-                        "https://pypi.org/simple"
+                        "pip install gptdb-tugraph-plugins==0.1.1"
                     )
                 plugin_path = get_plugin_binary_path("leiden")  # type: ignore
                 with open(plugin_path, "rb") as f:

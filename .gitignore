@@ -144,7 +144,7 @@ nltk_data
 .vectordb
 pilot/data/
 pilot/nltk_data
-pilot/mock_datas/gpt-db-test.db.wal
+pilot/mock_datas/db-gpt-test.db.wal
 
 logswebserver.log.*
 .history/*
@@ -185,4 +185,3 @@ thirdparty
 /examples/**/*.gv.pdf
 /i18n/locales/**/**/*_ai_translated.po
 /i18n/locales/**/**/*~
-gptdb_env/

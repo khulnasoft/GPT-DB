@@ -1,12 +1,16 @@
-# GPT-DB: AI Native Data App Development framework with AWEL
+# GPT-DB: AI Native Data App Development framework with AWEL(Agentic Workflow Expression Language) and Agents
+
+<p align="left">
+  <img src="./assets/LOGO.png" width="100%" />
+</p>
 
 <div align="center">
   <p>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/gpt-db?style=social" />
+        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/gpt-db?style=social" />
+        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -29,7 +33,7 @@
   </p>
 
 
-[**简体中文**](README.zh.md) | [**日本語**](README.ja.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**Documents**](https://docs-gptdb.khulnasoft.com) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**Community**](https://github.com/khulnasoft/community) | [**Paper**](https://arxiv.org/pdf/2312.17449.pdf)
+[**简体中文**](README.zh.md) | [**日本語**](README.ja.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**Documents**](https://docs.gptdb.site) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**Community**](https://github.com/khulnasoft/community) | [**Paper**](https://arxiv.org/pdf/2312.17449.pdf)
 
 </div>
 
@@ -39,8 +43,10 @@
 
 The purpose is to build infrastructure in the field of large models, through the development of multiple technical capabilities such as multi-model management (SMMF), Text2SQL effect optimization, RAG framework and optimization, Multi-Agents framework collaboration, AWEL (agent workflow orchestration), etc. Which makes large model applications with data simpler and more convenient.
 
-
 🚀 **In the Data 3.0 era, based on models and databases, enterprises and developers can build their own bespoke applications with less code.**
+
+### DISCKAIMER
+- [disckaimer](./DISCKAIMER.md)
 
 ### AI-Native Data App 
 ---
@@ -136,7 +142,7 @@ As of October 10, 2023, through the fine-tuning of an open-source model with 13 
 - [**Advanced Usage**](http://docs.gptdb.cn/docs/application/advanced_tutorial/cli)
   - [SMMF](http://docs.gptdb.cn/docs/application/advanced_tutorial/smmf)
   - [Finetune](http://docs.gptdb.cn/docs/application/fine_tuning_manual/gptdb_hub)
-  - [AWEL](http://docs.gptdb.cn/docs/latest/awel/tutorial)
+  - [AWEL](http://docs.gptdb.cn/docs/awel/tutorial)
 
 
 ## Features
@@ -202,7 +208,7 @@ At present, we have introduced several key features to showcase our current capa
     - 🔥🔥🔥  [Mixtral-8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
     - 🔥🔥🔥  [Qwen-72B-Chat](https://huggingface.co/Qwen/Qwen-72B-Chat)
     - 🔥🔥🔥  [Yi-34B-Chat](https://huggingface.co/01-ai/Yi-34B-Chat)
-  - [More Supported LLMs](http://docs-gptdb.khulnasoft.com/docs/modules/smmf)
+  - [More Supported LLMs](http://docs.gptdb.site/docs/modules/smmf)
 
 - **Privacy and Security**
   
@@ -232,8 +238,9 @@ At present, we have introduced several key features to showcase our current capa
 The MIT License (MIT)
 
 ## Citation
-If you find `GPT-DB` useful for your research or development, please cite the following <a href="https://arxiv.org/abs/2312.17449" target="_blank">paper</a>:
+If you want to understand the overall architecture of GPT-DB, please cite <a href="https://arxiv.org/abs/2312.17449" target="_blank">paper</a> and <a href="https:// arxiv.org/abs/2404.10209" target="_blank">Paper</a>
 
+If you want to learn about using GPT-DB for Agent development, please cite the <a href="https://arxiv.org/abs/2412.13520" target="_blank">paper</a>
 ```bibtex
 @article{xue2023gptdb,
       title={GPT-DB: Empowering Database Interactions with Private Large Language Models}, 
@@ -242,10 +249,27 @@ If you find `GPT-DB` useful for your research or development, please cite the fo
       journal={arXiv preprint arXiv:2312.17449},
       url={https://arxiv.org/abs/2312.17449}
 }
+@misc{huang2024romasrolebasedmultiagentdatabase,
+      title={ROMAS: A Role-Based Multi-Agent System for Database monitoring and Planning}, 
+      author={Yi Huang and Fangyin Cheng and Fan Zhou and Jiahui Li and Jian Gong and Hongjun Yang and Zhidong Fan and Caigao Jiang and Siqiao Xue and Faqiang Chen},
+      year={2024},
+      eprint={2412.13520},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2412.13520}, 
+}
+@inproceedings{xue2024demonstration,
+      title={Demonstration of GPT-DB: Next Generation Data Interaction System Empowered by Large Language Models}, 
+      author={Siqiao Xue and Danrui Qi and Caigao Jiang and Wenhui Shi and Fangyin Cheng and Keting Chen and Hongjun Yang and Zhiping Zhang and Jianshan He and Hongyang Zhang and Ganglin Wei and Wang Zhao and Fan Zhou and Hong Yi and Shaodong Liu and Hongjun Yang and Faqiang Chen},
+      year={2024},
+      booktitle = "Proceedings of the VLDB Endowment",
+      url={https://arxiv.org/abs/2404.10209}
+}
 ```
+
 
 ## Contact Information
 We are working on building a community, if you have any ideas for building the community, feel free to contact us.
 [![](https://dcbadge.vercel.app/api/server/7uQnPuveTY?compact=true&style=flat)](https://discord.gg/7uQnPuveTY)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)

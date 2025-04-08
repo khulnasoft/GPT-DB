@@ -20,7 +20,7 @@ with open("README.md", mode="r", encoding="utf-8") as fh:
 IS_DEV_MODE = os.getenv("IS_DEV_MODE", "true").lower() == "true"
 # If you modify the version, please modify the version in the following files:
 # gptdb/_version.py
-GPT_DB_VERSION = os.getenv("GPT_DB_VERSION", "0.6.1")
+GPT_DB_VERSION = os.getenv("GPT_DB_VERSION", "0.6.3")
 
 BUILD_NO_CACHE = os.getenv("BUILD_NO_CACHE", "true").lower() == "true"
 LLAMA_CPP_GPU_ACCELERATION = (
@@ -415,7 +415,7 @@ def core_requires():
     pip install gptdb or pip install "gptdb[core]"
     """
     setup_spec.extras["core"] = [
-        "aiohttp==3.8.4",
+        "aiohttp>=3.8.5",
         "chardet==5.1.0",
         "importlib-resources==5.12.0",
         "python-dotenv==1.0.0",
@@ -430,7 +430,7 @@ def core_requires():
     # For GPT-DB python client SDK
     setup_spec.extras["client"] = setup_spec.extras["core"] + [
         "httpx",
-        "fastapi>=0.100.0",
+        "fastapi>=0.100.0,<0.113.0",
         # For retry, chromadb need tenacity<=8.3.0
         "tenacity<=8.3.0",
     ]
@@ -462,7 +462,7 @@ def core_requires():
         "uvicorn",
         "shortuuid",
         # 2.0.29 not support duckdb now
-        "SQLAlchemy>=2.0.25,<2.0.29",
+        "SQLAlchemy>=2.0.25, <2.0.29",
         # for cache
         "msgpack",
         # for AWEL operator serialization
@@ -472,7 +472,7 @@ def core_requires():
         #  find a new toolkit.
         "pympler",
         "duckdb",
-        "duckdb-engine",
+        "duckdb-engine==0.9.1",
         # lightweight python library for scheduling jobs
         "schedule",
         # For datasource subpackage
@@ -517,13 +517,16 @@ def code_execution_requires():
     """
     pip install "gptdb[code]"
 
-    Code execution dependencies. For building a docker image.
+    Code execution dependencies.
     """
     setup_spec.extras["code"] = setup_spec.extras["core"] + [
-        "pyzmq",
         "msgpack",
         # for AWEL operator serialization
         "cloudpickle",
+        "lyric-py>=0.1.6",
+        "lyric-py-worker>=0.1.6",
+        "lyric-js-worker>=0.1.6",
+        "lyric-component-ts-transpiling>=0.1.6",
     ]
 
 
@@ -545,7 +548,7 @@ def knowledge_requires():
 
     setup_spec.extras["graph_rag"] = setup_spec.extras["rag"] + [
         "neo4j",
-        "gptdb-tugraph-plugins>=0.1.0rc1",
+        "gptdb-tugraph-plugins>=0.1.1",
     ]
 
 
@@ -553,7 +556,10 @@ def llama_cpp_requires():
     """
     pip install "gptdb[llama_cpp]"
     """
-    setup_spec.extras["llama_cpp"] = ["llama-cpp-python"]
+    setup_spec.extras["llama_cpp_server"] = ["llama-cpp-server-py"]
+    setup_spec.extras["llama_cpp"] = setup_spec.extras["llama_cpp_server"] + [
+        "llama-cpp-python"
+    ]
     llama_cpp_python_cuda_requires()
 
 
@@ -668,6 +674,13 @@ def openai_requires():
     setup_spec.extras["openai"] += setup_spec.extras["rag"]
 
 
+def proxy_requires():
+    """
+    pip install "gptdb[proxy]"
+    """
+    setup_spec.extras["proxy"] = setup_spec.extras["openai"] + ["anthropic"]
+
+
 def gpt4all_requires():
     """
     pip install "gptdb[gpt4all]"
@@ -716,6 +729,8 @@ def default_requires():
         "sentencepiece",
         "ollama",
         "qianfan",
+        "libro>=0.1.25",
+        "poetry",
     ]
     setup_spec.extras["default"] += setup_spec.extras["framework"]
     setup_spec.extras["default"] += setup_spec.extras["rag"]
@@ -723,6 +738,8 @@ def default_requires():
     setup_spec.extras["default"] += setup_spec.extras["datasource"]
     setup_spec.extras["default"] += setup_spec.extras["torch"]
     setup_spec.extras["default"] += setup_spec.extras["cache"]
+    setup_spec.extras["default"] += setup_spec.extras["proxy"]
+    setup_spec.extras["default"] += setup_spec.extras["code"]
     if INCLUDE_QUANTIZATION:
         # Add quantization extra to default, default is True
         setup_spec.extras["default"] += setup_spec.extras["quantization"]
@@ -758,6 +775,7 @@ cache_requires()
 observability_requires()
 
 openai_requires()
+proxy_requires()
 # must be last
 default_requires()
 all_requires()
@@ -831,8 +849,8 @@ setuptools.setup(
     name="gptdb",
     packages=packages,
     version=GPT_DB_VERSION,
-    author="khulnasoft",
-    author_email="cfqkhulnasoft@gmail.com",
+    author="csunny",
+    author_email="cfqcsunny@gmail.com",
     description="GPT-DB is an experimental open-source project that uses localized GPT "
     "large models to interact with your data and environment."
     " With this solution, you can be assured that there is no risk of data leakage, "

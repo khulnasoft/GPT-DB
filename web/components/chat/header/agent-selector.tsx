@@ -1,5 +1,5 @@
 import { ChatContext } from '@/app/chat-context';
-import { apiInterceptors, getDbgptsList } from '@/client/api';
+import { apiInterceptors, getGptdbsList } from '@/client/api';
 import { useRequest } from 'ahooks';
 import { Select } from 'antd';
 import { useContext } from 'react';
@@ -10,7 +10,7 @@ function AgentSelector() {
   const { agent, setAgent } = useContext(ChatContext);
 
   const { data = [] } = useRequest(async () => {
-    const [, res] = await apiInterceptors(getDbgptsList());
+    const [, res] = await apiInterceptors(getGptdbsList());
     return res ?? [];
   });
 

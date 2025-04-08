@@ -83,16 +83,16 @@ def register_serve_apps(system_app: SystemApp, cfg: Config, webserver_port: int)
     system_app.register(FeedbackServe)
     # ################################ Chat Feedback Register End ########################################
 
-    # ################################ DbGpts Register Begin ########################################
+    # ################################ GptDbs Register Begin ########################################
     # Register serve gptdbshub
-    from gptdb.serve.gptdbs.hub.serve import Serve as DbgptsHubServe
+    from gptdb.serve.gptdbs.hub.serve import Serve as GptdbsHubServe
 
-    system_app.register(DbgptsHubServe)
+    system_app.register(GptdbsHubServe)
     # Register serve gptdbsmy
-    from gptdb.serve.gptdbs.my.serve import Serve as DbgptsMyServe
+    from gptdb.serve.gptdbs.my.serve import Serve as GptdbsMyServe
 
-    system_app.register(DbgptsMyServe)
-    # ################################ DbGpts Register End ########################################
+    system_app.register(GptdbsMyServe)
+    # ################################ GptDbs Register End ########################################
 
     # ################################ File Serve Register Begin ######################################
 
@@ -123,10 +123,16 @@ def register_serve_apps(system_app: SystemApp, cfg: Config, webserver_port: int)
 
     # ################################ File Serve Register End ########################################
 
-    # ################################ Evaluate Serve Register Begin #######################################
+    # ################################ Evaluate Serve Register Begin ##################################
     from gptdb.serve.evaluate.serve import Serve as EvaluateServe
 
     # Register serve Evaluate
     system_app.register(EvaluateServe)
+    # ################################ Evaluate Serve Register End ####################################
 
-    # ################################ Evaluate Serve Register End ########################################
+    # ################################ Libro Serve Register Begin #####################################
+    from gptdb.serve.libro.serve import Serve as LibroServe
+
+    # Register serve libro
+    system_app.register(LibroServe)
+    # ################################ Libro Serve Register End #######################################

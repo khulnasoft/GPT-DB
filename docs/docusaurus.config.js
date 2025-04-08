@@ -284,7 +284,7 @@ const config = {
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/DbGpt80100',
+                href: 'https://twitter.com/GptDb80100',
               },
             ],
           },

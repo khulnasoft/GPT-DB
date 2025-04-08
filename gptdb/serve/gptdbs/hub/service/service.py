@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 
 class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
-    """The service class for DbgptsHub"""
+    """The service class for GptdbsHub"""
 
     name = SERVE_SERVICE_COMPONENT_NAME
 
@@ -41,7 +41,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         self._system_app = system_app
 
     @property
-    def dao(self) -> BaseDao[ServeEntity, ServeRequest, ServerResponse]:
+    def dao(self) -> ServeDao:
         """Returns the internal DAO."""
         return self._dao
 
@@ -51,7 +51,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self._serve_config
 
     def update(self, request: ServeRequest) -> ServerResponse:
-        """Update a DbgptsHub entity
+        """Update a GptdbsHub entity
 
         Args:
             request (ServeRequest): The request
@@ -65,7 +65,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self.dao.update(query_request, update_request=request)
 
     def get(self, request: ServeRequest) -> Optional[ServerResponse]:
-        """Get a DbgptsHub entity
+        """Get a GptdbsHub entity
 
         Args:
             request (ServeRequest): The request
@@ -79,7 +79,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         return self.dao.get_one(query_request)
 
     def delete(self, request: ServeRequest) -> None:
-        """Delete a DbgptsHub entity
+        """Delete a GptdbsHub entity
 
         Args:
             request (ServeRequest): The request
@@ -93,7 +93,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         self.dao.delete(query_request)
 
     def get_list(self, request: ServeRequest) -> List[ServerResponse]:
-        """Get a list of DbgptsHub entities
+        """Get a list of GptdbsHub entities
 
         Args:
             request (ServeRequest): The request
@@ -109,7 +109,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
     def get_list_by_page(
         self, request: ServeRequest, page: int, page_size: int
     ) -> PaginationResult[ServerResponse]:
-        """Get a list of DbgptsHub entities by page
+        """Get a list of GptdbsHub entities by page
 
         Args:
             request (ServeRequest): The request
@@ -130,7 +130,7 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
             installed=request.installed,
         )
 
-        return self.dao.get_list_page(query_request, page, page_size)
+        return self.dao.gptdbs_list(query_request, page, page_size)
 
     def refresh_hub_from_git(
         self,

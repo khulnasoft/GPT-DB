@@ -1,9 +1,9 @@
-"""VisDbgptsFlow."""
+"""VisGptdbsFlow."""
 from ..base import Vis
 
 
-class VisDbgptsFlow(Vis):
-    """VisDbgptsFlow."""
+class VisGptdbsFlow(Vis):
+    """VisGptdbsFlow."""
 
     @classmethod
     def vis_tag(cls):
