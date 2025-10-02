@@ -8,10 +8,7 @@ from typing import Any, Dict, List, Optional
 from gptdb._private.pydantic import BaseModel, ConfigDict, Field, model_to_dict
 from gptdb.core import Chunk, Embeddings
 from gptdb.storage.vector_store.filters import MetadataFilters
-from gptdb.util.executor_utils import (
-    blocking_func_to_async,
-    blocking_func_to_async_no_executor,
-)
+from gptdb.util.executor_utils import blocking_func_to_async_no_executor
 
 logger = logging.getLogger(__name__)
 
@@ -139,7 +136,7 @@ class IndexStoreBase(ABC):
         """
         # Group the chunks into chunks of size max_chunks
         chunk_groups = [
-            chunks[i : i + max_chunks_once_load]
+            chunks[i: i + max_chunks_once_load]
             for i in range(0, len(chunks), max_chunks_once_load)
         ]
         logger.info(
@@ -176,13 +173,30 @@ class IndexStoreBase(ABC):
         Return:
             List[str]: Chunk ids.
         """
-        return await blocking_func_to_async(
-            self._executor,
-            self.load_document_with_limit,
-            chunks,
-            max_chunks_once_load,
-            max_threads,
+        chunk_groups = [
+            chunks[i: i + max_chunks_once_load]
+            for i in range(0, len(chunks), max_chunks_once_load)
+        ]
+        logger.info(
+            f"Loading {len(chunks)} chunks in {len(chunk_groups)} groups with "
+            f"{max_threads} threads."
         )
+        tasks = []
+        for chunk_group in chunk_groups:
+            tasks.append(self.aload_document(chunk_group))
+
+        import asyncio
+
+        results = await asyncio.gather(*tasks)
+
+        ids = []
+        loaded_cnt = 0
+        for success_ids in results:
+            ids.extend(success_ids)
+            loaded_cnt += len(success_ids)
+            logger.info(f"Loaded {loaded_cnt} chunks, total {len(chunks)} chunks.")
+
+        return ids
 
     def similar_search(
         self, text: str, topk: int, filters: Optional[MetadataFilters] = None
@@ -196,16 +210,27 @@ class IndexStoreBase(ABC):
         Return:
             List[Chunk]: The similar documents.
         """
-        return self.similar_search_with_scores(text, topk, 0.0, filters)
+        return self.similar_search_with_scores(text, topk, 1.0, filters)
+
+    async def asimilar_search(
+        self,
+        query: str,
+        topk: int,
+        filters: Optional[MetadataFilters] = None,
+    ) -> List[Chunk]:
+        """Async similar_search in vector database."""
+        return await blocking_func_to_async_no_executor(
+            self.similar_search, query, topk, filters
+        )
 
     async def asimilar_search_with_scores(
         self,
-        doc: str,
+        query: str,
         topk: int,
         score_threshold: float,
         filters: Optional[MetadataFilters] = None,
     ) -> List[Chunk]:
-        """Aynsc similar_search_with_score in vector database."""
+        """Async similar_search_with_score in vector database."""
         return await blocking_func_to_async_no_executor(
-            self.similar_search_with_scores, doc, topk, score_threshold, filters
+            self.similar_search_with_scores, query, topk, score_threshold, filters
         )

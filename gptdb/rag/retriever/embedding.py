@@ -10,7 +10,6 @@ from gptdb.rag.retriever.rerank import DefaultRanker, Ranker
 from gptdb.rag.retriever.rewrite import QueryRewrite
 from gptdb.storage.vector_store.filters import MetadataFilters
 from gptdb.util.chat_util import run_async_tasks
-from gptdb.util.executor_utils import blocking_func_to_async_no_executor
 from gptdb.util.tracer import root_tracer
 
 
@@ -241,9 +240,7 @@ class EmbeddingRetriever(BaseRetriever):
                 "query": query,
             },
         ):
-            return await blocking_func_to_async_no_executor(
-                self._index_store.similar_search, query, self._top_k, filters
-            )
+            return await self._index_store.asimilar_search(query, self._top_k, filters)
 
     async def _run_async_tasks(self, tasks) -> List[Chunk]:
         """Run async tasks."""

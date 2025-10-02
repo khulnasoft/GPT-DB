@@ -342,7 +342,8 @@ class Service(BaseService[ServeEntity, ServeRequest, ServerResponse]):
         try:
             model_request = ModelRequest(**payload)
 
-            async for output in llm_client.generate_stream(model_request.copy()):  # type: ignore
+            # type: ignore
+            async for output in llm_client.generate_stream(model_request.copy()):
                 yield f"data:{output.text}\n\n"
             yield f"data:[DONE]\n\n"
         except Exception as e:

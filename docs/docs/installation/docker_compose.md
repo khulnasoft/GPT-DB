@@ -6,14 +6,14 @@ $ docker compose up -d
 ------------------------------------------
 [+] Building 0.0s (0/0)
 [+] Running 2/2
-✔ Container gpt-db-db-1         Started                                                                                                                                                                                          0.4s
-✔ Container gpt-db-webserver-1  Started
+✔ Container db-gpt-db-1         Started                                                                                                                                                                                          0.4s
+✔ Container db-gpt-webserver-1  Started
 ```
 
 
 ## View log
 ```python
-$ docker logs gpt-db-webserver-1 -f
+$ docker logs db-gpt-webserver-1 -f
 ```
 
 :::info note

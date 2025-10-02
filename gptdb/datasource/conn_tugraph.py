@@ -1,7 +1,7 @@
 """TuGraph Connector."""
 
 import json
-from typing import Dict, Generator, List, cast
+from typing import Dict, Generator, Iterator, List, cast
 
 from .base import BaseConnector
 
@@ -20,9 +20,8 @@ class TuGraphConnector(BaseConnector):
         self._graph = graph
         self._session = None
 
-    def create_graph(self, graph_name: str) -> None:
-        """Create a new graph."""
-        # run the query to get vertex labels
+    def create_graph(self, graph_name: str) -> bool:
+        """Create a new graph in the database if it doesn't already exist."""
         try:
             with self._driver.session(database="default") as session:
                 graph_list = session.run("CALL dbms.graph.listGraphs()").data()
@@ -32,10 +31,25 @@ class TuGraphConnector(BaseConnector):
                         f"CALL dbms.graph.createGraph('{graph_name}', '', 2048)"
                     )
         except Exception as e:
-            raise Exception(f"Failed to create graph '{graph_name}': {str(e)}")
+            raise Exception(f"Failed to create graph '{graph_name}': {str(e)}") from e
+
+        return not exists
+
+    def is_exist(self, graph_name: str) -> bool:
+        """Check a new graph in the database if it doesn't already exist."""
+        try:
+            with self._driver.session(database="default") as session:
+                graph_list = session.run("CALL dbms.graph.listGraphs()").data()
+                exists = any(item["graph_name"] == graph_name for item in graph_list)
+        except Exception as e:
+            raise Exception(
+                f"Failed to check graph exist'{graph_name}': {str(e)}"
+            ) from e
+
+        return exists
 
     def delete_graph(self, graph_name: str) -> None:
-        """Delete a graph."""
+        """Delete a graph in the database if it exists."""
         with self._driver.session(database="default") as session:
             graph_list = session.run("CALL dbms.graph.listGraphs()").data()
             exists = any(item["graph_name"] == graph_name for item in graph_list)
@@ -61,17 +75,27 @@ class TuGraphConnector(BaseConnector):
                 "`pip install neo4j`"
             ) from err
 
-    def get_table_names(self) -> Dict[str, List[str]]:
-        """Get all table names from the TuGraph by Neo4j driver."""
-        # run the query to get vertex labels
-        with self._driver.session(database=self._graph) as session:
-            v_result = session.run("CALL db.vertexLabels()").data()
-            v_data = [table_name["label"] for table_name in v_result]
+    def get_system_info(self) -> Dict:
+        """Get system info from the TuGraph."""
+        with self._driver.session(database="default") as session:
+            system_info_list = session.run("CALL dbms.system.info()")
+            system_info = {}
+            for info in system_info_list:
+                system_info[info["name"]] = info["value"]
+            return system_info
 
-            # run the query to get edge labels
-            e_result = session.run("CALL db.edgeLabels()").data()
-            e_data = [table_name["label"] for table_name in e_result]
-            return {"vertex_tables": v_data, "edge_tables": e_data}
+    def get_table_names(self) -> Iterator[str]:
+        """Get all table names from the TuGraph by Neo4j driver."""
+        with self._driver.session(database=self._graph) as session:
+            # Run the query to get vertex labels
+            raw_vertex_labels = session.run("CALL db.vertexLabels()").data()
+            vertex_labels = [table_name["label"] for table_name in raw_vertex_labels]
+
+            # Run the query to get edge labels
+            raw_edge_labels = session.run("CALL db.edgeLabels()").data()
+            edge_labels = [table_name["label"] for table_name in raw_edge_labels]
+
+            return iter(vertex_labels + edge_labels)
 
     def get_grants(self):
         """Get grants."""
@@ -100,7 +124,7 @@ class TuGraphConnector(BaseConnector):
                 result = session.run(query)
                 return list(result)
             except Exception as e:
-                raise Exception(f"Query execution failed: {e}")
+                raise Exception(f"Query execution failed: {e}\nQuery: {query}") from e
 
     def run_stream(self, query: str) -> Generator:
         """Run GQL."""
@@ -109,11 +133,15 @@ class TuGraphConnector(BaseConnector):
             yield from result
 
     def get_columns(self, table_name: str, table_type: str = "vertex") -> List[Dict]:
-        """Get fields about specified graph.
+        """Retrieve the column for a specified vertex or edge table in the graph db.
+
+        This function queries the schema of a given table (vertex or edge) and returns
+        detailed information about its columns (properties).
 
         Args:
             table_name (str): table name (graph name)
             table_type (str): table type (vertex or edge)
+
         Returns:
             columns: List[Dict], which contains name: str, type: str,
                 default_expression: str, is_in_primary_key: bool, comment: str
@@ -146,8 +174,8 @@ class TuGraphConnector(BaseConnector):
         """Get table indexes about specified table.
 
         Args:
-            table_name:(str) table name
-            table_type:(str）'vertex' | 'edge'
+            table_name (str): table name
+            table_type (str): 'vertex' | 'edge'
         Returns:
             List[Dict]:eg:[{'name': 'idx_key', 'column_names': ['id']}]
         """

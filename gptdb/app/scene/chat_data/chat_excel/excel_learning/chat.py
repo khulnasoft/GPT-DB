@@ -53,7 +53,7 @@ class ExcelLearning(BaseChat):
         return input_values
 
     def message_adjust(self):
-        ### adjust learning result in messages
+        # adjust learning result in messages
         # TODO: Can't work in multi-rounds chat
         view_message = ""
         for message in self.current_message.messages:

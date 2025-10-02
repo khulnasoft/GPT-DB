@@ -21,6 +21,7 @@ from gptdb.agent import (
     DefaultAWELLayoutManager,
     GptsMemory,
     LLMConfig,
+    ResourceType,
     ShortTermMemory,
     UserProxyAgent,
     get_agent_manager,
@@ -43,6 +44,7 @@ from gptdb.serve.prompt.service import service as PromptService
 from gptdb.util.json_utils import serialize
 from gptdb.util.tracer import TracerManager
 
+from ...rag.retriever.knowledge_space import KnowledgeSpaceRetriever
 from ..db import GptsMessagesDao
 from ..db.gpts_app import GptsApp, GptsAppDao, GptsAppQuery
 from ..db.gpts_conversations_db import GptsConversationsDao, GptsConversationsEntity
@@ -104,6 +106,18 @@ class MultiAgents(BaseComponent, ABC):
 
         super().__init__(system_app)
         self.system_app = system_app
+
+    def on_init(self):
+        """Called when init the application.
+
+        Import your own module here to ensure the module is loaded before the application starts
+        """
+        from ..db.gpts_app import (
+            GptsAppCollectionEntity,
+            GptsAppDetailEntity,
+            GptsAppEntity,
+            UserRecentAppsEntity,
+        )
 
     def get_gptdbs(self, user_code: str = None, sys_code: str = None):
         apps = self.gpts_app.app_list(
@@ -204,11 +218,44 @@ class MultiAgents(BaseComponent, ABC):
                 if not gpt_app:
                     raise ValueError(f"Not found app {gpts_name}!")
 
+        historical_dialogues: List[GptsMessage] = []
         if not is_retry_chat:
-            # 新建gpts对话记录
+            # Create a new gpts conversation record
             gpt_app: GptsApp = self.gpts_app.app_detail(gpts_name)
             if not gpt_app:
                 raise ValueError(f"Not found app {gpts_name}!")
+
+            # When creating a new gpts conversation record, determine whether to include the history of previous topics according to the application definition.
+            # TODO BEGIN
+            # Temporarily use system configuration management, and subsequently use application configuration management
+            if CFG.MESSAGES_KEEP_START_ROUNDS and CFG.MESSAGES_KEEP_START_ROUNDS > 0:
+                gpt_app.keep_start_rounds = CFG.MESSAGES_KEEP_START_ROUNDS
+            if CFG.MESSAGES_KEEP_END_ROUNDS and CFG.MESSAGES_KEEP_END_ROUNDS > 0:
+                gpt_app.keep_end_rounds = CFG.MESSAGES_KEEP_END_ROUNDS
+            # TODO END
+
+            if gpt_app.keep_start_rounds > 0 or gpt_app.keep_end_rounds > 0:
+                if gpts_conversations and len(gpts_conversations) > 0:
+                    rely_conversations = []
+                    if gpt_app.keep_start_rounds + gpt_app.keep_end_rounds < len(
+                        gpts_conversations
+                    ):
+                        if gpt_app.keep_start_rounds > 0:
+                            front = gpts_conversations[gpt_app.keep_start_rounds:]
+                            rely_conversations.extend(front)
+                        if gpt_app.keep_end_rounds > 0:
+                            back = gpts_conversations[-gpt_app.keep_end_rounds:]
+                            rely_conversations.extend(back)
+                    else:
+                        rely_conversations = gpts_conversations
+                    for gpts_conversation in rely_conversations:
+                        temps: List[GptsMessage] = await self.memory.get_messages(
+                            gpts_conversation.conv_id
+                        )
+                        if temps and len(temps) > 1:
+                            historical_dialogues.append(temps[0])
+                            historical_dialogues.append(temps[-1])
+
             self.gpts_conversations.add(
                 GptsConversationsEntity(
                     conv_id=agent_conv_id,
@@ -275,6 +322,8 @@ class MultiAgents(BaseComponent, ABC):
                         is_retry_chat,
                         last_speaker_name=last_speaker_name,
                         init_message_rounds=message_round,
+                        enable_verbose=enable_verbose,
+                        historical_dialogues=historical_dialogues,
                         **ext_info,
                     )
                 )
@@ -416,6 +465,8 @@ class MultiAgents(BaseComponent, ABC):
         link_sender: ConversableAgent = None,
         app_link_start: bool = False,
         enable_verbose: bool = True,
+        historical_dialogues: Optional[List[GptsMessage]] = None,
+        rely_messages: Optional[List[GptsMessage]] = None,
         **ext_info,
     ):
         gpts_status = Status.COMPLETE.value
@@ -437,7 +488,7 @@ class MultiAgents(BaseComponent, ABC):
             rm = get_resource_manager()
 
             # init llm provider
-            ### init chat param
+            # init chat param
             worker_manager = CFG.SYSTEM_APP.get_component(
                 ComponentType.WORKER_MANAGER_FACTORY, WorkerManagerFactory
             ).create()
@@ -527,6 +578,10 @@ class MultiAgents(BaseComponent, ABC):
                     is_retry_chat=is_retry_chat,
                     last_speaker_name=last_speaker_name,
                     message_rounds=init_message_rounds,
+                    historical_dialogues=user_proxy.convert_to_agent_message(
+                        historical_dialogues
+                    ),
+                    rely_messages=rely_messages,
                     **ext_info,
                 )
 
@@ -601,6 +656,27 @@ class MultiAgents(BaseComponent, ABC):
                 self.gpts_conversations.update(
                     last_gpts_conversation.conv_id, Status.COMPLETE.value
                 )
+
+    async def get_knowledge_resources(self, app_code: str, question: str):
+        """Get the knowledge resources."""
+        context = []
+        app: GptsApp = self.get_app(app_code)
+        if app and app.details and len(app.details) > 0:
+            for detail in app.details:
+                if detail and detail.resources and len(detail.resources) > 0:
+                    for resource in detail.resources:
+                        if resource.type == ResourceType.Knowledge:
+                            retriever = KnowledgeSpaceRetriever(
+                                space_id=str(resource.value),
+                                top_k=CFG.KNOWLEDGE_SEARCH_TOP_SIZE,
+                            )
+                            chunks = await retriever.aretrieve_with_scores(
+                                question, score_threshold=0.3
+                            )
+                            context.extend([chunk.content for chunk in chunks])
+                        else:
+                            continue
+        return context
 
 
 multi_agents = MultiAgents(system_app)

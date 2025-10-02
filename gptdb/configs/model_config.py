@@ -79,6 +79,9 @@ LLM_MODEL_CONFIG = {
     "ollama_proxyllm": "ollama_proxyllm",
     # https://platform.deepseek.com/api-docs/
     "deepseek_proxyllm": "deepseek_proxyllm",
+    # https://docs.siliconflow.cn/quickstart
+    "siliconflow_proxyllm": "siliconflow_proxyllm",
+    "gitee_proxyllm": "gitee_proxyllm",
     "llama-2-7b": os.path.join(MODEL_PATH, "Llama-2-7b-chat-hf"),
     "llama-2-13b": os.path.join(MODEL_PATH, "Llama-2-13b-chat-hf"),
     "llama-2-70b": os.path.join(MODEL_PATH, "Llama-2-70b-chat-hf"),
@@ -183,7 +186,20 @@ LLM_MODEL_CONFIG = {
     "qwen2.5-coder-1.5b-instruct": os.path.join(
         MODEL_PATH, "Qwen2.5-Coder-1.5B-Instruct"
     ),
+    "qwen2.5-coder-32b-instruct": os.path.join(
+        MODEL_PATH, "Qwen2.5-Coder-32B-Instruct"
+    ),
+    "qwen2.5-coder-14b-instruct": os.path.join(
+        MODEL_PATH, "Qwen2.5-Coder-14B-Instruct"
+    ),
+    "qwen2.5-coder-3b-instruct": os.path.join(MODEL_PATH, "Qwen2.5-Coder-3B-Instruct"),
     "qwen2.5-coder-7b-instruct": os.path.join(MODEL_PATH, "Qwen2.5-Coder-7B-Instruct"),
+    "qwen2.5-coder-1.5b-instruct": os.path.join(
+        MODEL_PATH, "Qwen2.5-Coder-1.5B-Instruct"
+    ),
+    "qwen2.5-coder-0.5b-instruct": os.path.join(
+        MODEL_PATH, "Qwen2.5-Coder-0.5B-Instruct"
+    ),
     # (Llama2 based) We only support WizardLM-13B-V1.2 for now, which is trained from Llama-2 13b, see https://huggingface.co/WizardLM/WizardLM-13B-V1.2
     "wizardlm-13b": os.path.join(MODEL_PATH, "WizardLM-13B-V1.2"),
     # wget https://huggingface.co/TheBloke/vicuna-13B-v1.5-GGUF/resolve/main/vicuna-13b-v1.5.Q4_K_M.gguf -O models/ggml-model-q4_0.gguf
@@ -292,6 +308,7 @@ EMBEDDING_MODEL_CONFIG = {
     "bge-base-zh": os.path.join(MODEL_PATH, "bge-base-zh"),
     # https://huggingface.co/BAAI/bge-m3, beg need normalize_embeddings=True
     "bge-m3": os.path.join(MODEL_PATH, "bge-m3"),
+    "bge-large-zh-v1.5": os.path.join(MODEL_PATH, "bge-large-zh-v1.5"),
     "gte-large-zh": os.path.join(MODEL_PATH, "gte-large-zh"),
     "gte-base-zh": os.path.join(MODEL_PATH, "gte-base-zh"),
     "sentence-transforms": os.path.join(MODEL_PATH, "all-MiniLM-L6-v2"),
@@ -307,6 +324,7 @@ EMBEDDING_MODEL_CONFIG = {
     "bge-reranker-large": os.path.join(MODEL_PATH, "bge-reranker-large"),
     # Proxy rerank model
     "rerank_proxy_http_openapi": "rerank_proxy_http_openapi",
+    "rerank_proxy_siliconflow": "rerank_proxy_siliconflow",
 }
 
 

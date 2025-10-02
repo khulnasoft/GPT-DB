@@ -198,7 +198,7 @@ try:
     add_command_alias(new_gptdbs, name="app", parent_group=new)
 
 except ImportError as e:
-    logging.warning(f"Integrating gptdb gptdbs command line tool failed: {e}")
+    logging.warning(f"Integrating gptgpt dbdbs command line tool failed: {e}")
 
 try:
     from gptdb.client._cli import flow as run_flow

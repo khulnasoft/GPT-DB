@@ -167,6 +167,9 @@ class ModelAPIServerParameters(BaseServerParameters):
     embedding_batch_size: Optional[int] = field(
         default=None, metadata={"help": "Embedding batch size"}
     )
+    ignore_stop_exceeds_error: Optional[bool] = field(
+        default=False, metadata={"help": "Ignore exceeds stop words error"}
+    )
 
     log_file: Optional[str] = field(
         default="gptdb_model_apiserver.log",
@@ -610,7 +613,16 @@ class ProxyEmbeddingParameters(BaseEmbeddingModelParameters):
 
 
 _EMBEDDING_PARAMETER_CLASS_TO_NAME_CONFIG = {
-    ProxyEmbeddingParameters: "proxy_openai,proxy_azure,proxy_http_openapi,proxy_ollama,proxy_tongyi,proxy_qianfan,rerank_proxy_http_openapi",
+    ProxyEmbeddingParameters: [
+        "proxy_openai",
+        "proxy_azure",
+        "proxy_http_openapi",
+        "proxy_ollama",
+        "proxy_tongyi",
+        "proxy_qianfan",
+        "rerank_proxy_http_openapi",
+        "rerank_proxy_siliconflow",
+    ]
 }
 
 EMBEDDING_NAME_TO_PARAMETER_CLASS_CONFIG = {}
@@ -619,7 +631,6 @@ EMBEDDING_NAME_TO_PARAMETER_CLASS_CONFIG = {}
 def _update_embedding_config():
     global EMBEDDING_NAME_TO_PARAMETER_CLASS_CONFIG
     for param_cls, models in _EMBEDDING_PARAMETER_CLASS_TO_NAME_CONFIG.items():
-        models = [m.strip() for m in models.split(",")]
         for model in models:
             if model not in EMBEDDING_NAME_TO_PARAMETER_CLASS_CONFIG:
                 EMBEDDING_NAME_TO_PARAMETER_CLASS_CONFIG[model] = param_cls

@@ -5,17 +5,11 @@ import logging
 from concurrent.futures import Executor
 from typing import TYPE_CHECKING, Any, AsyncIterator, Dict, List, Optional, Union
 
-from gptdb.core import (
-    MessageConverter,
-    ModelMetadata,
-    ModelOutput,
-    ModelRequest,
-    ModelRequestContext,
-)
+from gptdb.core import MessageConverter, ModelMetadata, ModelOutput, ModelRequest
 from gptdb.core.awel.flow import Parameter, ResourceCategory, register_resource
 from gptdb.model.parameter import ProxyModelParameters
 from gptdb.model.proxy.base import ProxyLLMClient
-from gptdb.model.proxy.llms.proxy_model import ProxyModel
+from gptdb.model.proxy.llms.proxy_model import ProxyModel, parse_model_request
 from gptdb.model.utils.chatgpt_utils import OpenAIParameters
 from gptdb.util.i18n_utils import _
 
@@ -32,14 +26,7 @@ async def chatgpt_generate_stream(
     model: ProxyModel, tokenizer, params, device, context_len=2048
 ):
     client: OpenAILLMClient = model.proxy_llm_client
-    context = ModelRequestContext(stream=True, user_name=params.get("user_name"))
-    request = ModelRequest.build_request(
-        client.default_model,
-        messages=params["messages"],
-        temperature=params.get("temperature"),
-        context=context,
-        max_new_tokens=params.get("max_new_tokens"),
-    )
+    request = parse_model_request(params, client.default_model, stream=True)
     async for r in client.generate_stream(request):
         yield r
 
@@ -125,6 +112,11 @@ class OpenAILLMClient(ProxyLLMClient):
 
             _initialize_openai(self._init_params)
 
+        if not self._openai_less_then_v1:
+            # Prepare openai client and cache default headers
+            # It will block the main thread in some cases
+            _ = self.client.default_headers
+
     @classmethod
     def new_client(
         cls,
@@ -188,6 +180,10 @@ class OpenAILLMClient(ProxyLLMClient):
             payload["temperature"] = request.temperature
         if request.max_new_tokens:
             payload["max_tokens"] = request.max_new_tokens
+        if request.stop:
+            payload["stop"] = request.stop
+        if request.top_p:
+            payload["top_p"] = request.top_p
         return payload
 
     async def generate(
