@@ -26,7 +26,7 @@ def get_module_name(depth=2):
             frame = frame.f_back
         module_path = inspect.getmodule(frame).__file__
         if module_path.startswith(ROOT_PATH):
-            module_path = module_path[len(ROOT_PATH) + 1 :]
+            module_path = module_path[len(ROOT_PATH) + 1:]
         module_path = module_path.split("/")[1]
         if module_path.endswith(".py"):
             module_path = module_path[:-3]

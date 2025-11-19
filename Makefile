@@ -2,6 +2,7 @@
 
 SHELL=/bin/bash
 VENV = venv
+CONDA_ENV = gptdb_env
 
 # Detect the operating system and set the virtualenv bin directory
 ifeq ($(OS),Windows_NT)
@@ -10,6 +11,51 @@ else
 	VENV_BIN=$(VENV)/bin
 endif
 
+.PHONY: conda-install
+conda-install: ## Download and install Conda if not installed
+	@if ! command -v conda &> /dev/null; then \
+		echo "Conda is not installed on your system."; \
+		echo "Downloading and installing Miniconda..."; \
+		OS=$(shell uname -s); \
+		if [ "$$OS" = "Linux" ]; then \
+			URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"; \
+		elif [ "$$OS" = "Darwin" ]; then \
+			URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh"; \
+		else \
+			echo "Unsupported operating system: $$OS"; \
+			exit 1; \
+		fi; \
+		echo "Downloading Miniconda from: $$URL"; \
+		curl -o miniconda-installer.sh $$URL; \
+		echo "Installing Miniconda..."; \
+		bash miniconda-installer.sh -b -p $$HOME/miniconda; \
+		rm miniconda-installer.sh; \
+		echo "Adding Conda to PATH..."; \
+		export PATH=$$HOME/miniconda/bin:$$PATH; \
+		echo "Miniconda installation completed."; \
+	else \
+		echo "Conda is already installed. Version:"; \
+		conda --version; \
+	fi
+
+.PHONY: conda-activate
+conda-activate: ## Activate the specified Conda environment
+	@if ! command -v conda &> /dev/null; then \
+		echo "Conda is not installed. Run 'make conda-install' first."; \
+		exit 1; \
+	fi; \
+	ENV_NAME=gptdb_env; \
+	if ! conda info --envs | grep -q "$$ENV_NAME"; then \
+		echo "Environment '$$ENV_NAME' does not exist. Creating it..."; \
+		conda create -n $$ENV_NAME python=3.10 -y; \
+	fi; \
+	echo "Activating the Conda environment '$$ENV_NAME'..."; \
+	$$HOME/miniconda/bin/conda activate $$ENV_NAME || echo "Run the following command to activate the environment manually in your shell:"; \
+	echo "source $$HOME/miniconda/bin/activate $$ENV_NAME"
+
+
+
+# Virtual environment setup
 setup: $(VENV)/bin/activate
 
 $(VENV)/bin/activate: $(VENV)/.venv-timestamp
@@ -25,30 +71,18 @@ $(VENV)/.venv-timestamp: setup.py requirements
 testenv: $(VENV)/.testenv
 
 $(VENV)/.testenv: $(VENV)/bin/activate
-	# $(VENV_BIN)/pip install -e ".[framework]"
-	# the openai optional dependency is include framework and rag dependencies
+	# Install dependencies for testing
 	$(VENV_BIN)/pip install -e ".[openai]"
 	touch $(VENV)/.testenv
 
-
 .PHONY: fmt
 fmt: setup ## Format Python code
-	# TODO: Use isort to sort Python imports.
-	# https://github.com/PyCQA/isort
-	# $(VENV_BIN)/isort .
 	$(VENV_BIN)/isort gptdb/
 	$(VENV_BIN)/isort --extend-skip="examples/notebook" examples
-	# https://github.com/psf/black
 	$(VENV_BIN)/black --extend-exclude="examples/notebook" .
-	# TODO: Use blackdoc to format Python doctests.
-	# https://blackdoc.readthedocs.io/en/latest/
-	# $(VENV_BIN)/blackdoc .
 	$(VENV_BIN)/blackdoc gptdb
 	$(VENV_BIN)/blackdoc examples
-	# TODO: Use flake8 to enforce Python style guide.
-	# https://flake8.pycqa.org/en/latest/
 	$(VENV_BIN)/flake8 gptdb/core/ gptdb/rag/ gptdb/storage/ gptdb/datasource/ gptdb/client/ gptdb/agent/ gptdb/vis/ gptdb/experimental/
-	# TODO: More package checks with flake8.
 
 .PHONY: fmt-check
 fmt-check: setup ## Check Python code formatting and style without making changes
@@ -66,17 +100,11 @@ test: $(VENV)/.testenv ## Run unit tests
 
 .PHONY: test-doc
 test-doc: $(VENV)/.testenv ## Run doctests
-	# -k "not test_" skips tests that are not doctests.
 	$(VENV_BIN)/pytest --doctest-modules -k "not test_" gptdb/core
 
 .PHONY: mypy
 mypy: $(VENV)/.testenv ## Run mypy checks
-	# https://github.com/python/mypy
 	$(VENV_BIN)/mypy --config-file .mypy.ini gptdb/rag/ gptdb/datasource/ gptdb/client/ gptdb/agent/ gptdb/vis/ gptdb/experimental/
-	# rag depends on core and storage, so we not need to check it again.
-	# $(VENV_BIN)/mypy --config-file .mypy.ini gptdb/storage/
-	# $(VENV_BIN)/mypy --config-file .mypy.ini gptdb/core/
-	# TODO: More package checks with mypy.
 
 .PHONY: coverage
 coverage: setup ## Run tests and report coverage
@@ -85,6 +113,8 @@ coverage: setup ## Run tests and report coverage
 .PHONY: clean
 clean: ## Clean up the environment
 	rm -rf $(VENV)
+	conda deactivate || true
+	conda remove --name $(CONDA_ENV) --all -y || true
 	find . -type f -name '*.pyc' -delete
 	find . -type d -name '__pycache__' -delete
 	find . -type d -name '.pytest_cache' -delete
@@ -100,10 +130,9 @@ package: clean-dist ## Package the project for distribution
 
 .PHONY: upload
 upload: ## Upload the package to PyPI
-	# upload to testpypi: twine upload --repository testpypi dist/*
 	twine upload dist/*
 
 .PHONY: help
-help:  ## Display this help screen
+help: ## Display this help screen
 	@echo "Available commands:"
 	@grep -E '^[a-z.A-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-18s\033[0m %s\n", $$1, $$2}' | sort

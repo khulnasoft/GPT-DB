@@ -151,6 +151,7 @@ _OPERATOR_CATEGORY_DETAIL = {
     "database": _CategoryDetail("Database", "Interact with the database"),
     "type_converter": _CategoryDetail("Type Converter", "Convert the type"),
     "example": _CategoryDetail("Example", "Example operator"),
+    "code": _CategoryDetail("Code", "Code operator"),
 }
 
 
@@ -169,6 +170,7 @@ class OperatorCategory(str, Enum):
     DATABASE = "database"
     TYPE_CONVERTER = "type_converter"
     EXAMPLE = "example"
+    CODE = "code"
 
     def label(self) -> str:
         """Get the label of the category."""
@@ -211,6 +213,9 @@ _RESOURCE_CATEGORY_DETAIL = {
     "embeddings": _CategoryDetail("Embeddings", "The embeddings resource"),
     "rag": _CategoryDetail("RAG", "The  resource"),
     "vector_store": _CategoryDetail("Vector Store", "The vector store resource"),
+    "knowledge_graph": _CategoryDetail(
+        "Knowledge Graph", "The knowledge graph resource"
+    ),
     "database": _CategoryDetail("Database", "Interact with the database"),
     "example": _CategoryDetail("Example", "The example resource"),
 }
@@ -229,6 +234,8 @@ class ResourceCategory(str, Enum):
     EMBEDDINGS = "embeddings"
     RAG = "rag"
     VECTOR_STORE = "vector_store"
+    KNOWLEDGE_GRAPH = "knowledge_graph"
+    FULL_TEXT = "full_text"
     DATABASE = "database"
     EXAMPLE = "example"
 
@@ -771,7 +778,7 @@ class BaseMetadata(BaseResource):
     documentation_url: Optional[str] = Field(
         default=None,
         description="The documentation url of the operator or resource",
-        examples=["https://docs-gptdb.khulnasoft.com/docs/awel"],
+        examples=["https://docs.gptdb.site/docs/awel"],
     )
 
     id: str = Field(
@@ -1361,6 +1368,8 @@ def _register_operator(view_cls: Optional[Type[T]]):
     """Register the operator."""
     if not view_cls or not view_cls.metadata:
         return
+    if "metadata" not in view_cls.__dict__:
+        return  # Skip the base class
     metadata = view_cls.metadata
     metadata.type_name = view_cls.__qualname__
     metadata.type_cls = _get_type_name(view_cls)

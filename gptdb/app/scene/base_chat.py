@@ -94,7 +94,7 @@ class BaseChat(ABC):
         ).create()
         self.model_cache_enable = chat_param.get("model_cache_enable", False)
 
-        ### load prompt template
+        # load prompt template
         # self.prompt_template: PromptTemplate = CFG.prompt_templates[
         #     self.chat_mode.value()
         # ]
@@ -108,7 +108,7 @@ class BaseChat(ABC):
         )
         self._conv_serve = ConversationServe.get_instance(CFG.SYSTEM_APP)
         # chat_history_fac = ChatHistory()
-        ### can configurable storage methods
+        # can configurable storage methods
         # self.memory = chat_history_fac.get_store_instance(chat_param["chat_session_id"])
 
         # self.history_message: List[OnceConversation] = self.memory.messages()
@@ -230,10 +230,16 @@ class BaseChat(ABC):
             chat_mode=self.chat_mode.value(),
             span_id=root_tracer.get_current_span_id(),
         )
+        temperature = float(
+            self._chat_param.get("temperature", self.prompt_template.temperature)
+        )
+        max_new_tokens = int(
+            self._chat_param.get("max_new_tokens", self.prompt_template.max_new_tokens)
+        )
         node = AppChatComposerOperator(
             model=self.llm_model,
-            temperature=float(self.prompt_template.temperature),
-            max_new_tokens=int(self.prompt_template.max_new_tokens),
+            temperature=temperature,
+            max_new_tokens=max_new_tokens,
             prompt=self.prompt_template.prompt,
             message_version=self._message_version,
             echo=self.llm_echo,
@@ -276,6 +282,8 @@ class BaseChat(ABC):
         )
         payload.span_id = span.span_id
         try:
+            msg = "<span style='color:red'>ERROR!</span> No response from model"
+            view_msg = msg
             async for output in self.call_streaming_operator(payload):
                 # Plugin research in result generation
                 msg = self.prompt_template.output_parser.parse_model_stream_resp_ex(
@@ -294,7 +302,7 @@ class BaseChat(ABC):
             self.current_message.add_view_message(
                 f"""<span style=\"color:red\">ERROR!</span>{str(e)}\n  {ai_response_text} """
             )
-            ### store current conversation
+            # store current conversation
             span.end(metadata={"error": str(e)})
         await blocking_func_to_async(
             self._executor, self.current_message.end_current_round
@@ -374,13 +382,13 @@ class BaseChat(ABC):
         prompt_define_response = None
         try:
             model_output = await self.call_llm_operator(payload)
-            ### output parse
+            # output parse
             ai_response_text = (
                 self.prompt_template.output_parser.parse_model_nostream_resp(
                     model_output, self.prompt_template.sep
                 )
             )
-            ### model result deal
+            # model result deal
             self.current_message.add_ai_message(ai_response_text)
             prompt_define_response = (
                 self.prompt_template.output_parser.parse_prompt_response(
@@ -510,7 +518,7 @@ class BaseChat(ABC):
             },
             # {"response_data_text":" the default display method, suitable for single-line or simple content display"},
             {
-                "response_scatter_plot": "Suitable for exploring relationships between variables, detecting outliers, etc."
+                "response_scatter_chart": "Suitable for exploring relationships between variables, detecting outliers, etc."
             },
             {
                 "response_bubble_chart": "Suitable for relationships between multiple variables, highlighting outliers or special situations, etc."
@@ -523,6 +531,9 @@ class BaseChat(ABC):
             },
             {
                 "response_heatmap": "Suitable for visual analysis of time series data, large-scale data sets, distribution of classified data, etc."
+            },
+            {
+                "response_vector_chart": "Suitable for projecting high-dimensional vector data onto a two-dimensional plot through the PCA algorithm."
             },
         ]
 

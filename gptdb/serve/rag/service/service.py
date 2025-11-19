@@ -320,6 +320,10 @@ class Service(BaseService[KnowledgeSpaceEntity, SpaceServeRequest, SpaceServeRes
         entity = self._document_dao.from_response(document)
         if request.doc_name:
             entity.doc_name = request.doc_name
+            update_chunk = self._chunk_dao.get_one({"document_id": entity.id})
+            if update_chunk:
+                update_chunk.doc_name = request.doc_name
+                self._chunk_dao.update({"id": update_chunk.id}, update_chunk)
         if len(request.questions) == 0:
             request.questions = ""
         questions = [
@@ -411,12 +415,19 @@ class Service(BaseService[KnowledgeSpaceEntity, SpaceServeRequest, SpaceServeRes
         """
         return self._document_dao.get_list_page(request, page, page_size)
 
-    def get_chunk_list(self, request: QUERY_SPEC, page: int, page_size: int):
-        """get document chunks
+    def get_chunk_list_page(self, request: QUERY_SPEC, page: int, page_size: int):
+        """get document chunks with page
         Args:
             - request: QUERY_SPEC
         """
         return self._chunk_dao.get_list_page(request, page, page_size)
+
+    def get_chunk_list(self, request: QUERY_SPEC):
+        """get document chunks
+        Args:
+            - request: QUERY_SPEC
+        """
+        return self._chunk_dao.get_list(request)
 
     def update_chunk(self, request: ChunkServeRequest):
         """update knowledge document chunk"""
@@ -495,6 +506,7 @@ class Service(BaseService[KnowledgeSpaceEntity, SpaceServeRequest, SpaceServeRes
             name=space.name,
             embedding_fn=embedding_fn,
             max_chunks_once_load=CFG.KNOWLEDGE_MAX_CHUNKS_ONCE_LOAD,
+            max_threads=CFG.KNOWLEDGE_MAX_THREADS,
             llm_client=self.llm_client,
             model_name=None,
         )
@@ -556,6 +568,10 @@ class Service(BaseService[KnowledgeSpaceEntity, SpaceServeRequest, SpaceServeRes
                     doc.chunk_size = len(chunk_docs)
                     vector_ids = [chunk.chunk_id for chunk in chunk_docs]
                 else:
+                    max_chunks_once_load = (
+                        vector_store_connector._index_store_config.max_chunks_once_load
+                    )
+                    max_threads = vector_store_connector._index_store_config.max_threads
                     assembler = await EmbeddingAssembler.aload_from_knowledge(
                         knowledge=knowledge,
                         index_store=vector_store_connector.index_client,
@@ -564,7 +580,10 @@ class Service(BaseService[KnowledgeSpaceEntity, SpaceServeRequest, SpaceServeRes
 
                     chunk_docs = assembler.get_chunks()
                     doc.chunk_size = len(chunk_docs)
-                    vector_ids = await assembler.apersist()
+                    vector_ids = await assembler.apersist(
+                        max_chunks_once_load=max_chunks_once_load,
+                        max_threads=max_threads,
+                    )
             doc.status = SyncStatus.FINISHED.name
             doc.result = "document persist into index store success"
             if vector_ids is not None:

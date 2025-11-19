@@ -1,6 +1,6 @@
 import pytest
 
-from gptdb.storage.graph_store.graph import MemoryGraph, Edge, Vertex, Direction
+from gptdb.storage.graph_store.graph import Direction, Edge, MemoryGraph, Vertex
 
 
 @pytest.fixture
@@ -25,12 +25,12 @@ def g():
         (lambda g: g.del_vertices("G", "G"), 6, 9),
         (lambda g: g.del_vertices("C"), 6, 7),
         (lambda g: g.del_vertices("A", "G"), 5, 6),
-        (lambda g: g.del_edges("A", "A"), 7, 7),
-        (lambda g: g.del_edges("A", "B"), 7, 8),
+        (lambda g: g.del_edges("A", "A", None), 7, 7),
+        (lambda g: g.del_edges("A", "B", None), 7, 8),
         (lambda g: g.del_edges("A", "A", "0"), 7, 8),
         (lambda g: g.del_edges("E", "F", "8"), 7, 8),
         (lambda g: g.del_edges("E", "F", "9"), 7, 9),
-        (lambda g: g.del_edges("E", "F", val=1), 7, 9),
+        (lambda g: g.del_edges("E", "F", None, val=1), 7, 9),
         (lambda g: g.del_edges("E", "F", "8", val=1), 7, 9),
         (lambda g: g.del_edges("E", "F", "9", val=1), 7, 9),
         (lambda g: g.del_neighbor_edges("A", Direction.IN), 7, 7),

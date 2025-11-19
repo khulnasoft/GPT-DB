@@ -1,4 +1,4 @@
-# GPT-DB: 用私有化LLM技术定义数据库下一代交互方式
+# GPT-DB: AI原生数据应用开发框架
 
 <p align="left">
   <img src="./assets/LOGO.png" width="100%" />
@@ -8,10 +8,10 @@
 <div align="center">
   <p>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/gpt-db?style=social" />
+        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/gpt-db?style=social" />
+        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -56,8 +56,6 @@
   - GPT-Vis前端可视化升级，支持更丰富的可视化图表。 
   - 支持Text2NLU与Text2GQL微调, 即新增意图分类与从自然语言到图语言的微调。 
 
-- [V0.5.0发布——通过工作流与智能体开发原生数据应用](https://www.yuque.com/khulnasoft/gptdb-docs/owcrh9423f9rqkg2)
----
 
 ### Data Agents 
 
@@ -129,6 +127,7 @@
   - [报表分析](https://www.yuque.com/khulnasoft/gptdb-docs/vsv49p33eg4p5xc1)
   - [Agents](https://www.yuque.com/khulnasoft/gptdb-docs/pom41m7oqtdd57hm)
 - [**进阶教程**](https://www.yuque.com/khulnasoft/gptdb-docs/dxalqb8wsv2xkm5f)
+  - [数智应用开发](https://www.yuque.com/khulnasoft/gptdb-docs/ancwnrsk9agc6e4w)
   - [智能体工作流使用](https://www.yuque.com/khulnasoft/gptdb-docs/hcomfb3yrleg7gmq)
   - [智能应用使用](https://www.yuque.com/khulnasoft/gptdb-docs/aiagvxeb86iarq6r)
   - [多模型管理](https://www.yuque.com/khulnasoft/gptdb-docs/huzgcf2abzvqy8uv)
@@ -163,6 +162,15 @@
   海量模型支持，包括开源、API代理等几十种大语言模型。如LLaMA/LLaMA2、Baichuan、ChatGLM、文心、通义、智谱等。当前已支持如下模型: 
 
   - 新增支持模型
+    - 🔥🔥🔥  [Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-14B-Instruct](https://huggingface.co/Qwen/Qwen2.5-14B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-Coder-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-Coder-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct)
     - 🔥🔥🔥  [Meta-Llama-3.1-405B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-405B-Instruct)
     - 🔥🔥🔥  [Meta-Llama-3.1-70B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-70B-Instruct)
     - 🔥🔥🔥  [Meta-Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct)
@@ -255,7 +263,11 @@
 The MIT License (MIT)
 
 ## 引用
-如果您发现`GPT-DB`对您的研究或开发有用，请引用以下<a href="https://arxiv.org/abs/2312.17449" target="_blank">论文</a>：
+如果您发现`GPT-DB`对您的研究或开发有用，请引用以下论文，其中：
+
+如果您想了解GPT-DB整体架构，请引用<a href="https://arxiv.org/abs/2312.17449" target="_blank">论文</a>和<a href="https://arxiv.org/abs/2404.10209" target="_blank">论文</a>
+
+如果您想了解使用GPT-DB进行Agent开发相关的内容，请引用<a href="https://arxiv.org/abs/2412.13520" target="_blank">论文</a>
 
 ```bibtex
 @article{xue2023gptdb,
@@ -265,22 +277,39 @@ The MIT License (MIT)
       journal={arXiv preprint arXiv:2312.17449},
       url={https://arxiv.org/abs/2312.17449}
 }
+@misc{huang2024romasrolebasedmultiagentdatabase,
+      title={ROMAS: A Role-Based Multi-Agent System for Database monitoring and Planning}, 
+      author={Yi Huang and Fangyin Cheng and Fan Zhou and Jiahui Li and Jian Gong and Hongjun Yang and Zhidong Fan and Caigao Jiang and Siqiao Xue and Faqiang Chen},
+      year={2024},
+      eprint={2412.13520},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2412.13520}, 
+}
+@inproceedings{xue2024demonstration,
+      title={Demonstration of GPT-DB: Next Generation Data Interaction System Empowered by Large Language Models}, 
+      author={Siqiao Xue and Danrui Qi and Caigao Jiang and Wenhui Shi and Fangyin Cheng and Keting Chen and Hongjun Yang and Zhiping Zhang and Jianshan He and Hongyang Zhang and Ganglin Wei and Wang Zhao and Fan Zhou and Hong Yi and Shaodong Liu and Hongjun Yang and Faqiang Chen},
+      year={2024},
+      booktitle = "Proceedings of the VLDB Endowment",
+      url={https://arxiv.org/abs/2404.10209}
+}
 ```
 
 ## 联系我们
 
+  **说明: 由于微信群人数上限的限制, 我们的答疑与问题支持优先会在钉钉大群进行。**
 <div style="display: flex; justify-content: space-around;">
-    <figure style="display: flex; flex-direction: column;">
-        <img src="./assets/wechat.jpg" alt="图片1" style="width: 200px;">
-        <p style="text-align: center;">
-          微信
-        </p> 
-    </figure>
     <figure style="display: flex; flex-direction: column;">
         <img src="./assets/ding.jpg" alt="图片2" style="width: 220px;">
         <p style="text-align: center;">
           钉钉
         </p>
+    </figure>
+    <figure style="display: flex; flex-direction: column;">
+        <img src="./assets/wechat.jpg" alt="图片1" style="width: 200px;">
+        <p style="text-align: center;">
+          微信
+        </p> 
     </figure>
 </div>
 
@@ -288,4 +317,4 @@ The MIT License (MIT)
   <img src="./assets/wechat.jpg" width="300px" />
 </p> -->
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)

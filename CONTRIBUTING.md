@@ -21,7 +21,7 @@ Please replace `<YOUR-GITHUB-USERNAME>` with your GitHub username.
 
 1. Create a new virtual environment using the following command:
 ```
-# Make sure python >= 3.10
+# Ensure python >= 3.10
 conda create -n gptdb_env python=3.10
 conda activate gptdb_env
 ```

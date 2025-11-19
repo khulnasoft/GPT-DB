@@ -362,7 +362,7 @@ async def _chat_stream(worker_manager, model_name: str, system_prompt: str = Non
         request = request.dict(exclude_none=True)
         print("Bot: ", end="")
         async for response in worker_manager.generate_stream(request):
-            incremental_output = response.text[len(previous_response) :]
+            incremental_output = response.text[len(previous_response):]
             print(incremental_output, end="", flush=True)
             previous_response = response.text
         hist.append(

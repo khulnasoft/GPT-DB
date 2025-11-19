@@ -436,6 +436,7 @@ async def get_chat_instance(dialogue: ConversationVo = Body()) -> BaseChat:
         "app_code": dialogue.app_code,
         "ext_info": dialogue.ext_info,
         "temperature": dialogue.temperature,
+        "max_new_tokens": dialogue.max_new_tokens,
     }
     chat: BaseChat = await blocking_func_to_async(
         get_executor(),
@@ -455,7 +456,7 @@ async def chat_prepare(
     # dialogue.model_name = CFG.LLM_MODEL
     dialogue.user_name = user_token.user_id if user_token else dialogue.user_name
     logger.info(f"chat_prepare:{dialogue}")
-    ## check conv_uid
+    # check conv_uid
     chat: BaseChat = await get_chat_instance(dialogue)
 
     await chat.prepare()
@@ -626,7 +627,7 @@ async def flow_stream_generator(func, incremental: bool, model_name: str):
         if chunk:
             msg = chunk.replace("\ufffd", "")
             if incremental:
-                incremental_output = msg[len(previous_response) :]
+                incremental_output = msg[len(previous_response):]
                 choice_data = ChatCompletionResponseStreamChoice(
                     index=0,
                     delta=DeltaMessage(role="assistant", content=incremental_output),
@@ -673,7 +674,7 @@ async def stream_generator(chat, incremental: bool, model_name: str):
         if chunk:
             msg = chunk.replace("\ufffd", "")
             if incremental:
-                incremental_output = msg[len(previous_response) :]
+                incremental_output = msg[len(previous_response):]
                 choice_data = ChatCompletionResponseStreamChoice(
                     index=0,
                     delta=DeltaMessage(role="assistant", content=incremental_output),

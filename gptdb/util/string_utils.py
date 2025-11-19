@@ -4,7 +4,7 @@ from typing import Dict
 
 
 def is_all_chinese(text):
-    ### Determine whether the string is pure Chinese
+    # Determine whether the string is pure Chinese
     pattern = re.compile(r"^[一-龥]+$")
     match = re.match(pattern, text)
     return match is not None
@@ -16,14 +16,14 @@ def contains_chinese(text):
 
 
 def is_number_chinese(text):
-    ### Determine whether the string is numbers and Chinese
+    # Determine whether the string is numbers and Chinese
     pattern = re.compile(r"^[\d一-龥]+$")
     match = re.match(pattern, text)
     return match is not None
 
 
 def is_chinese_include_number(text):
-    ### Determine whether the string is pure Chinese or Chinese containing numbers
+    # Determine whether the string is pure Chinese or Chinese containing numbers
     pattern = re.compile(r"^[一-龥]+[\d一-龥]*$")
     match = re.match(pattern, text)
     return match is not None
@@ -48,10 +48,10 @@ def extract_content(long_string, s1, s2, is_include: bool = False) -> Dict[int, 
     while start_index != -1:
         if is_include:
             end_index = long_string.find(s2, start_index + len(s1) + 1)
-            extracted_content = long_string[start_index : end_index + len(s2)]
+            extracted_content = long_string[start_index: end_index + len(s2)]
         else:
             end_index = long_string.find(s2, start_index + len(s1))
-            extracted_content = long_string[start_index + len(s1) : end_index]
+            extracted_content = long_string[start_index + len(s1): end_index]
         if extracted_content:
             match_map[start_index] = extracted_content
         start_index = long_string.find(s1, start_index + 1)
@@ -71,9 +71,9 @@ def extract_content_open_ending(long_string, s1, s2, is_include: bool = False):
             else:
                 end_index = long_string.find(s2, start_index + len(s1))
         if is_include:
-            extracted_content = long_string[start_index : end_index + len(s2)]
+            extracted_content = long_string[start_index: end_index + len(s2)]
         else:
-            extracted_content = long_string[start_index + len(s1) : end_index]
+            extracted_content = long_string[start_index + len(s1): end_index]
         if extracted_content:
             match_map[start_index] = extracted_content
         start_index = long_string.find(s1, start_index + 1)

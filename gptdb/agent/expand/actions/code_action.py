@@ -109,7 +109,7 @@ class CodeAction(Action[None]):
                 )
             elif lang in ["python", "Python"]:
                 if code.startswith("# filename: "):
-                    filename = code[11 : code.find("\n")].strip()
+                    filename = code[11: code.find("\n")].strip()
                 else:
                     filename = None
                 exitcode, logs, image = execute_code(

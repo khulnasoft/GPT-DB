@@ -7,10 +7,10 @@
 <div align="center">
   <p>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/gpt-db?style=social" />
+        <img alt="stars" src="https://img.shields.io/github/stars/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://github.com/khulnasoft/GPT-DB">
-        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/gpt-db?style=social" />
+        <img alt="forks" src="https://img.shields.io/github/forks/khulnasoft/db-gpt?style=social" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -32,7 +32,7 @@
     </a>
   </p>
 
-[**英語**](README.md) | [**中国語**](README.zh.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**ドキュメント**](https://docs-gptdb.khulnasoft.com) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**コミュニティ**](https://github.com/khulnasoft/community) | [**論文**](https://arxiv.org/pdf/2312.17449.pdf)
+[**英語**](README.md) | [**中国語**](README.zh.md) | [**Discord**](https://discord.gg/7uQnPuveTY) | [**ドキュメント**](https://docs.gptdb.site) | [**微信**](https://github.com/khulnasoft/GPT-DB/blob/main/README.zh.md#%E8%81%94%E7%B3%BB%E6%88%91%E4%BB%AC) | [**コミュニティ**](https://github.com/khulnasoft/community) | [**論文**](https://arxiv.org/pdf/2312.17449.pdf)
 
 </div>
 
@@ -46,7 +46,7 @@
 
 ### AIネイティブデータアプリ
 ---
-- 🔥🔥🔥 [V0.5.0リリース | ワークフローとエージェントを通じてネイティブデータアプリケーションを開発](https://docs-gptdb.khulnasoft.com/docs/changelog/Released_V0.5.0)
+- 🔥🔥🔥 [V0.5.0リリース | ワークフローとエージェントを通じてネイティブデータアプリケーションを開発](https://docs.gptdb.site/docs/changelog/Released_V0.5.0)
 ---
 
 ![Data-awels](https://github.com/khulnasoft/GPT-DB/assets/17919400/37d116fc-d9dd-4efa-b4df-9ab02b22541c)
@@ -116,19 +116,19 @@ GPT-DBのアーキテクチャは以下の図に示されています：
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 
-[**使用チュートリアル**](http://docs-gptdb.khulnasoft.com/docs/overview)
-- [**インストール**](http://docs-gptdb.khulnasoft.com/docs/installation)
-  - [Docker](https://docs-gptdb.khulnasoft.com/docs/installation/docker)
-  - [ソースコード](https://docs-gptdb.khulnasoft.com/docs/installation/sourcecode)
-- [**クイックスタート**](http://docs-gptdb.khulnasoft.com/docs/quickstart)
-- [**アプリケーション**](http://docs-gptdb.khulnasoft.com/docs/operation_manual)
-  - [アプリの使用](https://docs-gptdb.khulnasoft.com/docs/application/app_usage)
-  - [AWELフローの使用](https://docs-gptdb.khulnasoft.com/docs/application/awel_flow_usage)
-- [**デバッグ**](http://docs-gptdb.khulnasoft.com/docs/operation_manual/advanced_tutorial/debugging)
-- [**高度な使用法**](https://docs-gptdb.khulnasoft.com/docs/application/advanced_tutorial/cli)
-  - [SMMF](https://docs-gptdb.khulnasoft.com/docs/application/advanced_tutorial/smmf)
-  - [ファインチューニング](https://docs-gptdb.khulnasoft.com/docs/application/fine_tuning_manual/gptdb_hub)
-  - [AWEL](https://docs-gptdb.khulnasoft.com/docs/latest/awel/tutorial)
+[**使用チュートリアル**](http://docs.gptdb.site/docs/overview)
+- [**インストール**](http://docs.gptdb.site/docs/installation)
+  - [Docker](https://docs.gptdb.site/docs/installation/docker)
+  - [ソースコード](https://docs.gptdb.site/docs/installation/sourcecode)
+- [**クイックスタート**](http://docs.gptdb.site/docs/quickstart)
+- [**アプリケーション**](http://docs.gptdb.site/docs/operation_manual)
+  - [アプリの使用](https://docs.gptdb.site/docs/application/app_usage)
+  - [AWELフローの使用](https://docs.gptdb.site/docs/application/awel_flow_usage)
+- [**デバッグ**](http://docs.gptdb.site/docs/operation_manual/advanced_tutorial/debugging)
+- [**高度な使用法**](https://docs.gptdb.site/docs/application/advanced_tutorial/cli)
+  - [SMMF](https://docs.gptdb.site/docs/application/advanced_tutorial/smmf)
+  - [ファインチューニング](https://docs.gptdb.site/docs/application/fine_tuning_manual/gptdb_hub)
+  - [AWEL](http://docs.gptdb.cn/docs/awel/tutorial)
 
 ## 特徴
 
@@ -154,6 +154,15 @@ GPT-DBのアーキテクチャは以下の図に示されています：
   私たちは、LLaMA/LLaMA2、Baichuan、ChatGLM、Wenxin、Tongyi、Zhipuなど、オープンソースおよびAPIエージェントからの数十の大規模言語モデル（LLM）を含む幅広いモデルをサポートしています。
 
   - ニュース
+    - 🔥🔥🔥  [Qwen2.5-72B-Instruct](https://huggingface.co/Qwen/Qwen2.5-72B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-32B-Instruct](https://huggingface.co/Qwen/Qwen2.5-32B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-14B-Instruct](https://huggingface.co/Qwen/Qwen2.5-14B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-3B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-0.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-Coder-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Coder-7B-Instruct)
+    - 🔥🔥🔥  [Qwen2.5-Coder-1.5B-Instruct](https://huggingface.co/Qwen/Qwen2.5-Coder-1.5B-Instruct)
     - 🔥🔥🔥  [Meta-Llama-3.1-405B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-405B-Instruct)
     - 🔥🔥🔥  [Meta-Llama-3.1-70B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-70B-Instruct)
     - 🔥🔥🔥  [Meta-Llama-3.1-8B-Instruct](https://huggingface.co/meta-llama/Meta-Llama-3.1-8B-Instruct)
@@ -185,14 +194,14 @@ GPT-DBのアーキテクチャは以下の図に示されています：
     - 🔥🔥🔥  [Mixtral-8x7B](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1)
     - 🔥🔥🔥  [Qwen-72B-Chat](https://huggingface.co/Qwen/Qwen-72B-Chat)
     - 🔥🔥🔥  [Yi-34B-Chat](https://huggingface.co/01-ai/Yi-34B-Chat)
-  - [サポートされているLLMの詳細](http://docs-gptdb.khulnasoft.com/docs/modules/smmf)
+  - [サポートされているLLMの詳細](http://docs.gptdb.site/docs/modules/smmf)
 
 - **プライバシーとセキュリティ**
 
   私たちは、さまざまな技術を実装することにより、データのプライバシーとセキュリティを確保しています。これには、大規模モデルのプライベート化とプロキシの非識別化が含まれます。
 
 - サポートされているデータソース
-  - [データソース](http://docs-gptdb.khulnasoft.com/docs/modules/connections)
+  - [データソース](http://docs.gptdb.site/docs/modules/connections)
 
 ## 画像
 🌐 [AutoDLイメージ](https://www.codewithgpu.com/i/khulnasoft/GPT-DB/gptdb)
@@ -213,8 +222,11 @@ GPT-DBのアーキテクチャは以下の図に示されています：
 MITライセンス（MIT）
 
 ## 引用
-`GPT-DB`があなたの研究や開発に役立つと思われる場合は、次の<a href="https://arxiv.org/abs/2312.17449" target="_blank">論文</a>を引用してください：
+もし`GPT-DB`があなたの研究や開発に役立つと感じた場合、以下の論文を引用してください。
 
+GPT-DBの全体的なアーキテクチャについて知りたい場合は、<a href="https://arxiv.org/abs/2312.17449" target="_blank">論文</a>と<a href="https://arxiv.org/abs/2404.10209" target="_blank">論文</a>を引用してください。
+
+GPT-DBを使用してAgent開発に関する内容について知りたい場合は、<a href="https://arxiv.org/abs/2412.13520" target="_blank">論文</a>を引用してください。 
 ```bibtex
 @article{xue2023gptdb,
       title={GPT-DB: Empowering Database Interactions with Private Large Language Models}, 
@@ -223,10 +235,26 @@ MITライセンス（MIT）
       journal={arXiv preprint arXiv:2312.17449},
       url={https://arxiv.org/abs/2312.17449}
 }
+@misc{huang2024romasrolebasedmultiagentdatabase,
+      title={ROMAS: A Role-Based Multi-Agent System for Database monitoring and Planning}, 
+      author={Yi Huang and Fangyin Cheng and Fan Zhou and Jiahui Li and Jian Gong and Hongjun Yang and Zhidong Fan and Caigao Jiang and Siqiao Xue and Faqiang Chen},
+      year={2024},
+      eprint={2412.13520},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2412.13520}, 
+}
+@inproceedings{xue2024demonstration,
+      title={Demonstration of GPT-DB: Next Generation Data Interaction System Empowered by Large Language Models}, 
+      author={Siqiao Xue and Danrui Qi and Caigao Jiang and Wenhui Shi and Fangyin Cheng and Keting Chen and Hongjun Yang and Zhiping Zhang and Jianshan He and Hongyang Zhang and Ganglin Wei and Wang Zhao and Fan Zhou and Hong Yi and Shaodong Liu and Hongjun Yang and Faqiang Chen},
+      year={2024},
+      booktitle = "Proceedings of the VLDB Endowment",
+      url={https://arxiv.org/abs/2404.10209}
+}
 ```
 
 ## 連絡先情報
 コミュニティを構築するために取り組んでいます。コミュニティの構築に関するアイデアがあれば、お気軽にお問い合わせください。
 [![](https://dcbadge.vercel.app/api/server/7uQnPuveTY?compact=true&style=flat)](https://discord.gg/7uQnPuveTY)
 
-[![Star History Chart](https://api.star-history.com/svg?repos=khulnasoft/GPT-DB&type=Date)](https://star-history.com/#khulnasoft/GPT-DB)
+[![Star History Chart](https://api.star-history.com/svg?repos=csunny/GPT-DB&type=Date)](https://star-history.com/#csunny/GPT-DB)

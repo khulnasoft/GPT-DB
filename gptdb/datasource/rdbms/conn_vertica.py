@@ -55,7 +55,7 @@ table name should keep its schema name in "
     def _sync_tables_from_db(self) -> Iterable[str]:
         table_results = self.session.execute(
             text(
-                """
+                r"""
                 SELECT table_schema||'.'||table_name
                 FROM v_catalog.tables
                 WHERE table_schema NOT LIKE 'v\_%'
@@ -240,7 +240,7 @@ table name should keep its schema name in "
 
     def table_simple_info(self):
         """Get table simple info."""
-        _sql = """
+        _sql = r"""
             SELECT table_schema||'.'||table_name
               , listagg(column_name using parameters max_length=65000)
             FROM v_catalog.columns

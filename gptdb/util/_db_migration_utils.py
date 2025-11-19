@@ -258,12 +258,12 @@ def _check_database_migration_status(alembic_cfg: AlembicConfig, engine: Engine)
     head_rev = script.get_current_head()
 
     script_info_msg = "Migration versions and their file paths:"
-    script_info_msg += f"\n{'='*40}Migration versions{'='*40}\n"
+    script_info_msg += f"\n{'=' * 40}Migration versions{'=' * 40}\n"
     for revision in script.walk_revisions(base="base"):
         current_marker = "(current)" if revision.revision == current_rev else ""
         script_path = script.get_revision(revision.revision).path
         script_info_msg += f"\n{revision.revision} {current_marker}: {revision.doc} (Path: {script_path})"
-    script_info_msg += f"\n{'='*90}"
+    script_info_msg += f"\n{'=' * 90}"
 
     logger.info(script_info_msg)
 

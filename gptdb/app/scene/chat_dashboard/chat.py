@@ -83,7 +83,7 @@ class ChatDashboard(BaseChat):
         return input_values
 
     def do_action(self, prompt_response):
-        ### TODO 记录整体信息，处理成功的，和未成功的分开记录处理
+        # TODO 记录整体信息，处理成功的，和未成功的分开记录处理
         chart_datas: List[ChartData] = []
         dashboard_data_loader = DashboardDataLoader()
         for chart_item in prompt_response:
